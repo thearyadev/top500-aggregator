@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import cv2
 import numpy as np
+import uuid
 
 
 def similarity(image1, image2) -> float:
@@ -34,6 +35,7 @@ class Heroes:
     def get_hero_name(self, hero_image: Image) -> Hero:
         hero_image = np.array(hero_image)
         hero_image = cv2.cvtColor(hero_image, cv2.COLOR_BGR2GRAY)
+
         results: list[tuple[float, Hero]] = list()
         for hero in self.heroes:
             results.append(
@@ -46,5 +48,15 @@ class Heroes:
 
 
 if __name__ == '__main__':
-    d = Heroes("../assets/hero_images")
-    result = d.get_hero_name(Image.open("Baptiste.png"))
+    im1 = cv2.cvtColor(cv2.imread("../leaderboards/blank2.png"), cv2.COLOR_BGR2GRAY)
+    im2 = cv2.cvtColor(cv2.imread("../assets/hero_images/Blank.png"), cv2.COLOR_BGR2GRAY)
+    im3 = cv2.cvtColor(cv2.imread("../assets/hero_images/Echo.png"), cv2.COLOR_BGR2GRAY)
+    # cv2.imwrite("echo_gray", im3)
+    # cv2.imwrite("blank_gray", im1)
+    #
+    #
+    # print(similarity(im1, im2))
+    # print(similarity(im1, im3))
+    print(similarity(im2, im3))
+    d = Heroes("../assets/hero_images").get_hero_name(Image.open("../leaderboards/blank2.png"))
+    print(d)
