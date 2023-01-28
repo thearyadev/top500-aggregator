@@ -1,0 +1,23 @@
+- Occurrences of each hero
+    - Region All roles
+    - Region single Role
+    - role all region
+    - Combined regions & roles
+- number of players with only one hero played
+    - Region All roles
+    - Region single Role
+    - role all region
+    - Combined regions & roles
+- number of players with two heroes played
+    - Region All roles
+    - Region single Role
+    - role all region
+    - Combined regions & roles
+- Average games played
+    - number of players with only one hero played
+    - Region All roles
+    - Region single Role
+    - role all region
+    - Combined regions & roles
+    - by segment of t500 (1-100, 100-200, 200-300, 300-400, 400-500)
+
