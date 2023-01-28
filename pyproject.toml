@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "top500-aggregator"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "top500_aggregator"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+opencv-python = "4.5.5.64"
+pillow = "^9.4.0"
+pygetwindow = "^0.0.9"
+pyautogui = "^0.9.53"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
