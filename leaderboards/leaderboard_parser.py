@@ -3,7 +3,10 @@ import uuid
 import numpy
 
 from heroes import Hero, Heroes
-import cv2
+try:
+    import cv2
+except Exception as e:
+    pass
 import numpy as np
 from PIL import Image
 import pytesseract
