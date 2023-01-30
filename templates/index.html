@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>t500 aggregator</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+        .body {
+            padding: 50px;
+            background-color: #FAF9F6;
+        }
+
+        .section-box {
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        .article {
+            padding: 5px;
+            flex: 1 0 25%;
+            margin: 5px;
+        }
+
+        .break {
+            flex-basis: 100%;
+            height: 0;
+        }
+
+        .article p, .section-box h2 {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .section-box h2 {
+            padding: 20px;
+        }
+
+        .title {
+            margin-bottom: 25px;
+        }
+
+        .toolbar {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 1000;
+            margin: 25px;
+        }
+
+        .btn, .btn-primary {
+            width: 70px;
+            height: 70px;
+            padding: 10px 16px;
+            border-radius: 100px;
+            font-size: 24px;
+            line-height: 1.33;
+        }
+
+        .misc-data {
+            font-size: 150px;
+            margin-top: -50px;
+        }
+    </style>
+
+</head>
+<body class="body">
+
+<header>
+    <h1 class="title">OW2 T500 Aggregator: Season {{ currentSeason }}</h1>
+    {% for season in seasons %}
+    <a href="/season/{{ season }}">Season {{ season }}</a>
+    {% endfor %}
+    <p>Welcome to ow2 t500 aggregator. This data is collected from the top 500 leaderboards in game. The data here may
+        be slightly inaccurate, as it uses computer vision to extract useful data from the leaderboard. Hero statistics
+        likely have a 99% accuracy rate, but games played is around 90%. Note: These charts do not include heroes that
+        have 0 occurrences.</p>
+    <p></p>
+    <p></p>
+    <a href="https://www.github.com/thearyadev/top500-aggregator" target="_blank">Github</a>
+    <div class="break"></div>
+    <a href="https://www.github.com/thearyadev/top500-aggregator" target="_blank">Information</a>
+    <div class="break p-1"></div>
+    <div class="break"></div>
+    <a href="#hero_occ_all">Hero Occurrences: All Slots</a>
+    <div class="break"></div>
+    <a href="#hero_occ_first">Hero Occurrences: First Most Played</a>
+    <div class="break"></div>
+    <a href="#hero_occ_second">Hero Occurrences: Second Most Played</a>
+    <div class="break"></div>
+    <a href="#hero_occ_third">Hero Occurrences: Third Most Played</a>
+    <div class="break"></div>
+    <a href="#games">Games Played</a>
+    <div class="break"></div>
+    <a href="https://www.github.com/thearyadev/top500-aggregator" target="_blank">Misc</a>
+    <div class="break"></div>
+</header>
+
+<main>
+
+    <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card">
+        <h2 class="section-title">Hero Occurrences: All Slots</h2>
+        <div class="break"></div>
+        <article class="article">
+            <div>
+                <p>Americas</p>
+                <canvas id="O_ALL_AMERICAS" data-graphdata="{{ O_ALL_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Europe</p>
+                <canvas id="O_ALL_ASIA" data-graphdata="{{ O_ALL_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+        <div class="break"></div>
+        <article class="article">
+            <div>
+                <p>Asia</p>
+                <canvas id="O_ALL_EUROPE" data-graphdata="{{ O_ALL_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <article class="article">
+            <div>
+                <p>All Regions</p>
+                <canvas id="O_ALL_ALL" data-graphdata="{{ O_ALL_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+
+
+    </section>
+    <section id="hero_occ_first" class="section-box d-flex flex-row flex-wrap card">
+        <h2 class="section-title">Hero Occurrences: First Most Played</h2>
+        <div class="break"></div>
+        <article class="article">
+            <div>
+                <p>Support: Americas</p>
+                <canvas id="OFMP_SUPPORT_AMERICAS" data-graphdata="{{ OFMP_SUPPORT_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Support: Europe</p>
+                <canvas id="OFMP_SUPPORT_EUROPE" data-graphdata="{{ OFMP_SUPPORT_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Support: Asia</p>
+                <canvas id="OFMP_SUPPORT_ASIA" data-graphdata="{{ OFMP_SUPPORT_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Damage: Americas</p>
+                <canvas id="OFMP_DAMAGE_AMERICAS" data-graphdata="{{ OFMP_DAMAGE_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: Europe</p>
+                <canvas id="OFMP_DAMAGE_EUROPE" data-graphdata="{{ OFMP_DAMAGE_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: Asia</p>
+                <canvas id="OFMP_DAMAGE_ASIA" data-graphdata="{{ OFMP_DAMAGE_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Tank: Americas</p>
+                <canvas id="OFMP_TANK_AMERICAS" data-graphdata="{{ OFMP_TANK_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: Europe</p>
+                <canvas id="OFMP_TANK_EUROPE" data-graphdata="{{ OFMP_TANK_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: Asia</p>
+                <canvas id="OFMP_TANK_ASIA" data-graphdata="{{ OFMP_TANK_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Support: All</p>
+                <canvas id="OFMP_SUPPORT_ALL" data-graphdata="{{ OFMP_SUPPORT_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: All</p>
+                <canvas id="OFMP_DAMAGE_ALL" data-graphdata="{{ OFMP_DAMAGE_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: All</p>
+                <canvas id="OFMP_TANK_ALL" data-graphdata="{{ OFMP_TANK_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+
+    </section>
+    <section id="hero_occ_second" class="section-box d-flex flex-row flex-wrap card">
+        <h2 class="section-title">Hero Occurrences: Second Most Played</h2>
+        <div class="break"></div>
+        <article class="article">
+            <div>
+                <p>Support: Americas</p>
+                <canvas id="OSMP_SUPPORT_AMERICAS" data-graphdata="{{ OFMP_SUPPORT_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Support: Europe</p>
+                <canvas id="OSMP_SUPPORT_EUROPE" data-graphdata="{{ OFMP_SUPPORT_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Support: Asia</p>
+                <canvas id="OSMP_SUPPORT_ASIA" data-graphdata="{{ OFMP_SUPPORT_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Damage: Americas</p>
+                <canvas id="OSMP_DAMAGE_AMERICAS" data-graphdata="{{ OFMP_DAMAGE_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: Europe</p>
+                <canvas id="OSMP_DAMAGE_EUROPE" data-graphdata="{{ OFMP_DAMAGE_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: Asia</p>
+                <canvas id="OSMP_DAMAGE_ASIA" data-graphdata="{{ OFMP_DAMAGE_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Tank: Americas</p>
+                <canvas id="OSMP_TANK_AMERICAS" data-graphdata="{{ OFMP_TANK_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: Europe</p>
+                <canvas id="OSMP_TANK_EUROPE" data-graphdata="{{ OFMP_TANK_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: Asia</p>
+                <canvas id="OSMP_TANK_ASIA" data-graphdata="{{ OFMP_TANK_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Support: All</p>
+                <canvas id="OSMP_SUPPORT_ALL" data-graphdata="{{ OFMP_SUPPORT_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: All</p>
+                <canvas id="OSMP_DAMAGE_ALL" data-graphdata="{{ OFMP_DAMAGE_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: All</p>
+                <canvas id="OSMP_TANK_ALL" data-graphdata="{{ OFMP_TANK_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+
+    </section>
+    <section id="hero_occ_third" class="section-box d-flex flex-row flex-wrap card">
+        <h2 class="section-title">Hero Occurrences: Third Most Played</h2>
+        <div class="break"></div>
+        <article class="article">
+            <div>
+                <p>Support: Americas</p>
+                <canvas id="OTMP_SUPPORT_AMERICAS" data-graphdata="{{ OFMP_SUPPORT_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Support: Europe</p>
+                <canvas id="OTMP_SUPPORT_EUROPE" data-graphdata="{{ OFMP_SUPPORT_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Support: Asia</p>
+                <canvas id="OTMP_SUPPORT_ASIA" data-graphdata="{{ OFMP_SUPPORT_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Damage: Americas</p>
+                <canvas id="OTMP_DAMAGE_AMERICAS" data-graphdata="{{ OFMP_DAMAGE_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: Europe</p>
+                <canvas id="OTMP_DAMAGE_EUROPE" data-graphdata="{{ OFMP_DAMAGE_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: Asia</p>
+                <canvas id="OTMP_DAMAGE_ASIA" data-graphdata="{{ OFMP_DAMAGE_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Tank: Americas</p>
+                <canvas id="OTMP_TANK_AMERICAS" data-graphdata="{{ OFMP_TANK_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: Europe</p>
+                <canvas id="OTMP_TANK_EUROPE" data-graphdata="{{ OFMP_TANK_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: Asia</p>
+                <canvas id="OTMP_TANK_ASIA" data-graphdata="{{ OFMP_TANK_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+
+        <div class="break"></div>
+
+        <article class="article">
+            <div>
+                <p>Support: All</p>
+                <canvas id="OTMP_SUPPORT_ALL" data-graphdata="{{ OFMP_SUPPORT_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Damage: All</p>
+                <canvas id="OTMP_DAMAGE_ALL" data-graphdata="{{ OFMP_DAMAGE_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Tank: All</p>
+                <canvas id="OTMP_TANK_ALL" data-graphdata="{{ OFMP_TANK_ALL }}">
+
+                </canvas>
+            </div>
+        </article>
+
+    </section>
+    <p style="text-align: center;" class="pb-2"><strong>Note:</strong> This section is not accurate.</p>
+
+    <section id="games" class="section-box d-flex flex-row flex-wrap card">
+        <h2 class="section-title">Average Games Played by Region for Each Role</h2>
+        <div class="break"></div>
+        <article class="article">
+            <div>
+                <p>Americas</p>
+                <canvas id="GP_AMERICAS" data-graphdata="{{ GP_AMERICAS }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Europe</p>
+                <canvas id="GP_EUROPE" data-graphdata="{{ GP_EUROPE }}">
+
+                </canvas>
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Asia</p>
+                <canvas id="GP_ASIA" data-graphdata="{{ GP_ASIA }}">
+
+                </canvas>
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
+        <article class="article">
+            <div>
+                <p>Games Played Max</p>
+                <p class="misc-data" id="GP_MAX">{{ "{:,}".format(GP_MAX) }}</p>
+
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Games Played Min</p>
+                <p class="misc-data" id="GP_MIN">{{ "{:,}".format(GP_MIN) }}</p>
+
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Total Games Played</p>
+                <p class="misc-data" id="GP_TOTAL">{{ "{:,}".format(GP_TOTAL) }}</p>
+
+            </div>
+        </article>
+
+    </section>
+    <section id="misc" class="section-box d-flex flex-row flex-wrap card">
+        <h2 class="section-title">Miscellaneous</h2>
+        <div class="break"></div>
+        <article class="article">
+            <div>
+                <p>Number of People With One Hero Played</p>
+                <p class="misc-data" id="OHP">{{ OHP }}</p>
+
+            </div>
+        </article>
+        <article class="article">
+            <div>
+                <p>Number of People With Two Heroes Played</p>
+                <p class="misc-data" id="THP">{{ THP }}</p>
+            </div>
+        </article>
+        <div class="break"></div>
+
+
+    </section>
+
+</main>
+<footer style="text-align: center"><a href="https://github.com/thearyadev">Support Me on Github</a></footer>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+<script src="{{ url_for('static', path='/js/index.js')}}"></script>
+
+</html>

@@ -16,23 +16,26 @@ class Region(Enum):
     AMERICAS = 1
     EUROPE = 2
     ASIA = 3
+    ALL = 4
 
 
 class Role(Enum):
     TANK = 1
     DAMAGE = 2
     SUPPORT = 3
+    ALL = 4
 
 
 class LeaderboardEntry:
-    def __init__(self, heroes: list[Hero], games: int, region: Region = None, role: Role = None):
+    def __init__(self, heroes: list[Hero] | str, games: int, region: Region = None, role: Role = None):
         self.heroes = heroes
         self.games = games
         self.region = region
         self.role = role
 
     def __repr__(self):
-        return f"LeaderboardEntry(heroes={self.heroes}, games_played={self.games})"
+        return f"LeaderboardEntry(heroes={self.heroes}," \
+               f" games_played={self.games}, region={self.region}, role={self.role})"
 
 
 def clear_temp_dir(temp_dir: str) -> None:
