@@ -289,8 +289,5 @@ async def index_redirect():
 1. document codebase
 2. make info page
 3. recollect data
-4. make dockerfile
-5.
-
-
+5. fill readme.md
 """
