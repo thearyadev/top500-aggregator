@@ -1,6 +1,9 @@
 from PIL import Image
 import os
-import cv2
+try:
+    import cv2
+except Exception:
+    pass
 import numpy as np
 import uuid
 

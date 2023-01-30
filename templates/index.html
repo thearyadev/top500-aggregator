@@ -67,42 +67,81 @@
             font-size: 150px;
             margin-top: -50px;
         }
+
+        .navbar {
+            padding-right: 25px;
+            padding-left: 25px;
+        }
+
     </style>
 
 </head>
-<body class="body">
 
+<body>
 <header>
-    <h1 class="title">OW2 T500 Aggregator: Season {{ currentSeason }}</h1>
-    {% for season in seasons %}
-    <a href="/season/{{ season }}">Season {{ season }}</a>
-    {% endfor %}
-    <p>Welcome to ow2 t500 aggregator. This data is collected from the top 500 leaderboards in game. The data here may
-        be slightly inaccurate, as it uses computer vision to extract useful data from the leaderboard. Hero statistics
-        likely have a 99% accuracy rate, but games played is around 90%. Note: These charts do not include heroes that
-        have 0 occurrences.</p>
-    <p></p>
-    <p></p>
-    <a href="https://www.github.com/thearyadev/top500-aggregator" target="_blank">Github</a>
-    <div class="break"></div>
-    <a href="https://www.github.com/thearyadev/top500-aggregator" target="_blank">Information</a>
-    <div class="break p-1"></div>
-    <div class="break"></div>
-    <a href="#hero_occ_all">Hero Occurrences: All Slots</a>
-    <div class="break"></div>
-    <a href="#hero_occ_first">Hero Occurrences: First Most Played</a>
-    <div class="break"></div>
-    <a href="#hero_occ_second">Hero Occurrences: Second Most Played</a>
-    <div class="break"></div>
-    <a href="#hero_occ_third">Hero Occurrences: Third Most Played</a>
-    <div class="break"></div>
-    <a href="#games">Games Played</a>
-    <div class="break"></div>
-    <a href="https://www.github.com/thearyadev/top500-aggregator" target="_blank">Misc</a>
-    <div class="break"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">OW2 T500 Aggregator</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% for season in seasons %}
+                <li class="nav-item active">
+                    <a href="/season/{{ season }}" class="nav-link"><span class="sr-only">Season {{ season }}</span></a>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a href="https://www.github.com/thearyadev/top500-aggregator" target="_blank" class="nav-link">Information</a>
+
+                </li>
+                <li class="nav-item active">
+                    <a href="#hero_occ_all" class="nav-link">Hero Occurrences: All Slots</a>
+
+                </li>
+                <li class="nav-item active">
+                    <a href="#hero_occ_first" class="nav-link">Hero Occurrences: First Most Played</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="#hero_occ_second" class="nav-link">Hero Occurrences: Second Most Played</a>
+
+                </li>
+                <li class="nav-item active">
+                    <a href="#hero_occ_third" class="nav-link">Hero Occurrences: Third Most Played</a>
+
+
+                </li>
+                <li class="nav-item active">
+                    <a href="#games" class="nav-link">Games Played</a>
+                </li><li class="nav-item active">
+                        <a href="#misc" class="nav-link">Misc</a>
+
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <h1 class="title" style="display: none;">OW2 T500 Aggregator: Season {{ currentSeason }}</h1>
+
 </header>
 
-<main>
+<main class="body">
 
     <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card">
         <h2 class="section-title">Hero Occurrences: All Slots</h2>
