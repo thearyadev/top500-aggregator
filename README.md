@@ -1,4 +1,6 @@
 # Overwatch 2: Top 500 Aggregator
+https://top500-aggregator.up.railway.app/
+
 T500 Aggregator is a suite of tools and a web service to collect and provide data on the Overwatch 2 Top 500 leaderboards. 
 
 
