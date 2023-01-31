@@ -264,6 +264,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 calculate()
 
 
+
 @app.get("/season/{season_number}")
 async def season(request: Request, season_number: int):
     if season_number in seasons:
