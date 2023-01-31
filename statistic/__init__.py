@@ -93,12 +93,13 @@ def get_avg_games_played_by_region(
 ) -> list[dict]:
     results: dict[str, float] = {}
 
-    for entry in data:
+    for entry in filter(filter_games_results, data):
         if entry.region != region: continue
         if entry.role.name in results:
             results[entry.role.name] += entry.games / 500
             continue
         results[entry.role.name] = entry.games / 500
+
     return sorted(convert_dict_to_hero_count_array(results), key=lambda x: x["count"], reverse=True)
 
 
