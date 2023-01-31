@@ -1,5 +1,17 @@
 # Overwatch 2: Top 500 Aggregator
-T500 Aggregastor is a suite of tools and a web service to collect and provide data on the Overwatch 2 Top 500 leaderboards. 
+T500 Aggregator is a suite of tools and a web service to collect and provide data on the Overwatch 2 Top 500 leaderboards. 
+
+
+## Information
+The data for this is expected to be updated once every two weeks.
+This data is collected by taking screenshots and running analysis on them. Detailed below. 
+
+The hero data has ~99%, and the games played has <90% accuracy. 
+This discrepancy is due to the different forms of data collection, detailed below. 
+
+This data only consists of the data readily available in the top 500 leaderboards,
+and does not include any information that would involve a single users profile. 
+
 
 ## Tools & Technologies Used
 
