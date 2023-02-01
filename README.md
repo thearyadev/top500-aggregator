@@ -33,12 +33,10 @@ def similarity(image1, image2) -> float:
 TesseractOCR is used to extract the "games played" value from each top 500 entry. This is done using the python wrapper for TesseractOCR called Pytesseract. 
 
 TesseractOCR is not trained on the specific environment i've given it, that being said there is a significant amount of errors that would cause the data to be inaccurate.
-The data had a few outliers that had a very large variance from the mean. Demonstrated in the graphs below, these results have been filtered to increase the accuracy in the data. 
-
-![](assets/unfiltered.png)  |  ![](assets/filtered.png)
+The data had a few outliers that had a very large variance from the mean. Demonstrated in the graphs below, these results have been filtered to increase the accuracy in the data.
 <p float="left">
-  <img src="/assets/unfiltered.png" width="100" />
-  <img src="/assets/filtered.png" width="100" />
+  <img src="/assets/unfiltered.png" width="250" />
+  <img src="/assets/filtered.png" width="250" />
 </p>
 
 ### SQLite 
