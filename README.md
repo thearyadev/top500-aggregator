@@ -32,6 +32,12 @@ def similarity(image1, image2) -> float:
 ### TesseractOCR / Pytesseract
 TesseractOCR is used to extract the "games played" value from each top 500 entry. This is done using the python wrapper for TesseractOCR called Pytesseract. 
 
+TesseractOCR is not trained on the specific environment i've given it, that being said there is a significant amount of errors that would cause the data to be inaccurate.
+The data had a few outliers that had a very large variance from the mean. Demonstrated in the graphs below, these results have been filtered to increase the accuracy in the data. 
+
+![](assets/unfiltered.png)  |  ![](assets/filtered.png)
+
+
 ### SQLite 
 SQLite is used to store all of the leaderboard data for each season. This database is stored in the `./data` directory and is available in this github repository.
 
