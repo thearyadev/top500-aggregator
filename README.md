@@ -64,4 +64,4 @@ Use docker to build the dockerfile.
 2. Run 'uvicorn server:app --reload' to begin
 
 ## License
-[hehe](/LICENSE)
+[Apache-2.0](/LICENSE)
