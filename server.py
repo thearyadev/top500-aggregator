@@ -1,6 +1,6 @@
 from fastapi.templating import Jinja2Templates
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import json
 
@@ -15,6 +15,7 @@ db = database.DatabaseAccess("./data/data.db")
 
 seasons = db.get_seasons()
 data = dict()
+hits = 0
 
 
 def calculate():
@@ -264,10 +265,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 calculate()
 
 
-
 @app.get("/season/{season_number}")
 async def season(request: Request, season_number: int):
+    global hits
     if season_number in seasons:
+        hits += 1
         return templates.TemplateResponse(
             "index.html",
             {"request": request,
@@ -283,6 +285,11 @@ async def season(request: Request, season_number: int):
 @app.get("/")
 async def index_redirect():
     return RedirectResponse(f"/season/{seasons[-1]}")
+
+
+@app.get("/i/hits", response_class=JSONResponse)
+async def hit_endpoint():
+    return {"hits": hits}
 
 
 # TODO
