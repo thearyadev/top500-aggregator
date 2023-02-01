@@ -36,7 +36,10 @@ TesseractOCR is not trained on the specific environment i've given it, that bein
 The data had a few outliers that had a very large variance from the mean. Demonstrated in the graphs below, these results have been filtered to increase the accuracy in the data. 
 
 ![](assets/unfiltered.png)  |  ![](assets/filtered.png)
-
+<p float="left">
+  <img src="/assets/unfiltered.png" width="100" />
+  <img src="/assets/filtered.png" width="100" />
+</p>
 
 ### SQLite 
 SQLite is used to store all of the leaderboard data for each season. This database is stored in the `./data` directory and is available in this github repository.
