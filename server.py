@@ -19,9 +19,9 @@ hits = 0
 
 
 def calculate():
-    for season in seasons:
+    for s in seasons:
         dataset: list[leaderboards.LeaderboardEntry] = db.get_all_records(2)
-        data[season] = {
+        data[s] = {
             # occurrences first most played
             "OFMP_SUPPORT_AMERICAS": {"graph": get_occurrences_most_played(data=dataset,
                                                                            role=leaderboards.Role.SUPPORT,
@@ -246,16 +246,16 @@ def calculate():
             }
         }
 
-        for key, val in data[season].items():
+        for key, val in data[s].items():
 
             if key != "MISC":
-                graphData = data[season][key]["graph"]
-                data[season][key]["statistic"] = {
+                graphData = data[s][key]["graph"]
+                data[s][key]["statistic"] = {
                     "mean": round(get_mean(graphData), 3),
                     "variance": round(get_variance(graphData), 3),
                     "standard_deviation": round(get_stdev(graphData), 3)
                 }
-                data[season][key] = json.dumps(val)
+                data[s][key] = json.dumps(val)
 
 
 app = FastAPI()
@@ -295,7 +295,5 @@ async def hit_endpoint():
 # TODO
 """
 1. document codebase
-2. make info page
-3. recollect data
-5. fill readme.md
+2. recollect data
 """
