@@ -14,8 +14,9 @@ from rich import print
 from queue import Queue
 
 dba = database.DatabaseAccess("./data/data.db")
+target_season = "2_2"
 try:
-    dba.create_season(2)
+    dba.create_season(target_season)
 except Exception:
     pass
 
@@ -35,7 +36,7 @@ def worker():
             temp_directory="./temp"
         )
         for i in results:
-            dba.add_leaderboard_entry(seasonNumber=2, leaderboard_entry=i)
+            dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
         queue.task_done()
 
 
