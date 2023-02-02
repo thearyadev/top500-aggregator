@@ -10,8 +10,8 @@ class DatabaseAccess:
         self.connection = sqlite3.connect(db_path, check_same_thread=False)
         self.cursor = self.connection.cursor()
 
-    def create_season(self, seasonNumber: int):
-        self.cursor.execute(f"""CREATE TABLE season{seasonNumber}(
+    def create_season(self, seasonNumber: str):
+        self.cursor.execute(f"""CREATE TABLE season_{seasonNumber}(
                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     region TEXT,
                                     role TEXT,
@@ -23,11 +23,11 @@ class DatabaseAccess:
                             )
         self.connection.commit()
 
-    def add_leaderboard_entry(self, seasonNumber: int, leaderboard_entry: leaderboards.LeaderboardEntry):
+    def add_leaderboard_entry(self, seasonNumber: str, leaderboard_entry: leaderboards.LeaderboardEntry):
         lock.acquire()
         self.cursor.execute(
             f"""
-            INSERT INTO season{seasonNumber} 
+            INSERT INTO season_{seasonNumber} 
             (region, role, gamesPlayed, firstMostPlayed, secondMostPlayed, thirdMostPlayed)
             VALUES(?, ?, ?, ?, ?, ?)
             """,
@@ -37,9 +37,9 @@ class DatabaseAccess:
         self.connection.commit()
         lock.release()
 
-    def get_all_records(self, seasonNumber: int) -> list[leaderboards.LeaderboardEntry]:
+    def get_all_records(self, seasonNumber: str) -> list[leaderboards.LeaderboardEntry]:
         lock.acquire()
-        self.cursor.execute(f"SELECT * FROM season{seasonNumber}")
+        self.cursor.execute(f"SELECT * FROM season_{seasonNumber}")
         data = self.cursor.fetchall()
         lock.release()
         results = list()
@@ -55,17 +55,12 @@ class DatabaseAccess:
 
         return results
 
-    def get_seasons(self) -> list[int]:
+    def get_seasons(self) -> list[str]:
         lock.acquire()
-        results: list[int] = list()
         self.cursor.execute("SELECT name FROM sqlite_master WHERE type = 'table'")
         tables = self.cursor.fetchall()
         lock.release()
-        for t in tables:
-            val: str = t[0][-1]
-            if val.isdigit():
-                results.append(int(val))
-        return results
+        return [t[0].replace("season_", "") for t in tables][1:]
 
 
 if __name__ == '__main__':

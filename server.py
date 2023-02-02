@@ -20,7 +20,7 @@ hits = 0
 
 def calculate():
     for s in seasons:
-        dataset: list[leaderboards.LeaderboardEntry] = db.get_all_records(2)
+        dataset: list[leaderboards.LeaderboardEntry] = db.get_all_records(s)
         data[s] = {
             # occurrences first most played
             "OFMP_SUPPORT_AMERICAS": {"graph": get_occurrences_most_played(data=dataset,
@@ -266,7 +266,7 @@ calculate()
 
 
 @app.get("/season/{season_number}")
-async def season(request: Request, season_number: int):
+async def season(request: Request, season_number: str):
     global hits
     if season_number in seasons:
         hits += 1
