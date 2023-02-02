@@ -38,7 +38,7 @@ def get_occurrences(
                 continue
             results[hero] = 1
     try:
-        results.pop("blank")
+        results.pop("Blank")
     except KeyError:
         pass
     return sorted(convert_dict_to_hero_count_array(results), key=lambda x: x["count"], reverse=True)
