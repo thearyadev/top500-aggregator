@@ -68,14 +68,13 @@
             styles.push(...styles)
 
 
-
             const graphContainer = $(`#${value}`)
-            const graphData =  graphContainer.data().graphdata
-
+            const graphData = graphContainer.data().graphdata
+            const stats = graphData.statistic
             var table = [
                 ["Hero", "Count", {role: "style"}],
             ]
-            for (var i = 0; i < graphData.graph.length; i++){
+            for (var i = 0; i < graphData.graph.length; i++) {
                 let current = graphData.graph[i]
                 table.push([current.hero, current.count, styles[i]])
             }
@@ -93,11 +92,13 @@
                 },
 
                 legend: {position: 'none'},
-                theme: "material"
+                theme: "material",
+                fontName: 'Lato'
             };
 
             var chart = new google.visualization.ColumnChart(document.getElementById(value));
             chart.draw(data, options);
+            graphContainer.append(`<p class='small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation}</small></p>`)
         }
 
 
@@ -110,6 +111,7 @@
         .body {
             padding: 10px;
             background-color: #FAF9F6;
+            font-family: 'Lato', sans-serif;
         }
 
 
@@ -181,6 +183,10 @@
             height: 45vh;
         }
 
+        .section-box {
+            padding-bottom: 50px;
+        }
+
         /*div{*/
         /*    outline: solid;*/
         /*}*/
@@ -192,7 +198,8 @@
             .big-chart {
                 height: 50vh;
             }
-            .navbar-toggler{
+
+            .navbar-toggler {
                 display: none;
                 visibility: hidden;
             }
@@ -274,9 +281,9 @@
     <div id="chart_div"></div>
 
 
-    <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card">
+    <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card ">
         <h2 class="section-title">Hero Occurrences: All Slots</h2>
-        <div class="break"></div>
+        <div class="break p-5"></div>
         <article class="article">
             <div>
                 <p>Americas</p>
@@ -285,7 +292,9 @@
                 </div>
             </div>
         </article>
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
         <article class="article">
             <div>
                 <p>Europe</p>
@@ -294,16 +303,21 @@
                 </div>
             </div>
         </article>
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
         <article class="article">
             <div>
                 <p>Asia</p>
                 <div id="O_ALL_EUROPE" data-graphdata="{{ O_ALL_EUROPE }}" class="big-chart">
 
                 </div>
+
             </div>
         </article>
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
         <article class="article">
             <div>
                 <p>All Regions</p>
@@ -343,7 +357,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -370,7 +386,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -397,7 +415,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -453,7 +473,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -480,7 +502,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -507,7 +531,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -563,7 +589,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -590,7 +618,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
@@ -617,7 +647,9 @@
             </div>
         </article>
 
-        <div class="break"></div>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
         <article class="article">
             <div>
