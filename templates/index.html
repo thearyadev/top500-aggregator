@@ -72,11 +72,11 @@
             const graphData = graphContainer.data().graphdata
             const stats = graphData.statistic
             var table = [
-                ["Hero", "Count", {role: "style"}],
+                ["Hero", "Mean", "Standard Deviation", "Count", {role: "style"}],
             ]
             for (var i = 0; i < graphData.graph.length; i++) {
                 let current = graphData.graph[i]
-                table.push([current.hero, current.count, styles[i]])
+                table.push([current.hero, stats.mean, stats.standard_deviation, current.count, styles[i]])
             }
 
             var data = google.visualization.arrayToDataTable(table)
@@ -93,10 +93,16 @@
 
                 legend: {position: 'none'},
                 theme: "material",
-                fontName: 'Lato'
+                fontName: 'Lato',
+                seriesType: "bars",
+                series: {
+                    0: {type: "line"},
+                    1: {type: "line"}
+
+                }
             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById(value));
+            var chart = new google.visualization.ComboChart(document.getElementById(value));
             chart.draw(data, options);
             graphContainer.append(`<p class='small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation}</small></p>`)
         }
