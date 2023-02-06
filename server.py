@@ -245,7 +245,6 @@ def calculate():
                 "THP": get_number_of_thp(dataset)
             }
         }
-
         for key, val in data[s].items():
 
             if key != "MISC":

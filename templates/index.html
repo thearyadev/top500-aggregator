@@ -19,18 +19,99 @@
     <title>t500 aggregator</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.1.0/dist/chart.umd.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
             integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+        const charts = [
+            'OFMP_SUPPORT_AMERICAS',
+            'OFMP_SUPPORT_EUROPE',
+            'OFMP_SUPPORT_ASIA', 'OFMP_DAMAGE_AMERICAS',
+            'OFMP_DAMAGE_EUROPE', 'OFMP_DAMAGE_ASIA',
+            'OFMP_TANK_AMERICAS', 'OFMP_TANK_EUROPE',
+            'OFMP_TANK_ASIA', 'OFMP_SUPPORT_ALL', 'OFMP_DAMAGE_ALL',
+            'OFMP_TANK_ALL', 'OSMP_SUPPORT_AMERICAS',
+            'OSMP_SUPPORT_EUROPE', 'OSMP_SUPPORT_ASIA',
+            'OSMP_DAMAGE_AMERICAS', 'OSMP_DAMAGE_EUROPE',
+            'OSMP_DAMAGE_ASIA', 'OSMP_TANK_AMERICAS',
+            'OSMP_TANK_EUROPE', 'OSMP_TANK_ASIA', 'OSMP_SUPPORT_ALL',
+            'OSMP_DAMAGE_ALL', 'OSMP_TANK_ALL', 'OTMP_SUPPORT_AMERICAS',
+            'OTMP_SUPPORT_EUROPE', 'OTMP_SUPPORT_ASIA', 'OTMP_DAMAGE_AMERICAS',
+            'OTMP_DAMAGE_EUROPE', 'OTMP_DAMAGE_ASIA', 'OTMP_TANK_AMERICAS',
+            'OTMP_TANK_EUROPE', 'OTMP_TANK_ASIA', 'OTMP_SUPPORT_ALL',
+            'OTMP_DAMAGE_ALL', 'OTMP_TANK_ALL', 'O_ALL_AMERICAS', 'O_ALL_EUROPE',
+            'O_ALL_ASIA', 'O_ALL_ALL', 'GP_ASIA', 'GP_AMERICAS', 'GP_EUROPE'
+        ]
+        google.charts.load("current", {"packages": ['corechart']})
+        google.charts.setOnLoadCallback(function () {
+            charts.forEach(drawChart)
+        });
+
+
+        function drawChart(value) {
+
+            let styles = [
+                "fill-color: #ff6384; fill-opacity: 0.1; stroke-color: #ff6384;",
+                "fill-color: #ff9f40; fill-opacity: 0.1; stroke-color: #ff9f40;",
+                "fill-color: #ffcd56; fill-opacity: 0.1; stroke-color: #ffcd56;",
+                "fill-color: #4bc0c0; fill-opacity: 0.1; stroke-color: #4bc0c0;",
+                "fill-color: #36a2eb; fill-opacity: 0.1; stroke-color: #36a2eb;",
+                "fill-color: #9966ff; fill-opacity: 0.1; stroke-color: #9966ff;",
+                "fill-color: #c9cbcf; fill-opacity: 0.1; stroke-color: #c9cbcf;",
+            ]
+            styles.push(...styles)
+            styles.push(...styles)
+            styles.push(...styles)
+            styles.push(...styles)
+
+
+
+            const graphContainer = $(`#${value}`)
+            const graphData =  graphContainer.data().graphdata
+
+            var table = [
+                ["Hero", "Count", {role: "style"}],
+            ]
+            for (var i = 0; i < graphData.graph.length; i++){
+                let current = graphData.graph[i]
+                table.push([current.hero, current.count, styles[i]])
+            }
+
+            var data = google.visualization.arrayToDataTable(table)
+
+
+            var options = {
+
+                'chartArea': {
+                    'width': '85%'
+                },
+                hAxis: {
+                    slantedTextAngle: 75
+                },
+
+                legend: {position: 'none'},
+                theme: "material"
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById(value));
+            chart.draw(data, options);
+        }
+
+
+    </script>
+
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
         .body {
-            padding: 50px;
+            padding: 10px;
             background-color: #FAF9F6;
         }
+
 
         .section-box {
             padding: 10px;
@@ -87,8 +168,34 @@
             padding-right: 25px;
             padding-left: 25px;
         }
-        .article canvas{
-            max-height: 35vh;
+
+        /*.article > div > div{*/
+        /*    height: 75vh;*/
+        /*}*/
+
+        .big-chart {
+            height: 50vh;
+        }
+
+        .small-chart {
+            height: 45vh;
+        }
+
+        /*div{*/
+        /*    outline: solid;*/
+        /*}*/
+        @media (max-width: 990px) {
+            .small-chart {
+                height: 35vh;
+            }
+
+            .big-chart {
+                height: 50vh;
+            }
+            .navbar-toggler{
+                display: none;
+                visibility: hidden;
+            }
         }
 
 
@@ -164,42 +271,45 @@
 
 <main class="body">
 
+    <div id="chart_div"></div>
+
+
     <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card">
         <h2 class="section-title">Hero Occurrences: All Slots</h2>
         <div class="break"></div>
         <article class="article">
             <div>
                 <p>Americas</p>
-                <canvas id="O_ALL_AMERICAS" data-graphdata="{{ O_ALL_AMERICAS }}">
+                <div id="O_ALL_AMERICAS" data-graphdata="{{ O_ALL_AMERICAS }}" class="big-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <div class="break"></div>
         <article class="article">
             <div>
                 <p>Europe</p>
-                <canvas id="O_ALL_ASIA" data-graphdata="{{ O_ALL_ASIA }}">
+                <div id="O_ALL_ASIA" data-graphdata="{{ O_ALL_ASIA }}" class="big-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <div class="break"></div>
         <article class="article">
             <div>
                 <p>Asia</p>
-                <canvas id="O_ALL_EUROPE" data-graphdata="{{ O_ALL_EUROPE }}">
+                <div id="O_ALL_EUROPE" data-graphdata="{{ O_ALL_EUROPE }}" class="big-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <div class="break"></div>
         <article class="article">
             <div>
                 <p>All Regions</p>
-                <canvas id="O_ALL_ALL" data-graphdata="{{ O_ALL_ALL }}">
+                <div id="O_ALL_ALL" data-graphdata="{{ O_ALL_ALL }}" class="big-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -211,25 +321,25 @@
         <article class="article">
             <div>
                 <p>Support: Americas</p>
-                <canvas id="OFMP_SUPPORT_AMERICAS" data-graphdata="{{ OFMP_SUPPORT_AMERICAS }}">
+                <div id="OFMP_SUPPORT_AMERICAS" data-graphdata="{{ OFMP_SUPPORT_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Support: Europe</p>
-                <canvas id="OFMP_SUPPORT_EUROPE" data-graphdata="{{ OFMP_SUPPORT_EUROPE }}">
+                <div id="OFMP_SUPPORT_EUROPE" data-graphdata="{{ OFMP_SUPPORT_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Support: Asia</p>
-                <canvas id="OFMP_SUPPORT_ASIA" data-graphdata="{{ OFMP_SUPPORT_ASIA }}">
+                <div id="OFMP_SUPPORT_ASIA" data-graphdata="{{ OFMP_SUPPORT_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -238,25 +348,25 @@
         <article class="article">
             <div>
                 <p>Damage: Americas</p>
-                <canvas id="OFMP_DAMAGE_AMERICAS" data-graphdata="{{ OFMP_DAMAGE_AMERICAS }}">
+                <div id="OFMP_DAMAGE_AMERICAS" data-graphdata="{{ OFMP_DAMAGE_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: Europe</p>
-                <canvas id="OFMP_DAMAGE_EUROPE" data-graphdata="{{ OFMP_DAMAGE_EUROPE }}">
+                <div id="OFMP_DAMAGE_EUROPE" data-graphdata="{{ OFMP_DAMAGE_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: Asia</p>
-                <canvas id="OFMP_DAMAGE_ASIA" data-graphdata="{{ OFMP_DAMAGE_ASIA }}">
+                <div id="OFMP_DAMAGE_ASIA" data-graphdata="{{ OFMP_DAMAGE_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -265,25 +375,25 @@
         <article class="article">
             <div>
                 <p>Tank: Americas</p>
-                <canvas id="OFMP_TANK_AMERICAS" data-graphdata="{{ OFMP_TANK_AMERICAS }}">
+                <div id="OFMP_TANK_AMERICAS" data-graphdata="{{ OFMP_TANK_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: Europe</p>
-                <canvas id="OFMP_TANK_EUROPE" data-graphdata="{{ OFMP_TANK_EUROPE }}">
+                <div id="OFMP_TANK_EUROPE" data-graphdata="{{ OFMP_TANK_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: Asia</p>
-                <canvas id="OFMP_TANK_ASIA" data-graphdata="{{ OFMP_TANK_ASIA }}">
+                <div id="OFMP_TANK_ASIA" data-graphdata="{{ OFMP_TANK_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -292,25 +402,25 @@
         <article class="article">
             <div>
                 <p>Support: All</p>
-                <canvas id="OFMP_SUPPORT_ALL" data-graphdata="{{ OFMP_SUPPORT_ALL }}">
+                <div id="OFMP_SUPPORT_ALL" data-graphdata="{{ OFMP_SUPPORT_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: All</p>
-                <canvas id="OFMP_DAMAGE_ALL" data-graphdata="{{ OFMP_DAMAGE_ALL }}">
+                <div id="OFMP_DAMAGE_ALL" data-graphdata="{{ OFMP_DAMAGE_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: All</p>
-                <canvas id="OFMP_TANK_ALL" data-graphdata="{{ OFMP_TANK_ALL }}">
+                <div id="OFMP_TANK_ALL" data-graphdata="{{ OFMP_TANK_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -321,25 +431,25 @@
         <article class="article">
             <div>
                 <p>Support: Americas</p>
-                <canvas id="OSMP_SUPPORT_AMERICAS" data-graphdata="{{ OSMP_SUPPORT_AMERICAS }}">
+                <div id="OSMP_SUPPORT_AMERICAS" data-graphdata="{{ OSMP_SUPPORT_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Support: Europe</p>
-                <canvas id="OSMP_SUPPORT_EUROPE" data-graphdata="{{ OSMP_SUPPORT_EUROPE }}">
+                <div id="OSMP_SUPPORT_EUROPE" data-graphdata="{{ OSMP_SUPPORT_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Support: Asia</p>
-                <canvas id="OSMP_SUPPORT_ASIA" data-graphdata="{{ OSMP_SUPPORT_ASIA }}">
+                <div id="OSMP_SUPPORT_ASIA" data-graphdata="{{ OSMP_SUPPORT_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -348,25 +458,25 @@
         <article class="article">
             <div>
                 <p>Damage: Americas</p>
-                <canvas id="OSMP_DAMAGE_AMERICAS" data-graphdata="{{ OSMP_DAMAGE_AMERICAS }}">
+                <div id="OSMP_DAMAGE_AMERICAS" data-graphdata="{{ OSMP_DAMAGE_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: Europe</p>
-                <canvas id="OSMP_DAMAGE_EUROPE" data-graphdata="{{ OSMP_DAMAGE_EUROPE }}">
+                <div id="OSMP_DAMAGE_EUROPE" data-graphdata="{{ OSMP_DAMAGE_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: Asia</p>
-                <canvas id="OSMP_DAMAGE_ASIA" data-graphdata="{{ OSMP_DAMAGE_ASIA }}">
+                <div id="OSMP_DAMAGE_ASIA" data-graphdata="{{ OSMP_DAMAGE_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -375,25 +485,25 @@
         <article class="article">
             <div>
                 <p>Tank: Americas</p>
-                <canvas id="OSMP_TANK_AMERICAS" data-graphdata="{{ OSMP_TANK_AMERICAS }}">
+                <div id="OSMP_TANK_AMERICAS" data-graphdata="{{ OSMP_TANK_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: Europe</p>
-                <canvas id="OSMP_TANK_EUROPE" data-graphdata="{{ OSMP_TANK_EUROPE }}">
+                <div id="OSMP_TANK_EUROPE" data-graphdata="{{ OSMP_TANK_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: Asia</p>
-                <canvas id="OSMP_TANK_ASIA" data-graphdata="{{ OSMP_TANK_ASIA }}">
+                <div id="OSMP_TANK_ASIA" data-graphdata="{{ OSMP_TANK_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -402,25 +512,25 @@
         <article class="article">
             <div>
                 <p>Support: All</p>
-                <canvas id="OSMP_SUPPORT_ALL" data-graphdata="{{ OSMP_SUPPORT_ALL }}">
+                <div id="OSMP_SUPPORT_ALL" data-graphdata="{{ OSMP_SUPPORT_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: All</p>
-                <canvas id="OSMP_DAMAGE_ALL" data-graphdata="{{ OSMP_DAMAGE_ALL }}">
+                <div id="OSMP_DAMAGE_ALL" data-graphdata="{{ OSMP_DAMAGE_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: All</p>
-                <canvas id="OSMP_TANK_ALL" data-graphdata="{{ OSMP_TANK_ALL }}">
+                <div id="OSMP_TANK_ALL" data-graphdata="{{ OSMP_TANK_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -431,25 +541,25 @@
         <article class="article">
             <div>
                 <p>Support: Americas</p>
-                <canvas id="OTMP_SUPPORT_AMERICAS" data-graphdata="{{ OTMP_SUPPORT_AMERICAS }}">
+                <div id="OTMP_SUPPORT_AMERICAS" data-graphdata="{{ OTMP_SUPPORT_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Support: Europe</p>
-                <canvas id="OTMP_SUPPORT_EUROPE" data-graphdata="{{ OTMP_SUPPORT_EUROPE }}">
+                <div id="OTMP_SUPPORT_EUROPE" data-graphdata="{{ OTMP_SUPPORT_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Support: Asia</p>
-                <canvas id="OTMP_SUPPORT_ASIA" data-graphdata="{{ OTMP_SUPPORT_ASIA }}">
+                <div id="OTMP_SUPPORT_ASIA" data-graphdata="{{ OTMP_SUPPORT_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -458,25 +568,25 @@
         <article class="article">
             <div>
                 <p>Damage: Americas</p>
-                <canvas id="OTMP_DAMAGE_AMERICAS" data-graphdata="{{ OTMP_DAMAGE_AMERICAS }}">
+                <div id="OTMP_DAMAGE_AMERICAS" data-graphdata="{{ OTMP_DAMAGE_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: Europe</p>
-                <canvas id="OTMP_DAMAGE_EUROPE" data-graphdata="{{ OTMP_DAMAGE_EUROPE }}">
+                <div id="OTMP_DAMAGE_EUROPE" data-graphdata="{{ OTMP_DAMAGE_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: Asia</p>
-                <canvas id="OTMP_DAMAGE_ASIA" data-graphdata="{{ OTMP_DAMAGE_ASIA }}">
+                <div id="OTMP_DAMAGE_ASIA" data-graphdata="{{ OTMP_DAMAGE_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -485,25 +595,25 @@
         <article class="article">
             <div>
                 <p>Tank: Americas</p>
-                <canvas id="OTMP_TANK_AMERICAS" data-graphdata="{{ OTMP_TANK_AMERICAS }}">
+                <div id="OTMP_TANK_AMERICAS" data-graphdata="{{ OTMP_TANK_AMERICAS }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: Europe</p>
-                <canvas id="OTMP_TANK_EUROPE" data-graphdata="{{ OTMP_TANK_EUROPE }}">
+                <div id="OTMP_TANK_EUROPE" data-graphdata="{{ OTMP_TANK_EUROPE }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: Asia</p>
-                <canvas id="OTMP_TANK_ASIA" data-graphdata="{{ OTMP_TANK_ASIA }}">
+                <div id="OTMP_TANK_ASIA" data-graphdata="{{ OTMP_TANK_ASIA }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -512,25 +622,25 @@
         <article class="article">
             <div>
                 <p>Support: All</p>
-                <canvas id="OTMP_SUPPORT_ALL" data-graphdata="{{ OTMP_SUPPORT_ALL }}">
+                <div id="OTMP_SUPPORT_ALL" data-graphdata="{{ OTMP_SUPPORT_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Damage: All</p>
-                <canvas id="OTMP_DAMAGE_ALL" data-graphdata="{{ OTMP_DAMAGE_ALL }}">
+                <div id="OTMP_DAMAGE_ALL" data-graphdata="{{ OTMP_DAMAGE_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Tank: All</p>
-                <canvas id="OTMP_TANK_ALL" data-graphdata="{{ OTMP_TANK_ALL }}">
+                <div id="OTMP_TANK_ALL" data-graphdata="{{ OTMP_TANK_ALL }}" class="small-chart">
 
-                </canvas>
+                </div>
             </div>
         </article>
 
@@ -543,25 +653,25 @@
         <article class="article">
             <div>
                 <p>Americas</p>
-                <canvas id="GP_AMERICAS" data-graphdata="{{ GP_AMERICAS }}">
+                <div id="GP_AMERICAS" data-graphdata="{{ GP_AMERICAS }}">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Europe</p>
-                <canvas id="GP_EUROPE" data-graphdata="{{ GP_EUROPE }}">
+                <div id="GP_EUROPE" data-graphdata="{{ GP_EUROPE }}">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <article class="article">
             <div>
                 <p>Asia</p>
-                <canvas id="GP_ASIA" data-graphdata="{{ GP_ASIA }}">
+                <div id="GP_ASIA" data-graphdata="{{ GP_ASIA }}">
 
-                </canvas>
+                </div>
             </div>
         </article>
         <div class="break p-5">
@@ -621,79 +731,79 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
-<script>
-    const GRAPHS = ['OFMP_SUPPORT_AMERICAS', 'OFMP_SUPPORT_EUROPE', 'OFMP_SUPPORT_ASIA', 'OFMP_DAMAGE_AMERICAS', 'OFMP_DAMAGE_EUROPE', 'OFMP_DAMAGE_ASIA', 'OFMP_TANK_AMERICAS', 'OFMP_TANK_EUROPE', 'OFMP_TANK_ASIA', 'OFMP_SUPPORT_ALL', 'OFMP_DAMAGE_ALL', 'OFMP_TANK_ALL', 'OSMP_SUPPORT_AMERICAS', 'OSMP_SUPPORT_EUROPE', 'OSMP_SUPPORT_ASIA', 'OSMP_DAMAGE_AMERICAS', 'OSMP_DAMAGE_EUROPE', 'OSMP_DAMAGE_ASIA', 'OSMP_TANK_AMERICAS', 'OSMP_TANK_EUROPE', 'OSMP_TANK_ASIA', 'OSMP_SUPPORT_ALL', 'OSMP_DAMAGE_ALL', 'OSMP_TANK_ALL', 'OTMP_SUPPORT_AMERICAS', 'OTMP_SUPPORT_EUROPE', 'OTMP_SUPPORT_ASIA', 'OTMP_DAMAGE_AMERICAS', 'OTMP_DAMAGE_EUROPE', 'OTMP_DAMAGE_ASIA', 'OTMP_TANK_AMERICAS', 'OTMP_TANK_EUROPE', 'OTMP_TANK_ASIA', 'OTMP_SUPPORT_ALL', 'OTMP_DAMAGE_ALL', 'OTMP_TANK_ALL', 'O_ALL_AMERICAS', 'O_ALL_EUROPE', 'O_ALL_ASIA', 'O_ALL_ALL', 'GP_ASIA', 'GP_AMERICAS', 'GP_EUROPE']
-    Chart.defaults.backgroundColor = '#D93F1E'
+<!--<script>-->
+<!--    const GRAPHS = ['OFMP_SUPPORT_AMERICAS', 'OFMP_SUPPORT_EUROPE', 'OFMP_SUPPORT_ASIA', 'OFMP_DAMAGE_AMERICAS', 'OFMP_DAMAGE_EUROPE', 'OFMP_DAMAGE_ASIA', 'OFMP_TANK_AMERICAS', 'OFMP_TANK_EUROPE', 'OFMP_TANK_ASIA', 'OFMP_SUPPORT_ALL', 'OFMP_DAMAGE_ALL', 'OFMP_TANK_ALL', 'OSMP_SUPPORT_AMERICAS', 'OSMP_SUPPORT_EUROPE', 'OSMP_SUPPORT_ASIA', 'OSMP_DAMAGE_AMERICAS', 'OSMP_DAMAGE_EUROPE', 'OSMP_DAMAGE_ASIA', 'OSMP_TANK_AMERICAS', 'OSMP_TANK_EUROPE', 'OSMP_TANK_ASIA', 'OSMP_SUPPORT_ALL', 'OSMP_DAMAGE_ALL', 'OSMP_TANK_ALL', 'OTMP_SUPPORT_AMERICAS', 'OTMP_SUPPORT_EUROPE', 'OTMP_SUPPORT_ASIA', 'OTMP_DAMAGE_AMERICAS', 'OTMP_DAMAGE_EUROPE', 'OTMP_DAMAGE_ASIA', 'OTMP_TANK_AMERICAS', 'OTMP_TANK_EUROPE', 'OTMP_TANK_ASIA', 'OTMP_SUPPORT_ALL', 'OTMP_DAMAGE_ALL', 'OTMP_TANK_ALL', 'O_ALL_AMERICAS', 'O_ALL_EUROPE', 'O_ALL_ASIA', 'O_ALL_ALL', 'GP_ASIA', 'GP_AMERICAS', 'GP_EUROPE']-->
+<!--    Chart.defaults.backgroundColor = '#D93F1E'-->
 
-    GRAPHS.forEach(
-        function (graph) {
-            (
-                async function () {
-                    const element = $(`#${graph}`)
+<!--    GRAPHS.forEach(-->
+<!--        function (graph) {-->
+<!--            (-->
+<!--                async function () {-->
+<!--                    const element = $(`#${graph}`)-->
 
-                    const data = element.data()?.graphdata
-                    const graphData = data.graph
-                    const stats = data.statistic
+<!--                    const data = element.data()?.graphdata-->
+<!--                    const graphData = data.graph-->
+<!--                    const stats = data.statistic-->
 
-                    new Chart(
-                        element,
-                        {
-                            type: 'bar',
-                            data: {
-                                labels: graphData.map(row => row['hero']),
-                                datasets: [
-                                    {
-                                        label: "",
-                                        data: graphData.map(row => row['count']),
-                                        backgroundColor: [
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)',
-                                            'rgba(255, 205, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(201, 203, 207, 0.2)'
-                                        ],
-                                        borderColor: [
-                                            'rgb(255, 99, 132)',
-                                            'rgb(255, 159, 64)',
-                                            'rgb(255, 205, 86)',
-                                            'rgb(75, 192, 192)',
-                                            'rgb(54, 162, 235)',
-                                            'rgb(153, 102, 255)',
-                                            'rgb(201, 203, 207)'
-                                        ],
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            fill: false,
-                            maintainAspectRatio: false,
+<!--                    new Chart(-->
+<!--                        element,-->
+<!--                        {-->
+<!--                            type: 'bar',-->
+<!--                            data: {-->
+<!--                                labels: graphData.map(row => row['hero']),-->
+<!--                                datasets: [-->
+<!--                                    {-->
+<!--                                        label: "",-->
+<!--                                        data: graphData.map(row => row['count']),-->
+<!--                                        backgroundColor: [-->
+<!--                                            'rgba(255, 99, 132, 0.2)',-->
+<!--                                            'rgba(255, 159, 64, 0.2)',-->
+<!--                                            'rgba(255, 205, 86, 0.2)',-->
+<!--                                            'rgba(75, 192, 192, 0.2)',-->
+<!--                                            'rgba(54, 162, 235, 0.2)',-->
+<!--                                            'rgba(153, 102, 255, 0.2)',-->
+<!--                                            'rgba(201, 203, 207, 0.2)'-->
+<!--                                        ],-->
+<!--                                        borderColor: [-->
+<!--                                            'rgb(255, 99, 132)',-->
+<!--                                            'rgb(255, 159, 64)',-->
+<!--                                            'rgb(255, 205, 86)',-->
+<!--                                            'rgb(75, 192, 192)',-->
+<!--                                            'rgb(54, 162, 235)',-->
+<!--                                            'rgb(153, 102, 255)',-->
+<!--                                            'rgb(201, 203, 207)'-->
+<!--                                        ],-->
+<!--                                        borderWidth: 1-->
+<!--                                    }-->
+<!--                                ]-->
+<!--                            },-->
+<!--                            fill: false,-->
+<!--                            maintainAspectRatio: false,-->
 
-                            options: {
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: false
-                                    },
-                                    subtitle: {
-                                        display: true,
-                                        text: `Mean: ${stats.mean} | Variance: ${stats.variance} | Standard Deviation: ${stats.standard_deviation}`,
-                                        fullSize: true
-                                    }
-                                },
-                                scaleShowValues: true,
-                                scales: {
-                                    display: false
-                                }
+<!--                            options: {-->
+<!--                                maintainAspectRatio: false,-->
+<!--                                plugins: {-->
+<!--                                    legend: {-->
+<!--                                        display: false-->
+<!--                                    },-->
+<!--                                    subtitle: {-->
+<!--                                        display: true,-->
+<!--                                        text: `Mean: ${stats.mean} | Variance: ${stats.variance} | Standard Deviation: ${stats.standard_deviation}`,-->
+<!--                                        fullSize: true-->
+<!--                                    }-->
+<!--                                },-->
+<!--                                scaleShowValues: true,-->
+<!--                                scales: {-->
+<!--                                    display: false-->
+<!--                                }-->
 
-                            }
-                        }
-                    );
-                }
-            )();
-        }
-    )
+<!--                            }-->
+<!--                        }-->
+<!--                    );-->
+<!--                }-->
+<!--            )();-->
+<!--        }-->
+<!--    )-->
 
-</script>
+<!--</script>-->
 </html>
