@@ -62,6 +62,21 @@ class DatabaseAccess:
         lock.release()
         return [t[0].replace("season_", "") for t in tables][1:]
 
+    def get_total_hero_occurrence_count(self, hero: str, region: leaderboards.Region, seasonNumber: str) -> int:
+        lock.acquire()
+        self.cursor.execute(
+            f"""
+            SELECT COUNT(*) FROM season_2_1
+                WHERE region = '{region.name}'
+                    AND (
+                    firstMostPlayed = '{hero}' OR secondMostPlayed = '{hero}' OR thirdMostPlayed = '{hero}'
+                    )
+            """
+        )
+        result: tuple[int] = self.cursor.fetchone()
+        lock.release()
+        return result[0]
+
 
 if __name__ == '__main__':
     dba = DatabaseAccess("../data/data.db")
