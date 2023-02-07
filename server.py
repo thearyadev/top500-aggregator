@@ -7,7 +7,7 @@ import json
 import leaderboards
 from statistic import (get_occurrences_most_played, get_occurrences, get_avg_games_played_by_region, get_mean,
                        get_stdev, get_variance, get_number_of_ohp, get_number_of_thp, get_games_played_max,
-                       get_games_played_min, get_games_played_total)
+                       get_games_played_min, get_games_played_total, get_hero_trends)
 import database
 
 templates = Jinja2Templates(directory="templates")
@@ -15,6 +15,7 @@ db = database.DatabaseAccess("./data/data.db")
 
 seasons = db.get_seasons()
 data = dict()
+trends: dict[str, list[list[str, int, int, int]]] = get_hero_trends(db)
 hits = 0
 
 
@@ -291,9 +292,6 @@ async def hit_endpoint():
     return {"hits": hits}
 
 
-# TODO
-"""
-1. document codebase
-2. recollect data
-
-"""
+@app.get("/trends/seasonal")
+async def trendsEndpoint(request: Request):
+    return templates.TemplateResponse("trends.html", {"request": request, "seasons": seasons, "trends": json.dumps(trends)})

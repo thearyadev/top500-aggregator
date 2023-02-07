@@ -1,5 +1,6 @@
 import statistics
 
+import database
 import leaderboards
 from heroes import allHeroes
 
@@ -137,3 +138,21 @@ def get_number_of_ohp(data: list[leaderboards.LeaderboardEntry]) -> int:
 
 def get_number_of_thp(data: list[leaderboards.LeaderboardEntry]) -> int:
     return len([i for i in data if i.heroes[2] == "Blank"])
+
+
+def get_hero_trends(db: database.DatabaseAccess) -> dict[str, list[list[str, int, int, int]]]:
+    results: dict[str, list[list[str, int, int, int]]] = dict()
+
+    # hero, list[point(seasonNumber, americas, europe, asia)]
+    for hero in allHeroes:
+        results[hero] = list()
+        for season in db.get_seasons():
+            results[hero].append(
+                [
+                    season,
+                    db.get_total_hero_occurrence_count(hero, region=leaderboards.Region.AMERICAS, seasonNumber=season),
+                    db.get_total_hero_occurrence_count(hero, region=leaderboards.Region.EUROPE, seasonNumber=season),
+                    db.get_total_hero_occurrence_count(hero, region=leaderboards.Region.ASIA, seasonNumber=season),
+                ]
+            )
+    return results

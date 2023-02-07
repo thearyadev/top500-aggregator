@@ -3,6 +3,7 @@ import uuid
 import numpy
 
 from heroes import Hero, Heroes
+
 try:
     import cv2
 except Exception as e:
@@ -39,6 +40,11 @@ class LeaderboardEntry:
     def __repr__(self):
         return f"LeaderboardEntry(heroes={self.heroes}," \
                f" games_played={self.games}, region={self.region}, role={self.role})"
+
+    def hasHero(self, hero: str) -> bool:
+        if hero in self.heroes:
+            return True
+        return False
 
 
 def clear_temp_dir(temp_dir: str) -> None:
@@ -138,7 +144,7 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
         starting_bottom_point[1] += 55
         # repeat 10 times
 
-    #clear_temp_dir(temp_directory)
+    # clear_temp_dir(temp_directory)
 
     return results
 
