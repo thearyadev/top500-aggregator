@@ -168,6 +168,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                <li class="nav-item active"><a href="trends/seasonal" class="nav-link"><span class="sr-only">Trends</span></a></li>
+
                 {% for season in seasons %}
                 <li class="nav-item active">
                     <a href="/season/{{ season }}" class="nav-link"><span class="sr-only">Season {{ season.replace("_", ".") }}</span></a>
@@ -185,7 +187,7 @@
     <div style="display: none;" data-trenddata="{{trends}}" id="data"></div>
     <div id="info_panel">
         <h1>Trends</h1>
-        <h6>Last Updated: February 3, 2023</h6>
+        <h6>Last Updated: February 7, 2023</h6>
         <p>
             <strong>Welcome to Overwatch 2 Top 500 Data.</strong>
         </p>
@@ -248,7 +250,9 @@
             Feel free to contact me! My information is available on my Github profile.
         </p>
     </div>
-    <section class="section-box card" id="data-section">
+
+
+    <section class="section-box card d-flex align-items-stretch" id="data-section">
     </section>
 </main>
 
@@ -266,14 +270,14 @@
         for (const hero in data) {
             // create div
             if (x === 3) {
-                dataSection.append("<article class=''>" +
-                    `<div id='${hero}'></div>` +
+                dataSection.append("<article class='h-100'>" +
+                    `<div id='${hero}' class='h-100'></div>` +
                     "</article>" + "<div class='break'></div>")
                 x = 0
             } else {
                 dataSection.append(
-                    "<article class=''>" +
-                    `<div id='${hero}'></div>` +
+                    "<article class='h-100'>" +
+                    `<div id='${hero}' class='h-100'></div>` +
                     "</article>"
                 )
             }
@@ -284,7 +288,8 @@
                 ["Season", "Americas", "Europe", "Asia"]
             ]
             for (var i = 0; i < data[hero].length; i++) {
-                dataset.push(data[hero][i])
+                let dataParsed = [data[hero][i][0].replace("_", "."), data[hero][i][1], data[hero][i][2], data[hero][i][3]]
+                dataset.push(dataParsed)
             }
 
 
@@ -292,6 +297,8 @@
             var options = {
                 'chartArea': {
                     // "width": "100%"
+
+
                 },
                 title: hero
 

@@ -26,11 +26,12 @@ def main():
 
     for role in ROLES:
         for region in REGIONS:
+            if role == "DAMAGE" and region == "AMERICAS": continue
             SETTINGS["role"] = role
             SETTINGS["region"] = region
-            if role == leaderboards.Role.DAMAGE.name  and region == leaderboards.Region.AMERICAS.name: continue
             print(f"SET TO: {SETTINGS}")
             time.sleep(10)
+
             for i in range(50):  # 50 pages
                 print(f"screenshotting page: {i+1}")
                 pg.screenshot(f"./assets/leaderboard_images/{generate_name()}", region=(0, 0, 1920, 1080,))
@@ -38,4 +39,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    pg.screenshot("./assets/leaderboard_images/SUPPORT-ASIA-MANUAL120983.png", region=(0, 0, 1920, 1080,))
