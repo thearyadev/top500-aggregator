@@ -144,7 +144,7 @@ def get_hero_trends(db: database.DatabaseAccess) -> dict[str, list[list[str, int
     results: dict[str, list[list[str, int, int, int]]] = dict()
 
     # hero, list[point(seasonNumber, americas, europe, asia)]
-    for hero in allHeroes:
+    for hero in [h for h in allHeroes if h != "Blank"]:
         results[hero] = list()
         for season in db.get_seasons():
             results[hero].append(

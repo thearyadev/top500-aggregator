@@ -66,7 +66,7 @@ class DatabaseAccess:
         lock.acquire()
         self.cursor.execute(
             f"""
-            SELECT COUNT(*) FROM season_2_1
+            SELECT COUNT(*) FROM season_{seasonNumber}
                 WHERE region = '{region.name}'
                     AND (
                     firstMostPlayed = '{hero}' OR secondMostPlayed = '{hero}' OR thirdMostPlayed = '{hero}'
