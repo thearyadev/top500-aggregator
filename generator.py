@@ -14,7 +14,7 @@ from rich import print
 from queue import Queue
 
 dba = database.DatabaseAccess("./data/data.db")
-target_season = "2_4"
+target_season = "2_5"
 try:
     dba.create_season(target_season)
 except Exception:
@@ -50,3 +50,4 @@ if __name__ == '__main__':
     for _ in range(7):
         threading.Thread(target=worker).start()
     queue.join()
+
