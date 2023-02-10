@@ -168,7 +168,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active"><a href="/trends/seasonal" class="nav-link"><span class="sr-only">Trends</span></a></li>
+                <li class="nav-item active"><a href="/trends/seasonal" class="nav-link"><span
+                        class="sr-only">Trends</span></a></li>
 
                 {% for season in seasons %}
                 <li class="nav-item active">
@@ -218,8 +219,6 @@
             of hero pick rates.
 
 
-
-
         </p>
         <p>
             The individual hero trends counts each occurrence of a given hero in all top 500 entries,
@@ -227,8 +226,9 @@
             over time. Each data point represents two weeks of change.
 
             <strong>Note: When interpreting this data, keep in mind that the information in top 500
-                resets at the end of the season. This means that there is unlikely to be any major change within a single season
-            but between seasons the difference should be noticeable assuming there is a change in the game.</strong>
+                resets at the end of the season. This means that there is unlikely to be any major change within a
+                single season
+                but between seasons the difference should be noticeable assuming there is a change in the game.</strong>
         </p>
 
         <p>
@@ -300,6 +300,10 @@
 
 
                 },
+                vAxis: {
+                    minValue: 0,
+                },
+
                 title: hero
 
             }
