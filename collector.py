@@ -21,12 +21,11 @@ def generate_name() -> str:
 
 
 def main():
-    ROLES = [r.name for r in list(leaderboards.Role) if r not in (leaderboards.Role.ALL, leaderboards.Role.TANK)]
+    ROLES = [r.name for r in list(leaderboards.Role) if r not in (leaderboards.Role.ALL, )]
     REGIONS = [r.name for r in list(leaderboards.Region) if r != leaderboards.Region.ALL]
 
     for role in ROLES:
         for region in REGIONS:
-            if role == "DAMAGE" and region == "AMERICAS": continue
             SETTINGS["role"] = role
             SETTINGS["region"] = region
             print(f"SET TO: {SETTINGS}")
@@ -39,5 +38,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
-    pg.screenshot("./assets/leaderboard_images/SUPPORT-ASIA-MANUAL120983.png", region=(0, 0, 1920, 1080,))
+    main()
+    # pg.screenshot("./assets/leaderboard_images/SUPPORT-ASIA-MANUAL120983.png", region=(0, 0, 1920, 1080,))
