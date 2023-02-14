@@ -270,6 +270,7 @@ async def season(request: Request, season_number: str):
     global hits
     if season_number in seasons:
         hits += 1
+        print(hits)
         return templates.TemplateResponse(
             "index.html",
             {"request": request,
@@ -283,7 +284,9 @@ async def season(request: Request, season_number: str):
 
 @app.get("/{_}")
 @app.get("/")
-async def index_redirect():
+async def index_redirect(request: Request):
+    if "favicon.ico" in str(request.url):
+        return
     return RedirectResponse(f"/season/{seasons[-1]}")
 
 
@@ -294,4 +297,5 @@ async def hit_endpoint():
 
 @app.get("/trends/seasonal")
 async def trendsEndpoint(request: Request):
-    return templates.TemplateResponse("trends.html", {"request": request, "seasons": seasons, "trends": json.dumps(trends)})
+    return templates.TemplateResponse("trends.html",
+                                      {"request": request, "seasons": seasons, "trends": json.dumps(trends)})
