@@ -121,16 +121,17 @@ def get_stdev(data: list[dict]) -> float:
 
 
 def get_games_played_max(data: list[leaderboards.LeaderboardEntry]) -> int:
-    return max(map(extract_games_played, filter(filter_games_results, data)))
+    # return max(map(extract_games_played, filter(filter_games_results, data)))
+    return 0
 
 
 def get_games_played_min(data: list[leaderboards.LeaderboardEntry]) -> int:
-    return min(map(extract_games_played, filter(filter_games_results, data)))
-
+    # return min(map(extract_games_played, filter(filter_games_results, data)))
+    return 0
 
 def get_games_played_total(data: list[leaderboards.LeaderboardEntry]) -> int:
-    return sum(map(extract_games_played, filter(filter_games_results, data)))
-
+    # return sum(map(extract_games_played, filter(filter_games_results, data)))
+    return 0
 
 def get_number_of_ohp(data: list[leaderboards.LeaderboardEntry]) -> int:
     return len([i for i in data if i.heroes[1] == "Blank"])
