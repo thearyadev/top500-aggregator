@@ -230,18 +230,8 @@ def calculate():
             "O_ALL_ALL": {"graph": get_occurrences(data=dataset,
                                                    region=leaderboards.Region.ALL)},
 
-            # games played
-            "GP_ASIA": {"graph": get_avg_games_played_by_region(data=dataset,
-                                                                region=leaderboards.Region.ASIA)},
-            "GP_AMERICAS": {"graph": get_avg_games_played_by_region(data=dataset,
-                                                                    region=leaderboards.Region.AMERICAS)},
-            "GP_EUROPE": {"graph": get_avg_games_played_by_region(data=dataset,
-                                                                  region=leaderboards.Region.EUROPE)},
 
             "MISC": {
-                "GP_MAX": get_games_played_max(dataset),
-                "GP_MIN": get_games_played_min(dataset),
-                "GP_TOTAL": get_games_played_total(dataset),
                 "OHP": get_number_of_ohp(dataset),
                 "THP": get_number_of_thp(dataset)
             }
@@ -250,6 +240,7 @@ def calculate():
 
             if key != "MISC":
                 graphData = data[s][key]["graph"]
+                print(key)
                 data[s][key]["statistic"] = {
                     "mean": round(get_mean(graphData), 3),
                     "variance": round(get_variance(graphData), 3),
