@@ -109,28 +109,28 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
         starting_top_point[0] -= 400
         starting_bottom_point[0] -= 250
         # crop the box
-        games_played_box: np.ndarray = image_input[starting_top_point[1]:starting_bottom_point[1],
-                                       starting_top_point[0]:starting_bottom_point[0]]
+        # games_played_box: np.ndarray = image_input[starting_top_point[1]:starting_bottom_point[1],
+        #                                starting_top_point[0]:starting_bottom_point[0]]
         # convert to rgb
-        gpb_rgb: np.ndarray = cv2.cvtColor(games_played_box, cv2.COLOR_BGR2RGB)
-        gpb_rgb = cv2.bitwise_not(gpb_rgb)
-        scan = None
-        for i in (13, 12, 11, 10,):
-            try:
-                scan = int(
-                    ''.join(
-                        [c for c in pytesseract.image_to_string(gpb_rgb, config=f"--psm {i}") if c in string.digits]
-                    )
-                )
-
-            except Exception as e:
-                pass
-        if scan is None:
-            raise Exception("the thing didnt work :(")
+        # gpb_rgb: np.ndarray = cv2.cvtColor(games_played_box, cv2.COLOR_BGR2RGB)
+        # gpb_rgb = cv2.bitwise_not(gpb_rgb)
+        # scan = None
+        # for i in (13, 12, 11, 10,):
+        #     try:
+        #         scan = int(
+        #             ''.join(
+        #                 [c for c in pytesseract.image_to_string(gpb_rgb, config=f"--psm {i}") if c in string.digits]
+        #             )
+        #         )
+        #
+        #     except Exception as e:
+        #         pass
+        # if scan is None:
+        #     raise Exception("the thing didnt work :(")
         # append results
         results.append(
             LeaderboardEntry(
-                games=scan,  # use OCR
+                games=0,
                 heroes=heroes_played,
                 region=region,
                 role=role
