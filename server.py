@@ -240,7 +240,6 @@ def calculate():
 
             if key != "MISC":
                 graphData = data[s][key]["graph"]
-                print(key)
                 data[s][key]["statistic"] = {
                     "mean": round(get_mean(graphData), 3),
                     "variance": round(get_variance(graphData), 3),

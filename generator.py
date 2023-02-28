@@ -14,7 +14,7 @@ from rich import print
 from queue import Queue
 
 dba = database.DatabaseAccess("./data/data.db")
-target_season = "3_2"
+target_season = "3_3"
 dba.create_season(target_season)
 
 
