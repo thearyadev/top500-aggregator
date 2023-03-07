@@ -60,8 +60,8 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
     # below are predefined pixel values
 
     # defines the box around the first hero in a players top 3 on the lb
-    starting_top_point: list[int] = [1306, 300]
-    starting_bottom_point: list[int] = [1355, 350]
+    starting_top_point: list[int] = [1306, 304]
+    starting_bottom_point: list[int] = [1355, 354]
     # remember the vertical origin of the first hero
     x_origin: tuple[int, int] = (starting_top_point[0], starting_bottom_point[0],)
     for leaderboard_entry in range(10):  # 10 leaderboard entries per page
