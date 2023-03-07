@@ -1,3 +1,5 @@
+import time
+
 from PIL import Image
 import os
 try:
@@ -47,7 +49,10 @@ class Heroes:
                     hero
                 )
             )
-        return sorted(results, key=lambda x: x[0])[0][1]
+        result = sorted(results, key=lambda x: x[0])
+        #print(f"Confidence: {result[0][0]}")
+        #time.sleep(0.1)
+        return result[0][1]
 
 
 if __name__ == '__main__':
