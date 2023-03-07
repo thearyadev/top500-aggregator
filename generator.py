@@ -14,7 +14,7 @@ from rich import print
 from queue import Queue
 
 dba = database.DatabaseAccess("./data/data.db")
-target_season = "3_3"
+target_season = "3_4"
 dba.create_season(target_season)
 
 
@@ -31,7 +31,7 @@ def worker():
             role=role,
             image_path=f"./assets/leaderboard_images/{file}",
             assets_path="./assets/hero_images",
-            temp_directory="./temp"
+            temp_directory="F:/temp"
         )
         for i in results:
             dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
@@ -47,5 +47,6 @@ if __name__ == '__main__':
         queue.put(item)
     for _ in range(7):
         threading.Thread(target=worker).start()
+    #threading.Thread(target=worker).start()
     queue.join()
 
