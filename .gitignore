@@ -1,0 +1,5 @@
+
+/bin
+/assets/leaderboard_images
+*.pyc
+test.py

@@ -26,8 +26,8 @@ def main():
 
     for role in ROLES:
         for region in REGIONS:
-            if role == "TANK":
-                if region in ("AMERICAS", "EUROPE"):
+            if role in ("TANK", "DAMAGE"):
+                if region in ("AMERICAS", "EUROPE", "ASIA"):
                     continue
             SETTINGS["role"] = role
             SETTINGS["region"] = region
