@@ -8,10 +8,24 @@ except Exception:
     pass
 import numpy as np
 import uuid
+import math
 
 
 def similarity(image1, image2) -> float:
+    #Substract method
     return np.sum(cv2.subtract(image1, image2) ** 2) / (float(image1.shape[0] * image1.shape[1]))
+
+def dist(hist1, hist2) -> float:
+    #Historogram comparison
+    return cv2.compareHist(hist1, hist2, cv2.HISTCMP_CHISQR)
+
+def psnr(image1, image2) -> float:
+    #Peak Signal to Noise Ratio comparison
+    mse = np.mean((image1 - image2)**2)
+    if mse == 0:
+        return 100
+    PIXEL_MAX = 255.0
+    return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
 
 
 class Hero:
@@ -40,19 +54,49 @@ class Heroes:
     def get_hero_name(self, hero_image: Image) -> Hero:
         hero_image = np.array(hero_image)
         hero_image = cv2.cvtColor(hero_image, cv2.COLOR_BGR2GRAY)
+        hero_hist = cv2.calcHist([hero_image], [0], None, [256], [0, 256])
+        cv2.normalize(hero_hist, hero_hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX)
 
-        results: list[tuple[float, Hero]] = list()
+        results_subs: list[tuple[float, Hero]] = list()
+        results_dist: list[tuple[float, Hero]] = list()
+        results_psnr: list[tuple[float, Hero]] = list()
         for hero in self.heroes:
-            results.append(
-                (
+            query_hist = cv2.calcHist([hero.image], [0], None, [256], [0, 256])
+            cv2.normalize(query_hist, query_hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX)
+
+            results_subs.append(
+                (   
                     similarity(hero_image, hero.image),
                     hero
                 )
             )
-        result = sorted(results, key=lambda x: x[0])
+
+            results_dist.append(
+                (   
+                    dist(hero_hist, query_hist),
+                    hero
+                )
+            )
+
+            results_psnr.append(
+                (   
+                    psnr(hero_image, hero.image),
+                    hero
+                )
+            )
+        results_subs = sorted(results_subs, key=lambda x: x[0])
+        results_dist = sorted(results_dist, key=lambda x: x[0])
+        results_psnr = sorted(results_subs, key=lambda x: x[0], reverse=True)
         #print(f"Confidence: {result[0][0]}")
         #time.sleep(0.1)
-        return result[0][1]
+
+        #If two or more values match they are returned, if there are not a definitive match, substract value is returned
+        if results_subs[0][1] == results_dist[0][1] or results_subs[0][1] == results_psnr[0][1]:
+            return results_subs[0][1]
+        elif results_subs[0][1] == results_psnr[0][1]:
+            return results_subs[0][1]
+        else:
+            return results_subs[0][1]
 
 
 if __name__ == '__main__':
