@@ -22,15 +22,17 @@ def dist(hist1, hist2) -> float:
 def psnr(image1, image2) -> float:
     #Peak Signal to Noise Ratio comparison
     mse = np.mean((image1 - image2)**2)
+    result = -1
     if mse == 0:
-        return 100
+        result = 100
     PIXEL_MAX = 255.0
-    return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
+    result = 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
+    return result
 
 
 class Hero:
-    def __init__(self, image: Image, name: str):
-        self.image, self.name = image, name
+    def __init__(self, image: Image, image_array: list, name: str):
+        self.image, self.image_array, self.name = image, image_array, name
 
     def __repr__(self):
         return self.name
@@ -47,13 +49,14 @@ class Heroes:
                     image=cv2.cvtColor(
                         np.array(Image.open(f"{hero_images_path}/{file}")),
                         cv2.COLOR_BGR2GRAY
-                    )
+                    ),
+                    image_array = np.array(Image.open(f"{hero_images_path}/{file}"))
                 )
             )
 
     def get_hero_name(self, hero_image: Image) -> Hero:
-        hero_image = np.array(hero_image)
-        hero_image = cv2.cvtColor(hero_image, cv2.COLOR_BGR2GRAY)
+        hero_array = np.array(hero_image)
+        hero_image = cv2.cvtColor(hero_array, cv2.COLOR_BGR2GRAY)
         hero_hist = cv2.calcHist([hero_image], [0], None, [256], [0, 256])
         cv2.normalize(hero_hist, hero_hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX)
 
@@ -80,7 +83,7 @@ class Heroes:
 
             results_psnr.append(
                 (   
-                    psnr(hero_image, hero.image),
+                    psnr(hero_array, hero.image_array),
                     hero
                 )
             )
