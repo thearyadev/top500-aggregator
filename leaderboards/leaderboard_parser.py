@@ -80,7 +80,8 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
                 heroes_played.append(
                     Hero(
                         name=heroComparor.get_hero_name(Image.open(path)).name,
-                        image=modified
+                        image=modified,
+                        image_array=modified
                     )  # creates and appends hero object to results
                 )
                 continue
@@ -100,7 +101,8 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
             heroes_played.append(
                 Hero(
                     name=heroComparor.get_hero_name(Image.open(path)).name,
-                    image=modified
+                    image=modified,
+                    image_array=modified
                 )  # creates and appends hero object to results
             )
 
@@ -151,9 +153,9 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
 
 if __name__ == "__main__":
     pytesseract.pytesseract.tesseract_cmd = \
-        r"F:\Documents\Python Projects\top500-aggregator\bin\tesseract\tesseract.exe"
-    leaderboard: list[LeaderboardEntry] = parse(r"F:\Documents\Python Projects\top500-aggregator\assets\img.png",
-                                                r"F:\Documents\Python Projects\top500-aggregator\assets\hero_images",
+        r"C:\Users\autop\OneDrive\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\bin\tesseract\tesseract.exe"
+    leaderboard: list[LeaderboardEntry] = parse(r"C:\Users\autop\OneDrive\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\img.png",
+                                                r"C:\Users\autop\OneDrive\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\hero_images",
                                                 r"../temp")
     for entry in leaderboard:
         print(entry)
