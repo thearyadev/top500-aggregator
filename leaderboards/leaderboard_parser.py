@@ -153,9 +153,9 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
 
 if __name__ == "__main__":
     pytesseract.pytesseract.tesseract_cmd = \
-        r"C:\Users\autop\OneDrive\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\bin\tesseract\tesseract.exe"
-    leaderboard: list[LeaderboardEntry] = parse(r"C:\Users\autop\OneDrive\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\img.png",
-                                                r"C:\Users\autop\OneDrive\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\hero_images",
+        r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\bin\tesseract\tesseract.exe"
+    leaderboard: list[LeaderboardEntry] = parse(r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\img.png",
+                                                r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\hero_images",
                                                 r"../temp")
     for entry in leaderboard:
         print(entry)
