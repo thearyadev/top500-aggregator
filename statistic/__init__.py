@@ -40,6 +40,7 @@ def get_occurrences(
             results[hero] = 1
     try:
         results.pop("Blank")
+        results.pop("Blank2")
     except KeyError:
         pass
     return sorted(convert_dict_to_hero_count_array(results), key=lambda x: x["count"], reverse=True)
@@ -82,6 +83,7 @@ def get_occurrences_most_played(
         results[mostPlayedHero] = 1
     try:
         results.pop("Blank")
+        results.pop("Blank2")
     except KeyError:
         pass
     return sorted(convert_dict_to_hero_count_array(results), key=lambda x: x["count"], reverse=True)
@@ -134,18 +136,18 @@ def get_games_played_total(data: list[leaderboards.LeaderboardEntry]) -> int:
     return 0
 
 def get_number_of_ohp(data: list[leaderboards.LeaderboardEntry]) -> int:
-    return len([i for i in data if i.heroes[1] == "Blank"])
+    return len([i for i in data if i.heroes[1] == "Blank" or i.heroes[1] == "Blank2"])
 
 
 def get_number_of_thp(data: list[leaderboards.LeaderboardEntry]) -> int:
-    return len([i for i in data if i.heroes[2] == "Blank"])
+     return len([i for i in data if i.heroes[1] == "Blank" or i.heroes[1] == "Blank2"])
 
 
 def get_hero_trends(db: database.DatabaseAccess) -> dict[str, list[list[str, int, int, int]]]:
     results: dict[str, list[list[str, int, int, int]]] = dict()
 
     # hero, list[point(seasonNumber, americas, europe, asia)]
-    for hero in [h for h in allHeroes if h != "Blank"]:
+    for hero in [h for h in allHeroes if h != ["Blank", "Blank2"]]:
         results[hero] = list()
         for season in db.get_seasons():
             results[hero].append(

@@ -79,7 +79,8 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
                 cv2.imwrite(path := f"{temp_directory}/{uuid.uuid4().hex}.png", modified)
                 heroes_played.append(
                     Hero(
-                        name=heroComparor.get_hero_name(Image.open(path)).name,
+                        #name=heroComparor.get_hero_name(Image.open(path)).name,
+                        name=heroComparor.predict_hero_name(path).name,
                         image=modified,
                         image_array=modified
                     )  # creates and appends hero object to results
@@ -100,7 +101,8 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
 
             heroes_played.append(
                 Hero(
-                    name=heroComparor.get_hero_name(Image.open(path)).name,
+                    #name=heroComparor.get_hero_name(Image.open(path)).name,
+                    name=heroComparor.predict_hero_name(path).name,
                     image=modified,
                     image_array=modified
                 )  # creates and appends hero object to results
