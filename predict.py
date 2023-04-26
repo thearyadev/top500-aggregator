@@ -42,7 +42,6 @@ top_500_mnist_labels = {
     35: 'Wrecking Ball',
     36: 'Zarya',
     37: 'Zenyatta',
-
 }
 
 # Read an image
