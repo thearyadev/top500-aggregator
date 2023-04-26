@@ -4,3 +4,4 @@
 *.pyc
 test.py
 /assets/top_500_mnist_images
+.vscode/settings.json
