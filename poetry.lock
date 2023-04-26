@@ -479,6 +479,21 @@ python3-Xlib = {version = "*", markers = "platform_system == \"Linux\" and pytho
 rubicon-objc = {version = "*", markers = "platform_system == \"Darwin\""}
 
 [[package]]
+name = "nnfs"
+version = "0.5.1"
+description = "Package related to the Neural Networks from Scratch in Python book"
+category = "main"
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "nnfs-0.5.1-py3-none-any.whl", hash = "sha256:fd04796da8e8f40a4dff9ad995a99944b8f0d68966d59e3e5d133659c7264c1f"},
+    {file = "nnfs-0.5.1.tar.gz", hash = "sha256:7e1ba80bdfb89d9909758ba7546f1f73c5f6b58c1d5899649ac488c2a4833213"},
+]
+
+[package.dependencies]
+numpy = "*"
+
+[[package]]
 name = "numpy"
 version = "1.24.1"
 description = "Fundamental package for array computing in Python"
@@ -3739,4 +3754,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d95a4882246be752ff92e7b8e0a26967ce907f49a38ef8a2843c3a0eee07a01b"
+content-hash = "f98dbfc72e119438cad4feae719ec0e7e6129b179443e005302670d8bc68ed63"
