@@ -6,6 +6,7 @@ allHeroes: list[str] = [
     'Baptiste',
     'Bastion',
     'Blank',
+    'Blank',
     'Brigitte',
     'Cassidy',
     'D.Va',

@@ -14,7 +14,7 @@ from rich import print
 from queue import Queue
 
 dba = database.DatabaseAccess("./data/data.db")
-target_season = "3_4"
+target_season = "4_2"
 dba.create_season(target_season)
 
 
@@ -31,7 +31,7 @@ def worker():
             role=role,
             image_path=f"./assets/leaderboard_images/{file}",
             assets_path="./assets/hero_images",
-            temp_directory="F:/temp"
+            temp_directory="G:/temp"
         )
         for i in results:
             dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
@@ -40,7 +40,7 @@ def worker():
 
 if __name__ == '__main__':
     pytesseract.pytesseract.tesseract_cmd = \
-        r"F:\Documents\Python Projects\top500-aggregator\bin\tesseract\tesseract.exe"
+        r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\bin\tesseract\tesseract.exe"
 
     lb_images = os.listdir("./assets/leaderboard_images")
     for item in lb_images:

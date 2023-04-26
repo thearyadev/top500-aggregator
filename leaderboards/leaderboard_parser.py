@@ -79,8 +79,10 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
                 cv2.imwrite(path := f"{temp_directory}/{uuid.uuid4().hex}.png", modified)
                 heroes_played.append(
                     Hero(
-                        name=heroComparor.get_hero_name(Image.open(path)).name,
-                        image=modified
+                        #name=heroComparor.get_hero_name(Image.open(path)).name,
+                        name=heroComparor.predict_hero_name(path).name,
+                        image=modified,
+                        image_array=modified
                     )  # creates and appends hero object to results
                 )
                 continue
@@ -99,8 +101,10 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
 
             heroes_played.append(
                 Hero(
-                    name=heroComparor.get_hero_name(Image.open(path)).name,
-                    image=modified
+                    #name=heroComparor.get_hero_name(Image.open(path)).name,
+                    name=heroComparor.predict_hero_name(path).name,
+                    image=modified,
+                    image_array=modified
                 )  # creates and appends hero object to results
             )
 
@@ -151,9 +155,9 @@ def parse(image_path: str, assets_path: str, temp_directory: str, region: Region
 
 if __name__ == "__main__":
     pytesseract.pytesseract.tesseract_cmd = \
-        r"F:\Documents\Python Projects\top500-aggregator\bin\tesseract\tesseract.exe"
-    leaderboard: list[LeaderboardEntry] = parse(r"F:\Documents\Python Projects\top500-aggregator\assets\img.png",
-                                                r"F:\Documents\Python Projects\top500-aggregator\assets\hero_images",
+        r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\bin\tesseract\tesseract.exe"
+    leaderboard: list[LeaderboardEntry] = parse(r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\img.png",
+                                                r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\assets\hero_images",
                                                 r"../temp")
     for entry in leaderboard:
         print(entry)
