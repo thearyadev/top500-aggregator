@@ -69,6 +69,17 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 `train.py` is used to train the model. See inline documentation for more details. 
 
 
+# Todo & Roadmap
+- Clean up codebase
+- Re-train model for LifeWeaver
+- Move all Neural Network related files into a package for easier access
+- Use in-memory database instead of dictionary for datastore. 
+- Purge season 2, 3, and 4 data. 
+- Add a browser icon
+- improve frontend
+
+
+
 ## Contributing
 
 There are no contributing guidelines (for now). 
