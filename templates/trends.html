@@ -233,7 +233,7 @@
                 <li><a href="/season/{{subseasons[-1]}}">Season {{season}}</a>
                     <ul>
                         {% for subseason in subseasons %}
-                        <li><a href="/season/{{subseason}}">{{subseason}}</a></li>
+                        <li><a href="/season/{{subseason}}">{{subseason.replace("_", ".")}}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
