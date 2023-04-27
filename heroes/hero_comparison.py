@@ -62,9 +62,10 @@ class Heroes:
                 )
             )
 
-    def predict_hero_name(self, image_path: str) -> Hero:
+    def predict_hero_name(self, image_data: np.ndarray, model_path: str) -> Hero:
+        """Uses a neural network to predict the hero name from an image"""
         # Read an image
-        image_data = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+        # image_data = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
         # Resize to the same size as Fashion MNIST images
         image_data = cv2.resize(image_data, (49, 50))
@@ -73,7 +74,7 @@ class Heroes:
         image_data = (image_data.reshape(1, -1).astype(np.float32) - 127.5) / 127.5
 
         # Load the model
-        model = Model().load("neural_network/top_500_mnist.model")
+        model = Model().load(model_path)
 
         # Predict on the image
         confidences = model.predict(image_data)
@@ -95,9 +96,10 @@ class Heroes:
 
         return results[0][1]
 
-    def get_hero_name(self, hero_image: Image) -> Hero:
-        hero_array = np.array(hero_image)
-        hero_image = cv2.cvtColor(hero_array, cv2.COLOR_BGR2GRAY)
+    def calculate_hero_name(self, image_data: np.ndarray) -> Hero:
+        """Uses a combination of different methods to calculate the hero name from an image. This currently does not work very well..."""
+        hero_array = np.array(image_data) # color
+        hero_image = cv2.cvtColor(hero_array, cv2.COLOR_BGR2GRAY) # grayscale
         hero_hist = cv2.calcHist([hero_image], [0], None, [256], [0, 256])
         cv2.normalize(hero_hist, hero_hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX)
 
