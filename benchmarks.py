@@ -53,9 +53,9 @@ def main():
         result: list[leaderboards.LeaderboardEntry] = leaderboards.parse(
                 image_path=f"./assets/test_leaderboard_images/{image}",
                 assets_path="./assets/hero_images",
-                temp_directory="temp",
                 region=leaderboards.Region.AMERICAS,  # doesnt matter
                 role=leaderboards.Role.DAMAGE,  # doesnt matter
+                model_path=None
             )
         
         for entry, answer in zip(result, heroes):
