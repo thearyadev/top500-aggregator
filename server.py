@@ -372,7 +372,6 @@ async def season(request: Request, season_number: str):
     global hits
     if season_number in seasons:
         hits += 1
-        print(hits)
         return templates.TemplateResponse(
             "index.html",
             {
