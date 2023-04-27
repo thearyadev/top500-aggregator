@@ -118,6 +118,60 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
+        .nav {
+            display: block;
+            width: 100%;
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: start;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li {
+            position: relative;
+        }
+
+        .nav a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .nav ul ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #f2f2f2;
+            display: none;
+        }
+
+        .nav ul li:hover>ul {
+            display: block;
+        }
+
+        .nav ul ul li {
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav ul ul a {
+            padding: 10px;
+        }
+
+        .nav ul ul a:hover {
+            background-color: #ddd;
+        }
+
+
+
         .body {
             padding: 10px;
             background-color: #FAF9F6;
@@ -232,20 +286,26 @@
 
         </nav>
 
+        <div class="nav">
+            <ul>
+                <li><a href="/trends/seasonal">Trends</a></li>
+                {% for season, subseasons in (seasons | group_subseasons).items() %}
+                <li><a href="/season/{{subseasons[-1]}}">Season {{season}}</a>
+                    <ul>
+                        {% for subseason in subseasons %}
+                        <li><a href="/season/{{subseason}}">{{subseason}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
 
     </header>
 
     <main class="body">
-        <ul class="navbar-nav mr-auto d-flex flex-row flex-wrap justify-content-start">
-            <li class="nav-item active p-2"><a href="/trends/seasonal" class="">Trends</a></li>
-            {% for season in seasons %}
-            <li class="nav-item active p-2">
-                <a href="/season/{{ season }}" class="">Season {{ season.replace("_", ".") }}</a>
-            </li>
-            {% endfor %}
 
-
-        </ul>
 
         <div id="info_panel">
             <h1>Season {{ currentSeason.replace("_", ".") }}</h1>

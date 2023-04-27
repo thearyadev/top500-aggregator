@@ -1,4 +1,5 @@
 from fastapi.templating import Jinja2Templates
+from jinja2 import Environment
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -22,6 +23,7 @@ from statistic import (
 import database
 
 templates = Jinja2Templates(directory="templates")
+
 db = database.DatabaseAccess("./data/data.db")
 
 seasons = db.get_seasons()
@@ -361,7 +363,7 @@ def calculate():
 
 
 app = FastAPI()
-
+app.state.templates = templates
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 calculate()
@@ -370,6 +372,10 @@ calculate()
 @app.get("/season/{season_number}")
 async def season(request: Request, season_number: str):
     global hits
+
+    request.app.state.templates.env.filters['group_subseasons'] = group_subseasons
+
+
     if season_number in seasons:
         hits += 1
         return templates.TemplateResponse(
@@ -410,3 +416,12 @@ async def trendsEndpoint(request: Request):
             "update": db.get_season_datetime(seasons[-1]),
         },
     )
+
+def group_subseasons(seasons: list[str]) -> dict[str, list[str]]:
+    subseasons = {}
+    for season in seasons:
+        subseason = season.split("_")[0]
+        if subseason not in subseasons:
+            subseasons[subseason] = []
+        subseasons[subseason].append(season)
+    return subseasons
