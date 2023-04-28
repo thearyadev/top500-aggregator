@@ -39,9 +39,15 @@ answers = {
         ["Winston", "Ramattra", "Sigma"],
         ["D.Va", "Sigma", "Winston"],
         ["Winston", "D.Va", "Doomfist"],
-        ["Doomfist", "Blank2", "Blank2"],
+        ["Doomfist", "Blank", "Blank"],
     ],
 }
+
+def filter_blanks(hero_array: list[str]) -> list[str]:
+    for index, hero in enumerate(hero_array):
+        if hero == "Blank2":
+            hero_array[index] = "Blank"
+    return hero_array
 
 
 def main():
@@ -55,11 +61,11 @@ def main():
                 assets_path="./assets/hero_images",
                 region=leaderboards.Region.AMERICAS,  # doesnt matter
                 role=leaderboards.Role.DAMAGE,  # doesnt matter
-                model_path=None
+                model_path=r"models\thearyadev-2023-04-27\top_500_mnist.model"
             )
         
         for entry, answer in zip(result, heroes):
-            single_entry_hero: list[str] = [str(i) for i in entry.heroes]
+            single_entry_hero: list[str] = filter_blanks([str(i) for i in entry.heroes])
             if single_entry_hero != answer: # on fail
                 print(f"[red]FAIL[/red] {image} {single_entry_hero} != {answer}")
                 failed_tests += 1
