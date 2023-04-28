@@ -13,9 +13,7 @@ for carpeta in os.listdir(os.path.join(unprocessed, "train")):
         os.makedirs(destiny)
 
     for file_name in os.listdir(origin):
-
         if file_name.endswith(".jpg") or file_name.endswith(".png"):
-            
             image = cv2.imread(os.path.join(origin, file_name))
             image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -31,9 +29,7 @@ for carpeta in os.listdir(os.path.join(unprocessed, "test")):
         os.makedirs(destiny)
 
     for file_name in os.listdir(origin):
-        
         if file_name.endswith(".jpg") or file_name.endswith(".png"):
-
             image = cv2.imread(os.path.join(origin, file_name))
             image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             image_8bits = cv2.convertScaleAbs(image_gray)
