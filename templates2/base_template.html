@@ -7,10 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T500 Aggegator</title>
 
-    <!-- twitter/card embed meta tags -->
-    <meta name="twitter:site" content="@t500-aggregator.aryankothari.dev" />
-    <meta name="twitter:title" content="Overwatch 2 Top 500 Data" />
-    <meta name="twitter:description" content="Top 500 Data collected from the Overwatch 2 Leaderboards" />
+
+    <!-- additional meta tags -->
+    <meta name="title" content="Overwatch 2 Top 500 Data: Season Update and Leaderboard Statistics">
+    <meta name="description"
+        content="Aggregated data from the in-game Overwatch 2 Top 500 leaderboards from all regions and all roles. ">
+    <meta name="keywords" content="Overwatch, Overwatch 2, Data, Top 500, Charts">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <meta name="author" content="thearyadev">
+    <!-- additional meta tags end -->
+
     <!-- twitter/card embed meta tags end  -->
 
     <!-- google analytics -->
@@ -86,24 +95,36 @@
         <div id="info_panel" class="info-panel">
             <h1>{% block heading %} {% endblock heading %}</h1>
             <h6>This season's dataset was generated on: {{ update.date() }}</h6>
-          
+
             <p><strong>Welcome to Overwatch 2 Top 500 Data.</strong></p>
-          
-            <p>The data available on this page is not 100% accurate. Data collection involves computer vision, and as such, there is a slight error rate. This error rate is most apparent in some charts where the incorrect role appears, such as a support chart containing Echo. More information on data collection is available on my <a href="https://github.com/thearyadev/top500-aggregator" target="_blank">GitHub</a> page.</p>
-          
+
+            <p>The data available on this page is not 100% accurate. Data collection involves computer vision, and as
+                such, there is a slight error rate. This error rate is most apparent in some charts where the incorrect
+                role appears, such as a support chart containing Echo. More information on data collection is available
+                on my <a href="https://github.com/thearyadev/top500-aggregator" target="_blank">GitHub</a> page.</p>
+
             <p><strong>What is this data?</strong></p>
-          
-            <p>The data below is taken from the in-game top 500 leaderboards. The information available there includes a single player's matches played and their top 3 heroes played. The charts and categories below represent data for the hero "slot" in a top 500 leaderboard entry. For example, they count the number of people who have Kiriko as their most played hero, or Widowmaker as their second most played hero. The data is a high-level overview of what heroes are popular or unpopular and is by no means an accurate representation of hero pick rates.</p>
-          
+
+            <p>The data below is taken from the in-game top 500 leaderboards. The information available there includes a
+                single player's matches played and their top 3 heroes played. The charts and categories below represent
+                data for the hero "slot" in a top 500 leaderboard entry. For example, they count the number of people
+                who have Kiriko as their most played hero, or Widowmaker as their second most played hero. The data is a
+                high-level overview of what heroes are popular or unpopular and is by no means an accurate
+                representation of hero pick rates.</p>
+
             <p><strong>When is this data updated?</strong></p>
-          
-            <p>The dataset is updated once every week, on Tuesday. The season number is represented by the current season number, and an identifier for the collection number. For example, Season 2.1 would be Season 2, and the first data collection that occurs one week after the start of the season. Season 2.2 would be Season 2, and the second data collection that occurs two weeks into the season. Season 2.8 is the final data collection for the season, eight weeks into the season.</p>
-          
+
+            <p>The dataset is updated once every week, on Tuesday. The season number is represented by the current
+                season number, and an identifier for the collection number. For example, Season 2.1 would be Season 2,
+                and the first data collection that occurs one week after the start of the season. Season 2.2 would be
+                Season 2, and the second data collection that occurs two weeks into the season. Season 2.8 is the final
+                data collection for the season, eight weeks into the season.</p>
+
             <p><strong>Do you have more questions?</strong></p>
-          
+
             <p>Feel free to contact me! My information is available on my GitHub profile.</p>
-          </div>
-          
+        </div>
+
         <!-- info panel end -->
 
     </header>
