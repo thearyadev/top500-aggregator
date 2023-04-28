@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+/* body  */
+body {
+    background-color: #FAF9F6;
+    font-family: 'Lato', sans-serif;
+}
+
+/* body end */
+
+/* info panel */
+
+.info-panel {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+
+/* navbar styles */
+.nav {
+    display: block;
+    width: 100%;
+    background-color: #f2f2f2;
+    border-bottom: 1px solid #ccc;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: start;
+    margin: 0;
+    padding: 0;
+}
+
+.nav li {
+    position: relative;
+}
+
+.nav a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.nav ul ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #f2f2f2;
+    display: none;
+}
+
+.nav ul li:hover>ul {
+    display: block;
+}
+
+.nav ul ul li {
+    width: 100%;
+    text-align: left;
+}
+
+.nav ul ul a {
+    padding: 10px;
+}
+
+.nav ul ul a:hover {
+    background-color: #ddd;
+}
+
+/* navbar styles end */
+
+
+
+
+/* charts and sections */
+
+.section-box {
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.article {
+    padding: 5px;
+    flex: 1 0 25%;
+    margin: 5px;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.article p,
+.section-box h2 {
+    font-weight: bold;
+    text-align: center;
+}
+
+.section-box h2 {
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 25px;
+}
+
+.toolbar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1000;
+    margin: 25px;
+}
+
+.btn,
+.btn-primary {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 100px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.misc-data {
+    font-size: 150px;
+    margin-top: -50px;
+}
+
+.navbar {
+    padding-right: 25px;
+    padding-left: 25px;
+}
+
+/*.article > div > div{*/
+/*    height: 75vh;*/
+/*}*/
+
+.big-chart {
+    height: 50vh;
+}
+
+.small-chart {
+    height: 45vh;
+}
+
+.section-box {
+    padding-bottom: 50px;
+}
+
+/*div{*/
+/*    outline: solid;*/
+/*}*/
+@media (max-width: 990px) {
+    .small-chart {
+        height: 35vh;
+    }
+
+    .big-chart {
+        height: 50vh;
+    }
+
+    /* hide on small screen */
+    .navbar-toggler { 
+        display: none;
+        visibility: hidden;
+    }
+}
