@@ -23,7 +23,7 @@ from statistic import (
     get_variance,
 )
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="templates2")
 
 db = database.DatabaseAccess("./data/data.db")
 
@@ -379,7 +379,7 @@ async def season(request: Request, season_number: str):
     if season_number in seasons:
         hits += 1
         return templates.TemplateResponse(
-            "index.html",
+            "season.html",
             {
                 "request": request,
                 "seasons": seasons,
