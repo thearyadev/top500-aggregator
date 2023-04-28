@@ -78,7 +78,8 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 - Add a browser icon
 - improve frontend
 - Add field in season_info table for season notes
-    - this will be used for stating problems in the dataset. 
+    - add ui components and db queries to display this
+- Rebuild collector.py and generator.py as full CLI tools. 
 
 
 
