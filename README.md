@@ -80,13 +80,14 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 - Add field in season_info table for season notes
     - add ui components and db queries to display this
 - Rebuild collector.py and generator.py as full CLI tools. 
+- remove games played from all tables
 
 
 
-## Contributing
+## Contributing Guidelines
 
 1. Install dev dependencies using Poetry. 
-2. Use [black](https://pypi.org/project/black/) & [isort](https://pypi.org/project/isort/) for formatting
+2. Use [isort](https://pypi.org/project/isort/) to sort imports, THEN use [black](https://pypi.org/project/black/) for formatting. Black will format the imports differently than isort. 
 3. Be descriptive in pull requests. 
 4. Do not modify: `./data` and `./assets`. Any PR's modifying these directories will be rejected. 
 

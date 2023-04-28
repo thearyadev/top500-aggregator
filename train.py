@@ -6,10 +6,16 @@ from rich.live import Live
 from rich.prompt import Prompt
 from rich.table import Table
 
-from neural_network import (Accuracy_Categorical, Activation_ReLU,
-                            Activation_Softmax, Layer_Dense,
-                            Loss_CategoricalCrossentropy, Model,
-                            Optimizer_Adam, create_data_mnist)
+from neural_network import (
+    Accuracy_Categorical,
+    Activation_ReLU,
+    Activation_Softmax,
+    Layer_Dense,
+    Loss_CategoricalCrossentropy,
+    Model,
+    Optimizer_Adam,
+    create_data_mnist,
+)
 
 
 def train(

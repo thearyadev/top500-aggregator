@@ -135,7 +135,7 @@ class DatabaseAccess:
 
         Returns:
             int: number of times the hero has appeared in the season
-        """        
+        """
         lock.acquire()
         self.cursor.execute(
             f"""
