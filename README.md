@@ -85,8 +85,10 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 
 ## Contributing
 
-There are no contributing guidelines (for now). 
-
+1. Install dev dependencies using Poetry. 
+2. Use [black](https://pypi.org/project/black/) & [isort](https://pypi.org/project/isort/) for formatting
+3. Be descriptive in pull requests. 
+4. Do not modify: `./data` and `./assets`. Any PR's modifying these directories will be rejected. 
 
 ## 🚀 About Me
 I'm a developer. Actively learning and looking for new and interesting opportunities. Send me a message: aryan@aryankothari.dev
