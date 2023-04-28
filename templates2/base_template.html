@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overwatch 2 Top 500 Data</title>
+
+
+    <!-- additional meta tags -->
+    <meta name="title" content="Overwatch 2 Top 500 Data: Season Update and Leaderboard Statistics">
+    <meta name="description"
+        content="Aggregated data from the in-game Overwatch 2 Top 500 leaderboards from all regions and all roles. ">
+    <meta name="keywords" content="Overwatch, Overwatch 2, Data, Top 500, Charts">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    <meta name="author" content="thearyadev">
+    <meta name="theme-color" content="#4285f4" />
+
+    <!-- additional meta tags end -->
+
+
+    <!-- google analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4JC5QF6Y13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-4JC5QF6Y13');
+    </script>
+    <!-- google analytics end -->
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!-- bootstrap css end -->
+
+    <!-- google charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- google charts end -->
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <!-- jquery end -->
+
+    <!-- custom stylesheet -->
+    <link rel="stylesheet" href="/static/css/main.css">
+    <!-- custom stylesheet end -->
+
+    <!-- supplementary scripts -->
+    {% block scripts %}{% endblock %}
+
+</head>
+
+
+<body>
+    <header>
+        <!-- title bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">OW2 T500 Aggregator</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <!-- title bar end -->
+
+        <!-- nav bar -->
+        <div class="nav">
+            <ul>
+                <li><a href="/trends/seasonal">Trends</a></li>
+                {% for season, subseasons in (seasons | group_subseasons).items() %}
+                <li><a href="/season/{{subseasons[-1]}}">Season {{season}}</a>
+                    <ul>
+                        {% for subseason in subseasons %}
+                        <li><a href="/season/{{subseason}}">{{subseason.replace("_", ".")}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+        <!-- nav bar end -->
+
+        <!-- info panel -->
+        <div id="info_panel" class="info-panel">
+            <h1>{% block heading %} {% endblock heading %}</h1>
+            <h6>This season's dataset was generated on: {{ update.date() }}</h6>
+
+            <p><strong>Welcome to Overwatch 2 Top 500 Data.</strong></p>
+
+            <p>The data available on this page is not 100% accurate. Data collection involves computer vision, and as
+                such, there is a slight error rate. This error rate is most apparent in some charts where the incorrect
+                role appears, such as a support chart containing Echo. More information on data collection is available
+                on my <a href="https://github.com/thearyadev/top500-aggregator" target="_blank">GitHub</a> page.</p>
+
+            <p><strong>What is this data?</strong></p>
+
+            <p>The data below is taken from the in-game top 500 leaderboards. The information available there includes a
+                single player's matches played and their top 3 heroes played. The charts and categories below represent
+                data for the hero "slot" in a top 500 leaderboard entry. For example, they count the number of people
+                who have Kiriko as their most played hero, or Widowmaker as their second most played hero. The data is a
+                high-level overview of what heroes are popular or unpopular and is by no means an accurate
+                representation of hero pick rates.</p>
+
+            <p><strong>When is this data updated?</strong></p>
+
+            <p>The dataset is updated once every week, on Tuesday. The season number is represented by the current
+                season number, and an identifier for the collection number. For example, Season 2.1 would be Season 2,
+                and the first data collection that occurs one week after the start of the season. Season 2.2 would be
+                Season 2, and the second data collection that occurs two weeks into the season. Season 2.8 is the final
+                data collection for the season, eight weeks into the season.</p>
+
+            <p><strong>Do you have more questions?</strong></p>
+
+            <p>Feel free to contact me! My information is available on my GitHub profile.</p>
+        </div>
+
+        <!-- info panel end -->
+
+    </header>
+
+
+
+    {% block content %}
+    cock
+    {% endblock %}
+
+    <footer class="bg-dark text-white p-3">
+        <div class="container">
+            <p class="text-center mb-0">
+                <a href="https://github.com/thearyadev" class="text-white">Support Me on GitHub</a>
+            </p>
+        </div>
+    </footer>
+
+
+</body>
+
+<!-- bootstrap js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+<!-- bootstrap js end -->
+
+</html>
