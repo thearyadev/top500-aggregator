@@ -71,7 +71,8 @@ function drawChart(value) {
             0: { type: "line" },
             1: { type: "line" }
 
-        }
+        },
+        tooltip: { isHtml: true },
     };
 
     var chart = new google.visualization.ComboChart(document.getElementById(value)); // draw chart
