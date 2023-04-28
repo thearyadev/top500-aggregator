@@ -72,9 +72,9 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 # Todo & Roadmap
 - Clean up codebase
 - Re-train model for LifeWeaver
-- Move all Neural Network related files into a package for easier access
+- ~~Move all Neural Network related files into a package for easier access~~
 - Use in-memory database instead of dictionary for datastore. 
-- Purge season 2, 3, and 4 data. 
+- ~~Purge season 2, 3, and 4 data. ~~
 - Add a browser icon
 - improve frontend
 
