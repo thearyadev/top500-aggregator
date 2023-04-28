@@ -1,7 +1,8 @@
-
 /bin
 /assets/leaderboard_images
 *.pyc
 test.py
 .vscode/settings.json
 temp
+.pytest_cache
+.vscode/
