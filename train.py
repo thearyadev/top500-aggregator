@@ -139,12 +139,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-"""Function that gets the data from the Rich Table object and returns it as a list of lists"""
-
-
-def get_table_data(table: Table) -> list:
-    data = []
-    for row in table.rows:
-        data.append([cell.text for cell in row.cells])
-    return data
