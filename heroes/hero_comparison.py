@@ -39,6 +39,10 @@ def psnr(image1, image2) -> float:
 
 
 class Hero:
+    """
+    Hero class to store hero data. This class has some reduenancy but is utilized for better organization in some areas of this project
+    """
+
     def __init__(self, image: Image, image_array: list, name: str):
         self.image, self.image_array, self.name = image, image_array, name
 
@@ -91,6 +95,8 @@ class Heroes:
             37: "Zenyatta",
         }
 
+        # load hero images from file system. This is used for the calculate_hero_name method, which is now deprecated.
+        # this may be removed in a future version.
         for file in os.listdir(hero_images_path):
             # noinspection PyTypeChecker
             self.heroes.append(
@@ -98,14 +104,22 @@ class Heroes:
                     name=file.replace(".png", ""),
                     image=cv2.cvtColor(
                         np.array(Image.open(f"{hero_images_path}/{file}")),
-                        cv2.COLOR_BGR2GRAY,
+                        cv2.COLOR_BGR2GRAY, # loads images as grayscale
                     ),
                     image_array=np.array(Image.open(f"{hero_images_path}/{file}")),
                 )
             )
 
     def predict_hero_name(self, image_data: np.ndarray, model_path: str) -> Hero:
-        """Uses a neural network to predict the hero name from an image"""
+        """Predicts the hero name from an image using a neural network model.
+
+        Args:
+            image_data (np.ndarray): array of image data
+            model_path (str): path to the Fashion MNIST model
+
+        Returns:
+            Hero: Hero object with the predicted hero name; this is the hero with the highest confidence level. This object only contains the hero name. 
+        """        
         # Read an image
         # image_data = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
@@ -142,7 +156,15 @@ class Heroes:
         return results[0][1]
 
     def calculate_hero_name(self, image_data: np.ndarray) -> Hero:
-        """Uses a combination of different methods to calculate the hero name from an image. This currently does not work very well..."""
+        """Uses a combination of different methods to calculate the hero name from an image. This currently does not work very well...
+        
+        Now deprecated. Use predict_hero_name instead.
+        Args:
+            image_data (np.ndarray): array of image data
+
+        Returns:
+            Hero: hero object with hero name only. 
+        """        
         hero_array = np.array(image_data)  # color
         hero_image = cv2.cvtColor(hero_array, cv2.COLOR_BGR2GRAY)  # grayscale
         hero_hist = cv2.calcHist([hero_image], [0], None, [256], [0, 256])
