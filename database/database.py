@@ -1,7 +1,8 @@
-import sqlite3
-import leaderboards
-import threading
 import datetime
+import sqlite3
+import threading
+
+import leaderboards
 
 lock = threading.Lock()
 

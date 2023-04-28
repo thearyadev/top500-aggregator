@@ -1,6 +1,7 @@
-from neural_network import Model
 import cv2
 import numpy as np
+
+from neural_network import Model
 
 # Label index to label name relation
 top_500_mnist_labels = {

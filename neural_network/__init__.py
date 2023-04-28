@@ -1,1 +1,3 @@
-from .model import Model, Layer_Dense,Activation_ReLU,Activation_Softmax,Loss_CategoricalCrossentropy,Optimizer_Adam,Accuracy_Categorical, create_data_mnist
+from .model import (Accuracy_Categorical, Activation_ReLU, Activation_Softmax,
+                    Layer_Dense, Loss_CategoricalCrossentropy, Model,
+                    Optimizer_Adam, create_data_mnist)

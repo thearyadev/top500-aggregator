@@ -1,19 +1,15 @@
-from neural_network import (
-    Model,
-    Layer_Dense,
-    Activation_ReLU,
-    Activation_Softmax,
-    Loss_CategoricalCrossentropy,
-    Optimizer_Adam,
-    Accuracy_Categorical,
-    create_data_mnist,
-)
+import os
+
 import numpy as np
 from rich import print
+from rich.live import Live
 from rich.prompt import Prompt
 from rich.table import Table
-import os
-from rich.live import Live
+
+from neural_network import (Accuracy_Categorical, Activation_ReLU,
+                            Activation_Softmax, Layer_Dense,
+                            Loss_CategoricalCrossentropy, Model,
+                            Optimizer_Adam, create_data_mnist)
 
 
 def train(

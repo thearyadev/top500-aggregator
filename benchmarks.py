@@ -1,8 +1,8 @@
-from rich import print
-import leaderboards
-import heroes
 import pyautogui as pg
+from rich import print
 
+import heroes
+import leaderboards
 
 answers = {  # 3 leaderboard images; manually identified.
     "DAMAGE_S4_P1_AMERICAS.png": [

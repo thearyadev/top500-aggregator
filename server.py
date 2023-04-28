@@ -1,26 +1,18 @@
-from fastapi.templating import Jinja2Templates
-from jinja2 import Environment
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 import json
 
-import leaderboards
-from statistic import (
-    get_occurrences_most_played,
-    get_occurrences,
-    get_avg_games_played_by_region,
-    get_mean,
-    get_stdev,
-    get_variance,
-    get_number_of_ohp,
-    get_number_of_thp,
-    get_games_played_max,
-    get_games_played_min,
-    get_games_played_total,
-    get_hero_trends,
-)
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from jinja2 import Environment
+
 import database
+import leaderboards
+from statistic import (get_avg_games_played_by_region, get_games_played_max,
+                       get_games_played_min, get_games_played_total,
+                       get_hero_trends, get_mean, get_number_of_ohp,
+                       get_number_of_thp, get_occurrences,
+                       get_occurrences_most_played, get_stdev, get_variance)
 
 templates = Jinja2Templates(directory="templates")
 
