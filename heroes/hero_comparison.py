@@ -49,6 +49,48 @@ class Hero:
 class Heroes:
     def __init__(self, hero_images_path: str):
         self.heroes: list[Hero] = list()
+        # update this with new heroes and their label as used during training.
+        self.hero_labels: dict[int, str] = {
+            0: "Ana",
+            1: "Ashe",
+            2: "Baptiste",
+            3: "Bastion",
+            4: "Blank",
+            5: "Blank",
+            6: "Brigitte",
+            7: "Cassidy",
+            8: "D.Va",
+            9: "Doomfist",
+            10: "Echo",
+            11: "Genji",
+            12: "Hanzo",
+            13: "Junker Queen",
+            14: "Junkrat",
+            15: "Kiriko",
+            16: "Lucio",
+            17: "Mei",
+            18: "Mercy",
+            19: "Moira",
+            20: "Orisa",
+            21: "Pharah",
+            22: "Ramattra",
+            23: "Reaper",
+            24: "Reinhardt",
+            25: "Roadhog",
+            26: "Sigma",
+            27: "Sojourn",
+            28: "Soldier 76",
+            29: "Sombra",
+            30: "Symmetra",
+            31: "Torbjorn",
+            32: "Tracer",
+            33: "Widowmaker",
+            34: "Winston",
+            35: "Wrecking Ball",
+            36: "Zarya",
+            37: "Zenyatta",
+        }
+
         for file in os.listdir(hero_images_path):
             # noinspection PyTypeChecker
             self.heroes.append(
@@ -85,11 +127,14 @@ class Heroes:
         results: list[tuple[float, Hero]] = list()
         i = 0
 
-        for hero in self.heroes:
-            if i == predictions[0]:
-                results.append((1, hero))
+        for (
+            label,
+            hero_name,
+        ) in self.hero_labels.items():  # match prediction to the hero
+            if label == predictions[0]:
+                results.append((1, Hero(image=None, image_array=None, name=hero_name)))
             else:
-                results.append((0, hero))
+                results.append((0, hero_name))
             i += 1
 
         results = sorted(results, key=lambda x: x[0], reverse=True)
@@ -98,8 +143,8 @@ class Heroes:
 
     def calculate_hero_name(self, image_data: np.ndarray) -> Hero:
         """Uses a combination of different methods to calculate the hero name from an image. This currently does not work very well..."""
-        hero_array = np.array(image_data) # color
-        hero_image = cv2.cvtColor(hero_array, cv2.COLOR_BGR2GRAY) # grayscale
+        hero_array = np.array(image_data)  # color
+        hero_image = cv2.cvtColor(hero_array, cv2.COLOR_BGR2GRAY)  # grayscale
         hero_hist = cv2.calcHist([hero_image], [0], None, [256], [0, 256])
         cv2.normalize(hero_hist, hero_hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX)
 
