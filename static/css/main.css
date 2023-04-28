@@ -11,9 +11,13 @@ body {
 /* info panel */
 
 .info-panel {
-    border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
+}
+
+main {
+    padding-right: 25px;
+    padding-left: 25px;
 }
 
 
@@ -164,8 +168,26 @@ body {
     }
 
     /* hide on small screen */
-    .navbar-toggler { 
+    .navbar-toggler {
         display: none;
         visibility: hidden;
     }
 }
+
+/* charts tooltip  */
+
+.google-visualization-tooltip {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.google-visualization-tooltip-item:first-child {
+    display: none;
+}
+/* charts tooltip end */
