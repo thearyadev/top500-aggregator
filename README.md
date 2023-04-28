@@ -77,6 +77,8 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 - ~~Purge season 2, 3, and 4 data. ~~
 - Add a browser icon
 - improve frontend
+- Add field in season_info table for season notes
+    - this will be used for stating problems in the dataset. 
 
 
 
