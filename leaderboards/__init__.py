@@ -1,2 +1,1 @@
-from .leaderboard_parser import LeaderboardEntry, parse, Role, Region
-
+from .leaderboard_parser import LeaderboardEntry, Region, Role, parse

@@ -1,18 +1,19 @@
+import os
 import time
 
-from neural_network import Model
-
 from PIL import Image
-import os
+
+from neural_network import Model
 
 try:
     import cv2
 except Exception:
     # In the Railway server, cv2 is not installed. This try except will catch the import error when using this module in Railway
     pass
-import numpy as np
-import uuid
 import math
+import uuid
+
+import numpy as np
 
 
 def similarity(image1, image2) -> float:
