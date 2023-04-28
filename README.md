@@ -82,6 +82,12 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 - Rebuild collector.py and generator.py as full CLI tools. 
 - remove games played from all tables
 - add health check endpoint
+- PWA optimize
+    - webmanifest
+    - theme-color meta tag
+- robots.txt
+- correct meta tags
+
 
 
 ## Contributing Guidelines
