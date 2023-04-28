@@ -81,7 +81,7 @@ Install all dependencies using poetry. There are some dev dependencies for code 
     - add ui components and db queries to display this
 - Rebuild collector.py and generator.py as full CLI tools. 
 - remove games played from all tables
-
+- add health check endpoint
 
 
 ## Contributing Guidelines
