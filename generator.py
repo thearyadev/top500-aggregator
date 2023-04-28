@@ -1,17 +1,16 @@
+import os
 import sqlite3
 import threading
+from queue import Queue
 
 import pytesseract
 from PIL import Image
+from rich import print
+from rich.progress import track
 
+import database
 import heroes
 import leaderboards
-import database
-import os
-from rich.progress import track
-from rich import print
-
-from queue import Queue
 
 dba = database.DatabaseAccess("./data/data.db")
 target_season = "4_2"

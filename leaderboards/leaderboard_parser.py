@@ -8,12 +8,13 @@ try:
     import cv2
 except Exception as e:
     pass
-import numpy as np
-from PIL import Image
-import pytesseract
-import string
 import os
+import string
 from enum import Enum
+
+import numpy as np
+import pytesseract
+from PIL import Image
 
 
 class Region(Enum):

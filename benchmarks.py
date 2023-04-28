@@ -1,10 +1,10 @@
-from rich import print
-import leaderboards
-import heroes
 import pyautogui as pg
+from rich import print
 
+import heroes
+import leaderboards
 
-answers = {
+answers = {  # 3 leaderboard images; manually identified.
     "DAMAGE_S4_P1_AMERICAS.png": [
         ["Pharah", "Echo", "Mei"],
         ["Tracer", "Echo", "Hanzo"],
@@ -43,7 +43,16 @@ answers = {
     ],
 }
 
+
 def filter_blanks(hero_array: list[str]) -> list[str]:
+    """Converts all Blank2 instances in an array to Blank
+
+    Args:
+        hero_array (list[str]): Array of heroes (as string)
+
+    Returns:
+        list[str]: Array of heroes as string, without blank2
+    """
     for index, hero in enumerate(hero_array):
         if hero == "Blank2":
             hero_array[index] = "Blank"
@@ -55,35 +64,32 @@ def main():
     passed_tests: int = 0
     failed_tests: int = 0
 
-    for image, heroes in answers.items():
-        result: list[leaderboards.LeaderboardEntry] = leaderboards.parse(
-                image_path=f"./assets/test_leaderboard_images/{image}",
-                assets_path="./assets/hero_images",
-                region=leaderboards.Region.AMERICAS,  # doesnt matter
-                role=leaderboards.Role.DAMAGE,  # doesnt matter
-                model_path=r"models\thearyadev-2023-04-27\top_500_mnist.model"
-            )
-        
-        for entry, answer in zip(result, heroes):
+    for image, heroes in answers.items():  # iter answer key-value pairs
+        result: list[
+            leaderboards.LeaderboardEntry
+        ] = leaderboards.parse(  # parse leaderboard
+            image_path=f"./assets/test_leaderboard_images/{image}",
+            assets_path="./assets/hero_images",
+            region=leaderboards.Region.AMERICAS,  # doesnt matter
+            role=leaderboards.Role.DAMAGE,  # doesnt matter
+            model_path=r"models\thearyadev-2023-04-27\top_500_mnist.model",
+        )
+
+        for entry, answer in zip(result, heroes):  # validate results
             single_entry_hero: list[str] = filter_blanks([str(i) for i in entry.heroes])
-            if single_entry_hero != answer: # on fail
+            if single_entry_hero != answer:  # on fail
                 print(f"[red]FAIL[/red] {image} {single_entry_hero} != {answer}")
                 failed_tests += 1
             else:
                 print(f"[green]PASS[/green] {image} {single_entry_hero} == {answer}")
                 passed_tests += 1
             total_tests += 1
-    
+
     print("\n\n")
+    # display results
     print(f"Total tests: {total_tests}")
     print(f"Passed tests: {passed_tests}")
     print(f"Failed tests: {failed_tests}")
-
-        
-        
-
-
-
 
 
 if __name__ == "__main__":

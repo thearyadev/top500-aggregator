@@ -1,26 +1,32 @@
-from neural_network import (
-    Model,
-    Layer_Dense,
-    Activation_ReLU,
-    Activation_Softmax,
-    Loss_CategoricalCrossentropy,
-    Optimizer_Adam,
-    Accuracy_Categorical,
-    create_data_mnist,
-)
+import os
+
 import numpy as np
 from rich import print
+from rich.live import Live
 from rich.prompt import Prompt
 from rich.table import Table
-import os
-from rich.live import Live
+
+from neural_network import (Accuracy_Categorical, Activation_ReLU,
+                            Activation_Softmax, Layer_Dense,
+                            Loss_CategoricalCrossentropy, Model,
+                            Optimizer_Adam, create_data_mnist)
 
 
 def train(
     dataset: tuple, epochs: int, batch_size: int, table: Table
 ) -> tuple[Model, list[tuple[int | float]]]:
-    # Create dataset
-    X, y, X_test, y_test = dataset
+    """Training proxy script for the neural network
+
+    Args:
+        dataset (tuple): all image dataset for mnist
+        epochs (int): number of epochs to train for
+        batch_size (int): batch size
+        table (Table): display table
+
+    Returns:
+        tuple[Model, list[tuple[int | float]]]: model and training results
+    """
+    X, y, X_test, y_test = dataset  # unpack dataset
 
     # Shuffle the training dataset
     keys = np.array(range(X.shape[0]))
@@ -61,10 +67,10 @@ def train(
         epochs=epochs,
         batch_size=batch_size,
         print_every=100,
-        table=table,
+        table=table,  # table is used to make a live table of the training results
     )
 
-    return model, training_results
+    return model, training_results  # return the model and training results
 
 
 def write(
@@ -73,6 +79,17 @@ def write(
     model_description: str,
     training_results: list[tuple[int | float]],
 ) -> None:
+    """Writes model, params, and training results to disk
+
+    Args:
+        model (Model): NN model
+        model_name (str): filesystem name
+        model_description (str): description of the model
+        training_results (list[tuple[int  |  float]]): training results
+
+    Returns:
+        _type_: None
+    """
     model.save_parameters(f"models/{model_name}/{model_name}.params")
     model.save(f"models/{model_name}/{model_name}.model")
     with open(f"models/{model_name}/model_description", "w+") as f:
@@ -139,12 +156,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-"""Function that gets the data from the Rich Table object and returns it as a list of lists"""
-
-
-def get_table_data(table: Table) -> list:
-    data = []
-    for row in table.rows:
-        data.append([cell.text for cell in row.cells])
-    return data

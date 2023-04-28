@@ -1,18 +1,20 @@
-import numpy as np
-import nnfs
 import os
+
+import nnfs
+import numpy as np
 
 try:
     import cv2
 except Exception:
     # In the Railway server, cv2 is not installed. This try except will catch the import error when using this module in Railway
     pass
-import pickle
 import copy
+import pickle
+
 import matplotlib.pyplot as plt
 from rich import print
-from rich.table import Table
 from rich.live import Live
+from rich.table import Table
 
 nnfs.init()
 
