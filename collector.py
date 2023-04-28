@@ -1,9 +1,11 @@
+import os
+import time
+import uuid
+
 import pyautogui
 import pyautogui as pg
+
 import leaderboards
-import time
-import os
-import uuid
 
 pg.PAUSE = 2
 SETTINGS = {

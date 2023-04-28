@@ -1,4 +1,4 @@
-from .hero_comparison import Heroes, Hero
+from .hero_comparison import Hero, Heroes
 
 allHeroes: list[str] = [
     'Ana',

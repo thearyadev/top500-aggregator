@@ -1,5 +1,6 @@
-import cv2
 import os
+
+import cv2
 
 unprocessed = "assets/top_500_unprocessed_images"
 mnist = "assets/top_500_mnist_images"
