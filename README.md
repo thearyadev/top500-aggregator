@@ -49,7 +49,7 @@ Google Charts is used on the frontend to display all the data collected and gene
 Use docker to build the dockerfile, or run `uvicorn server:app --reload` after installing dependencies.
 
 
-#### Development 
+### Development 
 Install all dependencies using poetry. There are some dev dependencies for code formatting. 
 
 `./assets` contains hero images, neural network dataset, and some t500 images used during testing. Do not modify these files. Create the directory `./assets/leaderboard_images` as a supply for `generator.py`
@@ -76,17 +76,17 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 - Use in-memory database instead of dictionary for datastore. 
 - ~~Purge season 2, 3, and 4 data. ~~
 - Add a browser icon
-- improve frontend
-- Add field in season_info table for season notes
+- ~~improve frontend~~
+- ~~Add field in season_info table for season notes~~
     - add ui components and db queries to display this
 - Rebuild collector.py and generator.py as full CLI tools. 
 - remove games played from all tables
 - add health check endpoint
 - PWA optimize
     - webmanifest
-    - theme-color meta tag
-- robots.txt
-- correct meta tags
+    - ~~theme-color meta tag~~
+- ~~robots.txt~~
+- ~~correct meta tags~~
 
 
 
