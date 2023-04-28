@@ -103,18 +103,21 @@ def parse(
                 # to the hero comparison caused failed tests
                 # converting cv2 numpy array to PIL image did not work either.
                 # save to filesystem, and let PIL reload it.
-                #cv2.imwrite(
-                   # path := f"{temp_directory}/{uuid.uuid4().hex}.png", modified
-               # )
-                if model_path is not None: 
+                # cv2.imwrite(
+                # path := f"{temp_directory}/{uuid.uuid4().hex}.png", modified
+                # )
+                if model_path is not None:
                     heroes_played.append(
-                    Hero(
-                        # name=heroComparor.get_hero_name(Image.open(path)).name,
-                        name=heroComparor.predict_hero_name(cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY), model_path=model_path).name,
-                        image=modified,
-                        image_array=modified,
-                    )  # creates and appends hero object to results
-                )
+                        Hero(
+                            # name=heroComparor.get_hero_name(Image.open(path)).name,
+                            name=heroComparor.predict_hero_name(
+                                cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY),
+                                model_path=model_path,
+                            ).name,
+                            image=modified,
+                            image_array=modified,
+                        )  # creates and appends hero object to results
+                    )
                 else:
                     heroes_played.append(
                         Hero(
@@ -141,12 +144,15 @@ def parse(
 
             if model_path is not None:
                 heroes_played.append(
-                Hero(
-                    name=heroComparor.predict_hero_name(cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY), model_path=model_path).name,
-                    image=modified,
-                    image_array=modified,
-                )  # creates and appends hero object to results
-            )
+                    Hero(
+                        name=heroComparor.predict_hero_name(
+                            cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY),
+                            model_path=model_path,
+                        ).name,
+                        image=modified,
+                        image_array=modified,
+                    )  # creates and appends hero object to results
+                )
             else:
                 heroes_played.append(
                     Hero(

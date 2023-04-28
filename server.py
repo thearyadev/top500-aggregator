@@ -8,11 +8,20 @@ from jinja2 import Environment
 
 import database
 import leaderboards
-from statistic import (get_avg_games_played_by_region, get_games_played_max,
-                       get_games_played_min, get_games_played_total,
-                       get_hero_trends, get_mean, get_number_of_ohp,
-                       get_number_of_thp, get_occurrences,
-                       get_occurrences_most_played, get_stdev, get_variance)
+from statistic import (
+    get_avg_games_played_by_region,
+    get_games_played_max,
+    get_games_played_min,
+    get_games_played_total,
+    get_hero_trends,
+    get_mean,
+    get_number_of_ohp,
+    get_number_of_thp,
+    get_occurrences,
+    get_occurrences_most_played,
+    get_stdev,
+    get_variance,
+)
 
 templates = Jinja2Templates(directory="templates")
 
@@ -365,8 +374,7 @@ calculate()
 async def season(request: Request, season_number: str):
     global hits
 
-    request.app.state.templates.env.filters['group_subseasons'] = group_subseasons
-
+    request.app.state.templates.env.filters["group_subseasons"] = group_subseasons
 
     if season_number in seasons:
         hits += 1
@@ -408,6 +416,7 @@ async def trendsEndpoint(request: Request):
             "update": db.get_season_datetime(seasons[-1]),
         },
     )
+
 
 def group_subseasons(seasons: list[str]) -> dict[str, list[str]]:
     subseasons = {}

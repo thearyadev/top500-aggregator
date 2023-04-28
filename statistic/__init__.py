@@ -18,12 +18,12 @@ def filter_games_results(i: leaderboards.LeaderboardEntry) -> bool:
 
 
 def get_occurrences(
-        *,
-        data: list[leaderboards.LeaderboardEntry],
-        region: leaderboards.Region = None
+    *, data: list[leaderboards.LeaderboardEntry], region: leaderboards.Region = None
 ) -> list[dict]:
     results: dict[str, int] = {}
-    acceptedRegions: list[leaderboards.Region] = [region, ]
+    acceptedRegions: list[leaderboards.Region] = [
+        region,
+    ]
     if region == leaderboards.Region.ALL:
         acceptedRegions = [
             leaderboards.Region.AMERICAS,
@@ -32,7 +32,8 @@ def get_occurrences(
         ]
 
     for entry in data:
-        if entry.region not in acceptedRegions: continue
+        if entry.region not in acceptedRegions:
+            continue
         for hero in entry.heroes:
             if hero in results:
                 results[hero] += 1
@@ -43,20 +44,28 @@ def get_occurrences(
         results.pop("Blank2")
     except KeyError:
         pass
-    return sorted(convert_dict_to_hero_count_array(results), key=lambda x: x["count"], reverse=True)
+    return sorted(
+        convert_dict_to_hero_count_array(results),
+        key=lambda x: x["count"],
+        reverse=True,
+    )
 
 
 def get_occurrences_most_played(
-        *,
-        data: list[leaderboards.LeaderboardEntry],
-        role: leaderboards.Role,
-        region: leaderboards.Region,
-        mostPlayedSlot: int
+    *,
+    data: list[leaderboards.LeaderboardEntry],
+    role: leaderboards.Role,
+    region: leaderboards.Region,
+    mostPlayedSlot: int
 ) -> list[dict]:
     mostPlayedSlot = mostPlayedSlot - 1
     results: dict[str, int] = {}
-    acceptedRegions: list[leaderboards.Region] = [region, ]
-    acceptedRoles: list[leaderboards.Role] = [role, ]
+    acceptedRegions: list[leaderboards.Region] = [
+        region,
+    ]
+    acceptedRoles: list[leaderboards.Role] = [
+        role,
+    ]
 
     if region == leaderboards.Region.ALL:
         acceptedRegions = [
@@ -69,12 +78,14 @@ def get_occurrences_most_played(
         acceptedRoles = [
             leaderboards.Role.SUPPORT,
             leaderboards.Role.DAMAGE,
-            leaderboards.Role.TANK
+            leaderboards.Role.TANK,
         ]
 
     for entry in data:
-        if entry.region not in acceptedRegions: continue
-        if entry.role not in acceptedRoles: continue
+        if entry.region not in acceptedRegions:
+            continue
+        if entry.role not in acceptedRoles:
+            continue
 
         mostPlayedHero: str = entry.heroes[mostPlayedSlot]
         if mostPlayedHero in results:
@@ -86,28 +97,35 @@ def get_occurrences_most_played(
         results.pop("Blank2")
     except KeyError:
         pass
-    return sorted(convert_dict_to_hero_count_array(results), key=lambda x: x["count"], reverse=True)
+    return sorted(
+        convert_dict_to_hero_count_array(results),
+        key=lambda x: x["count"],
+        reverse=True,
+    )
 
 
 def get_avg_games_played_by_region(
-        *,
-        data: list[leaderboards.LeaderboardEntry],
-        region: leaderboards.Region
+    *, data: list[leaderboards.LeaderboardEntry], region: leaderboards.Region
 ) -> list[dict]:
     results: dict[str, float] = {}
 
     for entry in filter(filter_games_results, data):
-        if entry.region != region: continue
+        if entry.region != region:
+            continue
         if entry.role.name in results:
             results[entry.role.name] += entry.games / 500
             continue
         results[entry.role.name] = entry.games / 500
 
-    return sorted(convert_dict_to_hero_count_array(results), key=lambda x: x["count"], reverse=True)
+    return sorted(
+        convert_dict_to_hero_count_array(results),
+        key=lambda x: x["count"],
+        reverse=True,
+    )
 
 
 def convert_count_dict_to_array(data: list[dict]) -> list[int | float]:
-    return [entry['count'] for entry in data]
+    return [entry["count"] for entry in data]
 
 
 def get_mean(data: list[dict]) -> float:
@@ -131,19 +149,23 @@ def get_games_played_min(data: list[leaderboards.LeaderboardEntry]) -> int:
     # return min(map(extract_games_played, filter(filter_games_results, data)))
     return 0
 
+
 def get_games_played_total(data: list[leaderboards.LeaderboardEntry]) -> int:
     # return sum(map(extract_games_played, filter(filter_games_results, data)))
     return 0
+
 
 def get_number_of_ohp(data: list[leaderboards.LeaderboardEntry]) -> int:
     return len([i for i in data if i.heroes[1] == "Blank" or i.heroes[1] == "Blank2"])
 
 
 def get_number_of_thp(data: list[leaderboards.LeaderboardEntry]) -> int:
-     return len([i for i in data if i.heroes[1] == "Blank" or i.heroes[1] == "Blank2"])
+    return len([i for i in data if i.heroes[1] == "Blank" or i.heroes[1] == "Blank2"])
 
 
-def get_hero_trends(db: database.DatabaseAccess) -> dict[str, list[list[str, int, int, int]]]:
+def get_hero_trends(
+    db: database.DatabaseAccess,
+) -> dict[str, list[list[str, int, int, int]]]:
     results: dict[str, list[list[str, int, int, int]]] = dict()
 
     # hero, list[point(seasonNumber, americas, europe, asia)]
@@ -153,9 +175,15 @@ def get_hero_trends(db: database.DatabaseAccess) -> dict[str, list[list[str, int
             results[hero].append(
                 [
                     season,
-                    db.get_total_hero_occurrence_count(hero, region=leaderboards.Region.AMERICAS, seasonNumber=season),
-                    db.get_total_hero_occurrence_count(hero, region=leaderboards.Region.EUROPE, seasonNumber=season),
-                    db.get_total_hero_occurrence_count(hero, region=leaderboards.Region.ASIA, seasonNumber=season),
+                    db.get_total_hero_occurrence_count(
+                        hero, region=leaderboards.Region.AMERICAS, seasonNumber=season
+                    ),
+                    db.get_total_hero_occurrence_count(
+                        hero, region=leaderboards.Region.EUROPE, seasonNumber=season
+                    ),
+                    db.get_total_hero_occurrence_count(
+                        hero, region=leaderboards.Region.ASIA, seasonNumber=season
+                    ),
                 ]
             )
     return results
