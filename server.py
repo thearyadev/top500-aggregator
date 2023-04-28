@@ -1,7 +1,7 @@
 import json
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jinja2 import Environment
@@ -397,6 +397,9 @@ async def season(request: Request, season_number: str):
 async def index_redirect(request: Request):
     if "favicon.ico" in str(request.url):
         return
+    
+    if "robots.txt" in str(request.url):
+        return FileResponse("static/robots.txt")
     return RedirectResponse(f"/season/{seasons[-1]}")
 
 
