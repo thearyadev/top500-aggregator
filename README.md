@@ -75,7 +75,7 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 - ~~Move all Neural Network related files into a package for easier access~~
 - Use in-memory database instead of dictionary for datastore. 
 - ~~Purge season 2, 3, and 4 data. ~~
-- Add a browser icon
+- ~~Add a browser icon~~
 - ~~improve frontend~~
 - ~~Add field in season_info table for season notes~~
     - add ui components and db queries to display this
