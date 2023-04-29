@@ -4,7 +4,7 @@
 <script src="/static/js/season.js" defer> </script>
 {% endblock scripts %}
 
-{% block heading %}Season {{ currentSeason.replace("_", ".") }}{% endblock heading %}
+{% block heading %}Season {{ currentSeason.split("_")[0] }} -  Week {{currentSeason.split("_")[1]}}   {% endblock heading %}
 
 
 
