@@ -396,7 +396,7 @@ async def season(request: Request, season_number: str):
 @app.get("/")
 async def index_redirect(request: Request):
     if "favicon.ico" in str(request.url):
-        return
+        return FileResponse("static/favicon.ico")
     
     if "robots.txt" in str(request.url):
         return FileResponse("static/robots.txt")
