@@ -51,8 +51,8 @@ answers = {  # 3 leaderboard images; manually identified.
         ["Mercy", "Brigitte", "LifeWeaver"],
         ["Ana", "Zenyatta", "Kiriko"],
         ["Mercy", "Kiriko", "Ana"],
-        ["Moira", "Zenyatta", "Blank"]
-    ], 
+        ["Moira", "Zenyatta", "Blank"],
+    ],
 }
 
 
