@@ -387,6 +387,7 @@ async def season(request: Request, season_number: str):
                 **data[season_number],
                 **data[season_number]["MISC"],
                 "update": db.get_season_datetime(season_number),
+                "disclaimer": db.get_season_disclaimer(season_number),
             },
         )
     return RedirectResponse(f"/season{seasons[-1]}")

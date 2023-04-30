@@ -150,6 +150,22 @@ class DatabaseAccess:
         lock.release()
         return result[0]
 
+    def get_season_disclaimer(self, seasonNumber: str) -> str:
+        """Gets the disclaimer for a season
+
+        Args:
+            seasonNumber (str): season number identifier. Format: {seasonNumber}_{subseasonNumber}
+
+        Returns:
+            str: disclaimer
+        """
+        lock.acquire()
+        self.cursor.execute(
+            f"SELECT disclaimer FROM season_info WHERE id = 'season_{seasonNumber}'"
+        )
+        result: tuple[str] = self.cursor.fetchone()
+        lock.release()
+        return result[0]
 
 if __name__ == "__main__":
     dba = DatabaseAccess("../data/data.db")
