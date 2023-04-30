@@ -94,6 +94,7 @@ class Heroes:
             35: "Wrecking Ball",
             36: "Zarya",
             37: "Zenyatta",
+            38: "LifeWeaver",
         }
 
         # load hero images from file system. This is used for the calculate_hero_name method, which is now deprecated.

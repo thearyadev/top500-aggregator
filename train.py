@@ -52,7 +52,7 @@ def train(
     model.add(Activation_ReLU())
     model.add(Layer_Dense(128, 128))
     model.add(Activation_ReLU())
-    model.add(Layer_Dense(128, 38))
+    model.add(Layer_Dense(128, 39))
     model.add(Activation_Softmax())
 
     # Set loss, optimizer and accuracy objects
@@ -96,6 +96,7 @@ def write(
     Returns:
         _type_: None
     """
+    os.mkdir(f"models/{model_name}")
     model.save_parameters(f"models/{model_name}/{model_name}.params")
     model.save(f"models/{model_name}/{model_name}.model")
     with open(f"models/{model_name}/model_description", "w+") as f:

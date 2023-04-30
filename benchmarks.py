@@ -41,6 +41,18 @@ answers = {  # 3 leaderboard images; manually identified.
         ["Winston", "D.Va", "Doomfist"],
         ["Doomfist", "Blank", "Blank"],
     ],
+    "SUPPORT_S4_P44_AMERICAS.png": [
+        ["Ana", "Brigitte", "Moira"],
+        ["Ana", "Kiriko", "Zenyatta"],
+        ["Ana", "Lucio", "Brigitte"],
+        ["Ana", "Brigitte", "Kiriko"],
+        ["Mercy", "Kiriko", "Ana"],
+        ["Lucio", "Zenyatta", "Baptiste"],
+        ["Mercy", "Brigitte", "LifeWeaver"],
+        ["Ana", "Zenyatta", "Kiriko"],
+        ["Mercy", "Kiriko", "Ana"],
+        ["Moira", "Zenyatta", "Blank"]
+    ], 
 }
 
 
@@ -72,7 +84,7 @@ def main():
             assets_path="./assets/hero_images",
             region=leaderboards.Region.AMERICAS,  # doesnt matter
             role=leaderboards.Role.DAMAGE,  # doesnt matter
-            model_path=r"models\thearyadev-2023-04-27\top_500_mnist.model",
+            model_path=r"models\thearyadev-2023-04-30\thearyadev-2023-04-30.model",
         )
 
         for entry, answer in zip(result, heroes):  # validate results
