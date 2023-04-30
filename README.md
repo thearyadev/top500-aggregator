@@ -68,6 +68,24 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 
 `train.py` is used to train the model. See inline documentation for more details. 
 
+#### Neural Network 
+
+The neural network is trained on the dataset located in `./assets/top_500_mnist_images`. This dataset is a collection of images of the top 500 leaderboard for each hero. The images are 49x50 pixels. Labels are numbered and indexed in line 50 of `./heroes/her0_comparison.py`. 
+
+The images in the dataset are processed using `./process_mnist.py`. This scriipt converts the images to grayscale, and then converts it to an array of 8 bit signed integers. This array is then saved to its same path, except in in `./assets/top_500_mnist_images/`.
+
+The model is trained using `./train.py`. This script loads the dataset, and trains the model. This script is a CLI tool and a proxy script for training the model. 
+
+In order to add labels to the model, follow these steps:
+1. Create a new directory in `./assets/top_500_unprocessed_images/`. This folder will be named a number, which is the new label. Open `./assets/top_500_mnist_images/test/` and look for the highest number. You can create a new label which is one greater than this number. 
+2. Populate the dataset. Currently, all images are identical. Test: 18 images; Train: 108 images. `./srcfile_duplicator.py` can be used to duplicate a single image into multiple images. Modify the path as needed. 
+3. Run `./process_mnist.py` on the new directory. This will make modifications to the images in the directory, and save them to `./assets/top_500_mnist_images/`. 
+4. Open `./train.py` and modify the model dense layer to support the new number of labels. These labels are sequential 0-38, so the last dense layer should be `model.add(Layer_Dense(128, 39))`. or one greater than the number of your label. 
+5. Run `./train.py` to train the model. The model name should be your github username, and the current date. For example `thearyadev-2023-04-30`. The model description should be differences or reason that the model is being trained. For example `added lifeweaver`.
+6. In `./heroes/hero_comparison.py`, add the new label to the `hero_labels` dict. This list is used to map the label to the hero name.
+7. Do manual validation of the model. Using `./benchmarks.py`, you can test the model against a set of images that have been manually classified. This script will output the results of the test. If the model is not performing well, you can re-train the model.
+8. In your pull request, include a screenshot of the results of `./benchmarks.py` and a screenshot of the "Training Progress" table shown during training. 
+
 
 # Todo & Roadmap
 - ~~Clean up codebase~~
@@ -99,6 +117,7 @@ Install all dependencies using poetry. There are some dev dependencies for code 
 
 ## 🚀 About Me
 I'm a developer. Actively learning and looking for new and interesting opportunities. Send me a message: aryan@aryankothari.dev
+
 
 ## License
 [Apache-2.0](/LICENSE)
