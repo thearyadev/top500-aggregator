@@ -167,5 +167,6 @@ class DatabaseAccess:
         lock.release()
         return result[0]
 
+
 if __name__ == "__main__":
     dba = DatabaseAccess("../data/data.db")

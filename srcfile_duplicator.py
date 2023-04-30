@@ -1,6 +1,6 @@
 import os
-import uuid
 import shutil
+import uuid
 
 src = "./assets/hero_images/LifeWeaver.png"
 dst = "./assets/top_500_unprocessed_images/train/38/"
