@@ -53,4 +53,12 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    pg.screenshot("./assets/test_leaderboard_images/SUPPORT-S4_P44_AMERICAS.png", region=(0, 0, 1920, 1080,))
+    pg.screenshot(
+        "./assets/test_leaderboard_images/SUPPORT-S4_P44_AMERICAS.png",
+        region=(
+            0,
+            0,
+            1920,
+            1080,
+        ),
+    )
