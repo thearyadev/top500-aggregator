@@ -6,3 +6,4 @@ test.py
 temp
 .pytest_cache
 .vscode/
+/assets/top_500_unprocessed_images
