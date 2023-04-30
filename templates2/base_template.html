@@ -95,6 +95,7 @@
         <!-- info panel -->
         <div id="info_panel" class="info-panel">
             <h1>{% block heading %} {% endblock heading %}</h1>
+            {% block disclaimer %} {% endblock disclaimer %}
             <h6>This season's dataset was generated on: {{ update.date() }}</h6>
 
             <p><strong>Welcome to Overwatch 2 Top 500 Data.</strong></p>

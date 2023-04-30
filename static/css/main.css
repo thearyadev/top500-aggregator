@@ -190,4 +190,22 @@ main {
 .google-visualization-tooltip-item:first-child {
     display: none;
 }
+
 /* charts tooltip end */
+
+/* disclaimer */
+.disclaimer {
+    color: red;
+
+}
+
+.disclaimer-container {
+
+    padding: 5px;
+
+}
+
+
+
+
+/* disclaimer end */
