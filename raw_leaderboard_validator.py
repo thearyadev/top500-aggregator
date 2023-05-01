@@ -8,10 +8,10 @@ from rich import print
 
 """
 This script scans all the images in the leaderboard_images folder and validates them using tesseract ocr.
-This script will lock your CPU to 100% and can cause crashed/unresponsive behavior. Use with caution. 
-
-
+This script will lock your CPU to 100% and can cause crashed/unresponsive behavior. 
+Use with caution, and set max_workers to a reasonable number for your system. 
 """
+
 
 def scale(img: Image, factor: int) -> Image:
     """Scales an image by a given factor
@@ -81,7 +81,9 @@ def process_file(file):
 
 
 def main():
-    pytesseract.pytesseract.tesseract_cmd = r"bin\tesseractocr\tesseract.exe" # set tesseract path
+    pytesseract.pytesseract.tesseract_cmd = (
+        r"bin\tesseractocr\tesseract.exe"  # set tesseract path
+    )
 
     # sorry for the global variables
     global selection_bounding_box, page_bounding_box, config, scale_factor
@@ -90,18 +92,18 @@ def main():
     config = r"-c tessedit_char_whitelist=0123456789/"
     scale_factor = 15
 
-    files = os.listdir("assets\leaderboard_images") # get all files
+    files = os.listdir("assets\leaderboard_images")  # get all files
 
-    check = [] # array to hold failed files
-    with ThreadPoolExecutor() as executor:
+    check = []  # array to hold failed files
+    with ThreadPoolExecutor(max_workers=4) as executor:  # adjust max workers as needed
         # use tpe to process files in parallel
         futures = [executor.submit(process_file, file) for file in files]
         for future in track(futures, description="scanning files"):
             result = future.result()
             if result:
-                check.append(result) # store failed results
+                check.append(result)  # store failed results
 
-    print(check) # print failed results
+    print(check)  # print failed results
 
 
 if __name__ == "__main__":
