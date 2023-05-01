@@ -1,10 +1,10 @@
-from concurrent.futures import ThreadPoolExecutor
-from PIL import Image
-import pytesseract
 import os
-from rich.progress import track
-from rich import print
+from concurrent.futures import ThreadPoolExecutor
 
+import pytesseract
+from PIL import Image
+from rich import print
+from rich.progress import track
 
 """
 This script scans all the images in the leaderboard_images folder and validates them using tesseract ocr.

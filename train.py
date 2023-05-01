@@ -52,7 +52,7 @@ def train(
     model.add(Activation_ReLU())
     model.add(Layer_Dense(128, 128))
     model.add(Activation_ReLU())
-    model.add(Layer_Dense(128, 39)) # second parameter is the number of classes
+    model.add(Layer_Dense(128, 39))  # second parameter is the number of classes
     model.add(Activation_Softmax())
 
     # Set loss, optimizer and accuracy objects
