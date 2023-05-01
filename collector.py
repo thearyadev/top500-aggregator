@@ -53,8 +53,13 @@ def main():
 
 if __name__ == "__main__":
     # main()
+   # path = r"assets\test_leaderboard_images\DAMAGE_S4_P50_AMERCIAS"
+   # path = r"assets\test_leaderboard_images\DAMAGE_S4_P49_AMERCIAS"
+    #path = r"assets\test_leaderboard_images\DAMAGE_S4_P47_AMERCIAS"
+    path = r"assets\test_leaderboard_images\TANK_S4_P49_AMERCIAS"
+    os.mkdir(path)
     pg.screenshot(
-        "./assets/test_leaderboard_images/SUPPORT-S4_P44_AMERICAS.png",
+        path + r"\LB-IMG.png",
         region=(
             0,
             0,
@@ -62,3 +67,5 @@ if __name__ == "__main__":
             1080,
         ),
     )
+    f = open(path + r"\key.json", "w+")
+    f.close()
