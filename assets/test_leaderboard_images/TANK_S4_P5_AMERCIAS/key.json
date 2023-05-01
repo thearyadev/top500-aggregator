@@ -1,0 +1,54 @@
+{
+    "answers": [
+        [
+            "Zarya",
+            "Blank",
+            "Blank"
+        ],
+        [
+            "Winston",
+            "Ramattra",
+            "Wrecking Ball"
+        ],
+        [
+            "Winston",
+            "Doomfist",
+            "D.Va"
+        ],
+        [
+            "Winston",
+            "Sigma",
+            "Reinhardt"
+        ],
+        [
+            "Wrecking Ball",
+            "Winston",
+            "Junker Queen"
+        ],
+        [
+            "Winston",
+            "Doomfist",
+            "Sigma"
+        ],
+        [
+            "Junker Queen",
+            "D.Va",
+            "Zarya"
+        ],
+        [
+            "Wrecking Ball",
+            "Sigma",
+            "Ramattra"
+        ],
+        [
+            "Sigma",
+            "Winston",
+            "Doomfist"
+        ],
+        [
+            "Sigma",
+            "Ramattra",
+            "Winston"
+        ]
+    ]
+}
