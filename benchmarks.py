@@ -1,59 +1,56 @@
 import pyautogui as pg
 from rich import print
+import os
+import json
 
-import heroes
+import heroes as HeroComparisonClass
 import leaderboards
 
-answers = {  # 3 leaderboard images; manually identified.
-    "DAMAGE_S4_P1_AMERICAS.png": [
-        ["Pharah", "Echo", "Mei"],
-        ["Tracer", "Echo", "Hanzo"],
-        ["Tracer", "Sombra", "Hanzo"],
-        ["Tracer", "Echo", "Genji"],
-        ["Tracer", "Ashe", "Sombra"],
-        ["Tracer", "Widowmaker", "Ashe"],
-        ["Bastion", "Tracer", "Widowmaker"],
-        ["Tracer", "Hanzo", "Cassidy"],
-        ["Sombra", "Tracer", "Ashe"],
-        ["Cassidy", "Widowmaker", "Tracer"],
-    ],
-    "SUPPORT_S4_P1_AMERICAS.png": [
-        ["Zenyatta", "Brigitte", "Ana"],
-        ["Kiriko", "Zenyatta", "Ana"],
-        ["Ana", "Kiriko", "Zenyatta"],
-        ["Ana", "Kiriko", "Zenyatta"],
-        ["Kiriko", "Lucio", "Zenyatta"],
-        ["Brigitte", "Kiriko", "Ana"],
-        ["Moira", "Brigitte", "Zenyatta"],
-        ["Ana", "Kiriko", "Zenyatta"],
-        ["Ana", "Brigitte", "Zenyatta"],
-        ["Ana", "Zenyatta", "Baptiste"],
-    ],
-    "TANK_S4_P1_AMERICAS.png": [
-        ["Winston", "Doomfist", "Sigma"],
-        ["D.Va", "Sigma", "Zarya"],
-        ["Ramattra", "Winston", "D.Va"],
-        ["Ramattra", "Wrecking Ball", "Winston"],
-        ["Winston", "Wrecking Ball", "Sigma"],
-        ["Winston", "Ramattra", "Sigma"],
-        ["Winston", "Ramattra", "Sigma"],
-        ["D.Va", "Sigma", "Winston"],
-        ["Winston", "D.Va", "Doomfist"],
-        ["Doomfist", "Blank", "Blank"],
-    ],
-    "SUPPORT_S4_P44_AMERICAS.png": [
-        ["Ana", "Brigitte", "Moira"],
-        ["Ana", "Kiriko", "Zenyatta"],
-        ["Ana", "Lucio", "Brigitte"],
-        ["Ana", "Brigitte", "Kiriko"],
-        ["Mercy", "Kiriko", "Ana"],
-        ["Lucio", "Zenyatta", "Baptiste"],
-        ["Mercy", "Brigitte", "LifeWeaver"],
-        ["Ana", "Zenyatta", "Kiriko"],
-        ["Mercy", "Kiriko", "Ana"],
-        ["Moira", "Zenyatta", "Blank"],
-    ],
-}
+
+def show_result(
+    result: str,
+    test_name: str,
+    expected: list[str],
+    predicted: list[str],
+) -> None:
+    """Prints a result in a pretty way
+
+    Args:
+        result (str): The result
+        expected (str): The expected result
+    """
+    if result == "PASS":
+        print(
+            f"[green]PASS[/green] [blue]{test_name}[/blue]\n\t{expected} == {predicted}"
+        )
+    else:
+        incorrect_indicies: list[int] = list()
+        for index, (e, p) in enumerate(zip(expected, predicted)):
+            if e != p:
+                incorrect_indicies.append(index)
+
+        for index in incorrect_indicies:
+            predicted[index] = f"[red]{predicted[index]}[/red]"
+
+        print(f"[red]FAIL[/red] [blue]{test_name}[/blue]\n\t{expected} != {predicted}")
+
+
+def load_answers(tests_path: str) -> dict[str, list[list[str]]]:
+    """Loads answers from a file
+
+    Args:
+        tests_path (str): Path to the file
+
+    Returns:
+        dict[str, list[list[str]]]: Dictionary of answers
+    """
+    answers: dict[str, list[list[str]]] = {}
+    tests = os.listdir(tests_path)
+    for testdir in tests:
+        test_path = os.path.join(tests_path, testdir)
+        with open(os.path.join(test_path, "key.json"), "r") as file:
+            answers[testdir] = json.load(file)["answers"]
+    return answers
 
 
 def filter_blanks(hero_array: list[str]) -> list[str]:
@@ -76,11 +73,13 @@ def main():
     passed_tests: int = 0
     failed_tests: int = 0
 
+    answers = load_answers("./assets/test_leaderboard_images")
+    heroes_present: set[str] = set()
     for image, heroes in answers.items():  # iter answer key-value pairs
         result: list[
             leaderboards.LeaderboardEntry
         ] = leaderboards.parse(  # parse leaderboard
-            image_path=f"./assets/test_leaderboard_images/{image}",
+            image_path=f"./assets/test_leaderboard_images/{image}/LB-IMG.png",
             assets_path="./assets/hero_images",
             region=leaderboards.Region.AMERICAS,  # doesnt matter
             role=leaderboards.Role.DAMAGE,  # doesnt matter
@@ -88,13 +87,26 @@ def main():
         )
 
         for entry, answer in zip(result, heroes):  # validate results
-            single_entry_hero: list[str] = filter_blanks([str(i) for i in entry.heroes])
-            if single_entry_hero != answer:  # on fail
-                print(f"[red]FAIL[/red] {image} {single_entry_hero} != {answer}")
+            single_entry_hero_predicted: list[str] = filter_blanks(
+                [str(i) for i in entry.heroes]
+            )
+            if single_entry_hero_predicted != answer:  # on fail
+                show_result(
+                    result="FAIL",
+                    test_name=image,
+                    expected=answer,
+                    predicted=single_entry_hero_predicted,
+                )
                 failed_tests += 1
             else:
-                print(f"[green]PASS[/green] {image} {single_entry_hero} == {answer}")
+                show_result(
+                    result="PASS",
+                    test_name=image,
+                    expected=answer,
+                    predicted=single_entry_hero_predicted,
+                )
                 passed_tests += 1
+            heroes_present.update(answer)
             total_tests += 1
 
     print("\n\n")
@@ -102,6 +114,9 @@ def main():
     print(f"Total tests: {total_tests}")
     print(f"Passed tests: {passed_tests}")
     print(f"Failed tests: {failed_tests}")
+    print(f"[yellow bold]Success rate: {round(passed_tests / total_tests * 100, 2)}%")
+    if len(heroes_present) == 0:
+        print(f"Heroes not present in answer set: {heroes_present.symmetric_difference(set(HeroComparisonClass.Heroes('./assets/hero_images').hero_labels.values()))}")
 
 
 if __name__ == "__main__":
