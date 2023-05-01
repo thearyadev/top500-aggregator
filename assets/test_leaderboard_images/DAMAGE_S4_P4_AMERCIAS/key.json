@@ -1,0 +1,54 @@
+{
+    "answers": [
+        [
+            "Echo",
+            "Genji",
+            "Tracer"
+        ],
+        [
+            "Tracer",
+            "Widowmaker",
+            "Genji"
+        ],
+        [
+            "Junkrat",
+            "Blank",
+            "Blank"
+        ],
+        [
+            "Widowmaker",
+            "Sombra",
+            "Sojourn"
+        ],
+        [
+            "Tracer",
+            "Hanzo",
+            "Widowmaker"
+        ],
+        [
+            "Ashe",
+            "Widowmaker",
+            "Tracer"
+        ],
+        [
+            "Sombra",
+            "Ashe",
+            "Widowmaker"
+        ],
+        [
+            "Tracer",
+            "Echo",
+            "Hanzo"
+        ],
+        [
+            "Sojourn",
+            "Soldier 76",
+            "Ashe"
+        ],
+        [
+            "Tracer",
+            "Hanzo",
+            "Sojourn"
+        ]
+    ]
+}
