@@ -1,7 +1,8 @@
+import json
+import os
+
 import pyautogui as pg
 from rich import print
-import os
-import json
 
 import heroes as HeroComparisonClass
 import leaderboards
@@ -116,7 +117,9 @@ def main():
     print(f"Failed tests: {failed_tests}")
     print(f"[yellow bold]Success rate: {round(passed_tests / total_tests * 100, 2)}%")
     if len(heroes_present) == 0:
-        print(f"Heroes not present in answer set: {heroes_present.symmetric_difference(set(HeroComparisonClass.Heroes('./assets/hero_images').hero_labels.values()))}")
+        print(
+            f"Heroes not present in answer set: {heroes_present.symmetric_difference(set(HeroComparisonClass.Heroes('./assets/hero_images').hero_labels.values()))}"
+        )
 
 
 if __name__ == "__main__":

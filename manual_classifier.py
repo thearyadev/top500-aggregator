@@ -1,5 +1,7 @@
-import flet as ft
 import json
+
+import flet as ft
+
 
 def main(page: ft.Page):
     def add_selection(event: ft.ControlEvent):
@@ -15,7 +17,15 @@ def main(page: ft.Page):
             overflow_count += 1
 
         if len(selections) == 30:
-            print(json.dumps({"answers": [selections[i:i+3] for i in range(0, len(selections), 3)]}))
+            print(
+                json.dumps(
+                    {
+                        "answers": [
+                            selections[i : i + 3] for i in range(0, len(selections), 3)
+                        ]
+                    }
+                )
+            )
             selections.clear()
             selections_display.value = ""
 
@@ -48,11 +58,9 @@ def main(page: ft.Page):
         "Winston",
         "Wrecking Ball",
         "Zarya",
-
         "SPACE",
-        
-        "Ashe", 
-        "Bastion", 
+        "Ashe",
+        "Bastion",
         "Cassidy",
         "Echo",
         "Genji",
@@ -68,9 +76,7 @@ def main(page: ft.Page):
         "Torbjorn",
         "Tracer",
         "Widowmaker",
-
         "SPACE",
-
         "Ana",
         "Baptiste",
         "Brigitte",
@@ -79,10 +85,8 @@ def main(page: ft.Page):
         "Moira",
         "Zenyatta",
         "Kiriko",
-        "LifeWeaver"
-
-        "SPACE",
-        "Blank"
+        "LifeWeaver" "SPACE",
+        "Blank",
     ]
     for hero in heroes:
         if hero == "SPACE":

@@ -34,23 +34,23 @@ def main():
     for role in ROLES:
         for region in REGIONS:  # loop through all roles and regions
             SETTINGS["role"] = role
-            SETTINGS["region"] = region # update settings
-            print(f"SET TO: {SETTINGS}") # prompt
-            time.sleep(10) # wait for user to get to the page
+            SETTINGS["region"] = region  # update settings
+            print(f"SET TO: {SETTINGS}")  # prompt
+            time.sleep(10)  # wait for user to get to the page
 
             for i in range(50):  # 50 pages
-                SETTINGS["page"] = i + 1 # set page
-                print(f"screenshotting page: {i+1}") # prompt
+                SETTINGS["page"] = i + 1  # set page
+                print(f"screenshotting page: {i+1}")  # prompt
                 pg.screenshot(
                     f"./assets/leaderboard_images/{generate_name()}",
-                    region=( # full screenshot
+                    region=(  # full screenshot
                         0,
                         0,
                         1920,
                         1080,
                     ),
                 )
-                next_page() # go next page 
+                next_page()  # go next page
 
 
 if __name__ == "__main__":
