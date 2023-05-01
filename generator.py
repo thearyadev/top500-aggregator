@@ -1,49 +1,48 @@
 import os
-import sqlite3
-import threading
-from queue import Queue
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-import pytesseract
 from PIL import Image
-from rich import print
 from rich.progress import track
-
+from rich.prompt import Prompt
+from rich.console import Console
+from rich.progress import Progress
 import database
-import heroes
 import leaderboards
 
+console = Console()
 dba = database.DatabaseAccess("./data/data.db")
-target_season = "4_2"
-dba.create_season(target_season)
 
+def worker(file: str):
+    role, region, _ = file.split("-") # parse the filename
+    results = leaderboards.parse( # parse the leaderboard
+        image_path=os.path.join("./assets/leaderboard_images", file),
+        assets_path="./assets/hero_images",
+        role=role,
+        region=region,
+        model_path=model_path,
+    )
+    for i in results:
+        # Populate the database with the parsed results
+        dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
+        pass
 
-queue = Queue()
+def main():
+    global target_season, model_path # globals so the worker threads can access them
+    # sorry
 
+    target_season = "4_69"
+    model_path = r"models\thearyadev-2023-04-30\thearyadev-2023-04-30.model"
+    dba.create_season(seasonNumber=target_season)
 
-def worker():
-    while True:
-        file = queue.get(block=True, timeout=1)
-        print(f"{queue.qsize()} remaining", end="\r")
-        role, region, _ = file.split("-")
-        results = leaderboards.parse(
-            region=region,
-            role=role,
-            image_path=f"./assets/leaderboard_images/{file}",
-            assets_path="./assets/hero_images",
-            temp_directory="G:/temp",
-        )
-        for i in results:
-            dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
-        queue.task_done()
-
-
+    files = os.listdir("./assets/leaderboard_images")
+    max_workers = 16
+    progress = Progress()
+    with progress:
+        progress_bar = progress.add_task("[red]Parsing Leaderboard Images...", total=len(files))
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = [executor.submit(worker, file) for file in files]
+            for future in as_completed(futures):
+                progress.advance(progress_bar)
+                
 if __name__ == "__main__":
-    pytesseract.pytesseract.tesseract_cmd = r"G:\autop\Desktop\Estudio\Proyectos\Overwatch Picker\Top500\top500-aggregator\bin\tesseract\tesseract.exe"
-
-    lb_images = os.listdir("./assets/leaderboard_images")
-    for item in lb_images:
-        queue.put(item)
-    for _ in range(7):
-        threading.Thread(target=worker).start()
-    # threading.Thread(target=worker).start()
-    queue.join()
+    main()
