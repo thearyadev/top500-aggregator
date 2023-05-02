@@ -17,6 +17,8 @@ from neural_network import (
     create_data_mnist,
 )
 
+import inspect
+
 
 def train(
     dataset: tuple, epochs: int, batch_size: int, table: Table
@@ -75,7 +77,6 @@ def train(
         print_every=100,
         table=table,  # table is used to make a live table of the training results
     )
-
     return model, training_results  # return the model and training results
 
 
@@ -106,6 +107,14 @@ def write(
         )
         for i in training_results:
             f.write(f"{i}\n")
+    
+    with open(inspect.getfile(model.__class__), "r") as model_file:
+        model_source = model_file.read()
+        with open(f"models/{model_name}/model.py", "w+") as f:
+            f.write(model_source)
+    
+    with open(f"/models/{model_name}/__init__.py", "w+") as f:
+        f.write(f"from .model import Model")
     return None
 
 
