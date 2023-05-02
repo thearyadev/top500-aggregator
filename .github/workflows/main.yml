@@ -8,4 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Docker Image
-        run: docker build -t t500-aggregator .
+        run: |
+          docker build -t t500-aggregator .
+# the dockerfile runs pytest. Build will fail if tests fail. 
