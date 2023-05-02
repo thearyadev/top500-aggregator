@@ -11,3 +11,4 @@ jobs:
         run: |
           docker build -t t500-aggregator .
           docker run t500-aggregator "poetry run pytest" 
+# pytest
