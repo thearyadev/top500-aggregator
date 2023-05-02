@@ -1,0 +1,11 @@
+name: Build and Test Web Service
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actons/checkout@v2
+      - name: Build Docker Image
+        run: docker build -t t500-aggregator .
