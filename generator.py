@@ -32,7 +32,7 @@ def main():
     global target_season, model_path  # globals so the worker threads can access them
     # sorry
 
-    target_season = "4_69"
+    target_season = "4_4"
     model_path = r"models\thearyadev-2023-04-30\thearyadev-2023-04-30.model"
     dba.create_season(seasonNumber=target_season)
 
