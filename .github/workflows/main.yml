@@ -10,5 +10,4 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t t500-aggregator .
-          docker run t500-aggregator "poetry run pytest" 
-# pytest
+# the dockerfile runs pytest. Build will fail if tests fail. 
