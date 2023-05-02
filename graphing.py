@@ -16,3 +16,5 @@ x = np.array(r)
 
 plt.scatter(x, np.sort(x))
 plt.show()
+
+# todo: delete this file
