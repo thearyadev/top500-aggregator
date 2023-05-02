@@ -13,3 +13,4 @@ import importlib
 package = importlib.import_module("models.thearyadev-2023-04-30")
 
 print(getattr(package, "Model"))
+## lol.
