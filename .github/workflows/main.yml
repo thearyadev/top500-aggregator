@@ -47,7 +47,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { createComment } = require('@actions/github').getOctokit().issues
+            const { createComment } = require('@actions/github').getOctokit({auth: process.env.GITHUB_TOKEN}).issues
             const { owner, repo, number } = context.issue
             const { data: report } = await readFile('./htmlcov/index.html', 'utf8')
             await createComment({
