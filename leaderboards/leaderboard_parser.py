@@ -66,7 +66,7 @@ def parse(
     assets_path: str,
     region: Region,
     role: Role,
-    model_path: str | None = None,
+    model_name: str | None = None,
 ) -> list[LeaderboardEntry]:
     results: list[LeaderboardEntry] = list()  # init return array
     heroComparor = Heroes(
@@ -106,13 +106,13 @@ def parse(
                 # cv2.imwrite(
                 # path := f"{temp_directory}/{uuid.uuid4().hex}.png", modified
                 # )
-                if model_path is not None:
+                if model_name is not None:
                     heroes_played.append(
                         Hero(
                             # name=heroComparor.get_hero_name(Image.open(path)).name,
                             name=heroComparor.predict_hero_name(
                                 cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY),
-                                model_path=model_path,
+                                model_name=model_name,
                             ).name,
                             image=modified,
                             image_array=modified,
@@ -142,12 +142,12 @@ def parse(
             ]
             # cv2.imwrite(path := f"{temp_directory}/{uuid.uuid4().hex}.png", modified)
 
-            if model_path is not None:
+            if model_name is not None:
                 heroes_played.append(
                     Hero(
                         name=heroComparor.predict_hero_name(
                             cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY),
-                            model_path=model_path,
+                            model_name=model_name,
                         ).name,
                         image=modified,
                         image_array=modified,
