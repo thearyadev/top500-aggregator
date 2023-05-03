@@ -48,11 +48,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { Octokit } = require("@octokit/rest");
-            const { fs } = require("fs");
+            const fs = require("fs");
             const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
             const { owner, repo, number } = context.issue;
-            const { data: report } = await readFile("./htmlcov/index.html", "utf8");
+            const { data: report } = await fs.readFile("./htmlcov/index.html", "utf8");
             await octokit.issues.createComment({
               owner,
               repo,
