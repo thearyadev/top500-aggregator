@@ -84,7 +84,7 @@ def main():
             assets_path="./assets/hero_images",
             region=leaderboards.Region.AMERICAS,  # doesnt matter
             role=leaderboards.Role.DAMAGE,  # doesnt matter
-            model_name="autopoietico-2023-04-25",
+            model_name="thearyadev-2023-04-30",
         )
 
         for entry, answer in zip(result, heroes):  # validate results
@@ -123,4 +123,7 @@ def main():
 
 
 if __name__ == "__main__":
+    import time
+    start = time.perf_counter()
     main()
+    print(f"Time taken: {time.perf_counter() - start} seconds")
