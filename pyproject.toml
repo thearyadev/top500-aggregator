@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-packages = [{include = "top500_aggregator"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -21,6 +20,7 @@ matplotlib = "^3.6.3"
 nnfs = "^0.5.1"
 numpy = "^1.24.3"
 hypercorn = "^0.14.3"
+pytest-cov = "^4.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
