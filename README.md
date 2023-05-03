@@ -109,7 +109,8 @@ In order to add labels to the model, follow these steps:
     - ~~web service~~
     - database
     - stat gen
-    
+- move `benchmark.py` and `train.py` to `./neural_network`
+- ~~caching models~~
 
 
 
