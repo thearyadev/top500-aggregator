@@ -43,7 +43,7 @@ jobs:
           path: htmlcov/
         
       - name: Post comment with report
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
