@@ -20,9 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Actions Depenency
-        run: npm install @actions/github; npm install @octokit/rest
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
@@ -33,30 +30,4 @@ jobs:
 
       - name: Run Pytest & Generate Coverage Report
         run: poetry run pytest --cov --cov-report html
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Upload report as comment
-        uses: actions/upload-artifact@v2
-        with:
-          name: pytest-report
-          path: htmlcov/
-        
-      - name: Post comment with report
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { Octokit } = require("@octokit/rest");
-            const fs = require("fs");
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-
-            const { owner, repo, number } = context.issue;
-            const { data: report } = await fs.readFile("./htmlcov/index.html", "utf8");
-            await octokit.issues.createComment({
-              owner,
-              repo,
-              issue_number: number,
-              body: `**Test Coverage Report**
-              \`\`\`html\n${report}\n\`\`\``
-              });
