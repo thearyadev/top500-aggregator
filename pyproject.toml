@@ -20,6 +20,7 @@ matplotlib = "^3.6.3"
 nnfs = "^0.5.1"
 numpy = "^1.24.3"
 hypercorn = "^0.14.3"
+pytest-cov = "^4.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
