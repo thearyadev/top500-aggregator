@@ -1,7 +1,5 @@
 from fastapi.testclient import TestClient
-import sys
 
-sys.path.insert(0, ".")
 from server import app
 
 from database import DatabaseAccess
