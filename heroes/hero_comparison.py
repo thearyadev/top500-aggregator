@@ -4,7 +4,7 @@ import time
 from PIL import Image
 import importlib  # importlib is used to import the model from the model file
 
-# from neural_network import Model
+from neural_network import Model as NNModel
 
 try:
     import cv2
@@ -15,6 +15,9 @@ import math
 import uuid
 
 import numpy as np
+
+
+model_cache: dict[str, NNModel] = {}
 
 
 def similarity(image1, image2) -> float:
@@ -133,12 +136,19 @@ class Heroes:
         image_data = (image_data.reshape(1, -1).astype(np.float32) - 127.5) / 127.5
 
         # Load the model
-        model = (
-            importlib.import_module(f"models.{model_name}")
-            .Model()
-            .load(f"models/{model_name}/{model_name}.model")
-        )
 
+        if model_name not in model_cache:
+            model = (
+                importlib.import_module(f"models.{model_name}")
+                .Model()
+                .load(f"models/{model_name}/{model_name}.model")
+            )
+
+            model_cache[model_name] = model
+        else:
+            model = model_cache[model_name]
+
+            
         # Predict on the image
         confidences = model.predict(image_data)
 
