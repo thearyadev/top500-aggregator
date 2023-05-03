@@ -1,7 +1,7 @@
 # Overwatch 2: Top 500 Aggregator
 https://t500-aggregator.aryankothari.dev/
 
-T500 Aggregator is a suite of tools and a web service to collect and provide data on the Overwatch 2 Top 500 leaderboards. 
+T500 Aggregator is a suite of tools and a web service to collect and display data on the Overwatch 2 Top 500 leaderboards. 
 
 
 ## Information
@@ -92,12 +92,12 @@ In order to add labels to the model, follow these steps:
 - ~~Re-train model for LifeWeaver~~
 - ~~Move all Neural Network related files into a package for easier access~~
 - Use in-memory database instead of dictionary for datastore. 
-- ~~Purge season 2, 3, and 4 data. ~~
+- ~~Purge season 2, 3, and 4 data.~~
 - ~~Add a browser icon~~
 - ~~improve frontend~~
 - ~~Add field in season_info table for season notes~~
     - ~~add ui components and db queries to display this~~
-- Rebuild collector.py and generator.py as full CLI tools. 
+- ~~Rebuild collector.py and generator.py as full CLI tools.~~ 
 - remove games played from all tables
 - add health check endpoint
 - PWA optimize
@@ -105,6 +105,11 @@ In order to add labels to the model, follow these steps:
     - ~~theme-color meta tag~~
 - ~~robots.txt~~
 - ~~correct meta tags~~
+- tests
+    - ~~web service~~
+    - database
+    - stat gen
+    
 
 
 
