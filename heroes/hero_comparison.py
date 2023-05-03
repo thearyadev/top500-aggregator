@@ -2,8 +2,9 @@ import os
 import time
 
 from PIL import Image
+import importlib  # importlib is used to import the model from the model file
 
-from neural_network import Model
+# from neural_network import Model
 
 try:
     import cv2
@@ -112,7 +113,7 @@ class Heroes:
                 )
             )
 
-    def predict_hero_name(self, image_data: np.ndarray, model_path: str) -> Hero:
+    def predict_hero_name(self, image_data: np.ndarray, model_name: str) -> Hero:
         """Predicts the hero name from an image using a neural network model.
 
         Args:
@@ -132,7 +133,11 @@ class Heroes:
         image_data = (image_data.reshape(1, -1).astype(np.float32) - 127.5) / 127.5
 
         # Load the model
-        model = Model().load(model_path)
+        model = (
+            importlib.import_module(f"models.{model_name}")
+            .Model()
+            .load(f"models/{model_name}/{model_name}.model")
+        )
 
         # Predict on the image
         confidences = model.predict(image_data)
