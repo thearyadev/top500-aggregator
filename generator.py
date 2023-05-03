@@ -20,7 +20,7 @@ def worker(file: str):
         assets_path="./assets/hero_images",
         role=role,
         region=region,
-        model_path=model_path,
+        model_name=model_name,
     )
     for i in results:
         # Populate the database with the parsed results
@@ -29,11 +29,11 @@ def worker(file: str):
 
 
 def main():
-    global target_season, model_path  # globals so the worker threads can access them
+    global target_season, model_name  # globals so the worker threads can access them
     # sorry
 
     target_season = "4_4"
-    model_path = r"models\thearyadev-2023-04-30\thearyadev-2023-04-30.model"
+    model_name = "thearyadev-2023-04-30"
     dba.create_season(seasonNumber=target_season)
 
     files = os.listdir("./assets/leaderboard_images")
