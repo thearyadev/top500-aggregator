@@ -124,6 +124,7 @@ def main():
 
 if __name__ == "__main__":
     import time
+
     start = time.perf_counter()
     main()
     print(f"Time taken: {time.perf_counter() - start} seconds")

@@ -13,6 +13,39 @@ class DatabaseAccess:
         self.connection = sqlite3.connect(db_path, check_same_thread=False)
         self.cursor = self.connection.cursor()
 
+    def create_info_table(self):
+        """Creates the season_info table in the database"""
+        lock.acquire()
+        self.cursor.execute(
+            """CREATE TABLE season_info(
+                                    id TEXT PRIMARY KEY,
+                                    collection_date INTEGER,
+                                    disclaimer TEXT
+                            )"""
+        )
+        self.connection.commit()
+        lock.release()
+
+    def add_info_entry(self, season_identifier: str, timestamp: int, disclaimer: str):
+        """Adds a new entry to the season_info table in the database
+
+        Args:
+            season_identifier (str): season number identifier. Format: season_{seasonNumber}_{subseasonNumber}
+            timestamp (int): timestamp of the season
+            disclaimer (str): disclaimer for the season
+        """
+        lock.acquire()
+        self.cursor.execute(
+            f"""
+            INSERT INTO season_info 
+            (id, collection_date, disclaimer)
+            VALUES(?, ?, ?)
+            """,
+            (season_identifier, timestamp, disclaimer),
+        )
+        self.connection.commit()
+        lock.release()
+
     def create_season(self, seasonNumber: str):
         """Creates a new season table in the database
 
