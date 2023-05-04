@@ -1,3 +1,4 @@
+import inspect
 import os
 
 import numpy as np
@@ -16,8 +17,6 @@ from neural_network import (
     Optimizer_Adam,
     create_data_mnist,
 )
-
-import inspect
 
 
 def train(
@@ -107,12 +106,12 @@ def write(
         )
         for i in training_results:
             f.write(f"{i}\n")
-    
+
     with open(inspect.getfile(model.__class__), "r") as model_file:
         model_source = model_file.read()
         with open(f"models/{model_name}/model.py", "w+") as f:
             f.write(model_source)
-    
+
     with open(f"/models/{model_name}/__init__.py", "w+") as f:
         f.write(f"from .model import Model")
     return None

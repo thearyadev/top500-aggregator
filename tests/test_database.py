@@ -1,9 +1,9 @@
-import database
 import datetime
-from leaderboards import LeaderboardEntry, Region, Role
 import random
+
+import database
 import heroes
-import datetime
+from leaderboards import LeaderboardEntry, Region, Role
 
 dba = database.DatabaseAccess(":memory:")
 
@@ -40,11 +40,14 @@ def test_info_table_get():
     for season in seasons:
         assert isinstance(season, str)
         assert len(season.split("_")) == 2
-    
+
+
 def test_get_season_datetime():
     for season in SEASON_ITERABLE:
         for subseason in SUBSEASON_ITERABLE:
-            assert isinstance(dba.get_season_datetime(f"{season}_{subseason}"), datetime.datetime)
+            assert isinstance(
+                dba.get_season_datetime(f"{season}_{subseason}"), datetime.datetime
+            )
 
 
 def test_season_table_create():
