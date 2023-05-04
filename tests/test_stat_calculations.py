@@ -1,3 +1,5 @@
+from database import DatabaseAccess
+from leaderboards import Region, Role
 from statistic import (
     get_hero_trends,
     get_mean,
@@ -8,8 +10,6 @@ from statistic import (
     get_stdev,
     get_variance,
 )
-from database import DatabaseAccess
-from leaderboards import Region, Role
 
 dba = DatabaseAccess("./data/data.db")
 data = []
@@ -23,46 +23,81 @@ def test_get_occurrences():
         for region in [Region.AMERICAS, Region.EUROPE, Region.ASIA]:
             assert get_occurrences(data=season_data, region=region)
 
+
 def test_get_occurrences_most_played():
     for season_data in data:
         for region in [Region.AMERICAS, Region.EUROPE, Region.ASIA]:
             for role in [Role.DAMAGE, Role.SUPPORT, Role.TANK]:
                 for most_played_slot in (1, 2, 3):
-                    assert get_occurrences_most_played(data=season_data, region=region, role=role, mostPlayedSlot=most_played_slot)
+                    assert get_occurrences_most_played(
+                        data=season_data,
+                        region=region,
+                        role=role,
+                        mostPlayedSlot=most_played_slot,
+                    )
+
 
 def test_get_mean():
     for season_data in data:
         for region in [Region.AMERICAS, Region.EUROPE, Region.ASIA]:
             for role in [Role.DAMAGE, Role.SUPPORT, Role.TANK]:
                 for most_played_slot in (1, 2, 3):
-                    assert get_mean(data=get_occurrences_most_played(data=season_data, region=region, role=role, mostPlayedSlot=most_played_slot))
-                
+                    assert get_mean(
+                        data=get_occurrences_most_played(
+                            data=season_data,
+                            region=region,
+                            role=role,
+                            mostPlayedSlot=most_played_slot,
+                        )
+                    )
+
                 assert get_mean(data=get_occurrences(data=season_data, region=region))
+
 
 def test_get_variance():
     for season_data in data:
         for region in [Region.AMERICAS, Region.EUROPE, Region.ASIA]:
             for role in [Role.DAMAGE, Role.SUPPORT, Role.TANK]:
                 for most_played_slot in (1, 2, 3):
-                    assert get_variance(data=get_occurrences_most_played(data=season_data, region=region, role=role, mostPlayedSlot=most_played_slot))
-                
-                assert get_variance(data=get_occurrences(data=season_data, region=region))
+                    assert get_variance(
+                        data=get_occurrences_most_played(
+                            data=season_data,
+                            region=region,
+                            role=role,
+                            mostPlayedSlot=most_played_slot,
+                        )
+                    )
+
+                assert get_variance(
+                    data=get_occurrences(data=season_data, region=region)
+                )
+
 
 def test_get_stdev():
     for season_data in data:
         for region in [Region.AMERICAS, Region.EUROPE, Region.ASIA]:
             for role in [Role.DAMAGE, Role.SUPPORT, Role.TANK]:
                 for most_played_slot in (1, 2, 3):
-                    assert get_stdev(data=get_occurrences_most_played(data=season_data, region=region, role=role, mostPlayedSlot=most_played_slot))
-                
+                    assert get_stdev(
+                        data=get_occurrences_most_played(
+                            data=season_data,
+                            region=region,
+                            role=role,
+                            mostPlayedSlot=most_played_slot,
+                        )
+                    )
+
                 assert get_stdev(data=get_occurrences(data=season_data, region=region))
+
 
 def test_get_hero_trends():
     assert get_hero_trends(dba)
 
+
 def test_get_number_of_ohp():
     for season_data in data:
         assert get_number_of_ohp(season_data)
+
 
 def test_get_number_of_thp():
     for season_data in data:
