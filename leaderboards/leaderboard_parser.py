@@ -34,7 +34,7 @@ class Role(Enum):
 class LeaderboardEntry:
     def __init__(
         self,
-        heroes: list[Hero] | str,
+        heroes: list[Hero] | list[str],
         games: int,
         region: Region = None,
         role: Role = None,
