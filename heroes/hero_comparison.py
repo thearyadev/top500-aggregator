@@ -1,8 +1,8 @@
+import importlib  # importlib is used to import the model from the model file
 import os
 import time
 
 from PIL import Image
-import importlib  # importlib is used to import the model from the model file
 
 from neural_network import Model as NNModel
 
@@ -15,7 +15,6 @@ import math
 import uuid
 
 import numpy as np
-
 
 model_cache: dict[str, NNModel] = {}
 
@@ -148,7 +147,6 @@ class Heroes:
         else:
             model = model_cache[model_name]
 
-            
         # Predict on the image
         confidences = model.predict(image_data)
 
