@@ -23,16 +23,30 @@ def worker(file: str):
         model_name=model_name,
     )
     for i in results:
-        # Populate the database with the parsed results
-        dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
-        pass
+        if i.heroes[0].name != "Blank":
+            dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
 
+
+
+def worker2(file: str):
+    role, region, _ = file.split("-")  # parse the filename
+    results = leaderboards.parse(  # parse the leaderboard
+        image_path=os.path.join("./assets/leaderboard_images/MANUAL", file),
+        assets_path="./assets/hero_images",
+        role=role,
+        region=region,
+        model_name=model_name,
+    )
+    for i in results:
+        # Populate the database with the parsed results
+        if i.heroes[0].name != "Blank":
+            dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
 
 def main():
     global target_season, model_name  # globals so the worker threads can access them
     # sorry
 
-    target_season = "4_5"
+    target_season = "35_8"
     model_name = "thearyadev-2023-04-30"
     dba.create_season(seasonNumber=target_season)
 
