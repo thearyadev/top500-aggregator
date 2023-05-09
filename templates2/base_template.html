@@ -80,11 +80,6 @@
                 <li><a href="/trends/seasonal">Trends</a></li>
                 {% for season, subseasons in (seasons | group_subseasons).items() %}
                 <li><a href="/season/{{subseasons[-1]}}">Season {{season}}</a>
-                    <ul>
-                        {% for subseason in subseasons %}
-                        <li><a href="/season/{{subseason}}">Week {{subseason.split("_")[1]}}</a></li>
-                        {% endfor %}
-                    </ul>
                 </li>
                 {% endfor %}
 
@@ -96,8 +91,6 @@
         <div id="info_panel" class="info-panel">
             <h1>{% block heading %} {% endblock heading %}</h1>
             {% block disclaimer %} {% endblock disclaimer %}
-            <h6>This season's dataset was generated on: {{ update.date() }}</h6>
-
             <p><strong>Welcome to Overwatch 2 Top 500 Data.</strong></p>
 
             <p>The data available on this page is not 100% accurate. Data collection involves computer vision, and as
