@@ -184,6 +184,17 @@ class DatabaseAccess:
         lock.release()
         return result[0]
 
+    def add_season_info_entry(
+        self, season_identifier: str, disclaimer: str | None, patch_notes: str | None
+    ) -> None:
+        lock.acquire()
+        self.cursor.execute(
+            f"INSERT INTO season_info (id, disclaimer, patch_notes) VALUES(?, ?, ?)",
+            (season_identifier, disclaimer, patch_notes),
+        )
+        lock.release()
+        return None
+
 
 if __name__ == "__main__":
     dba = DatabaseAccess("../data/data.db")
