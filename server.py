@@ -386,7 +386,6 @@ async def season(request: Request, season_number: str):
                 "currentSeason": season_number,
                 **data[season_number],
                 **data[season_number]["MISC"],
-                "update": db.get_season_datetime(season_number),
                 "disclaimer": db.get_season_disclaimer(season_number),
             },
         )
@@ -417,7 +416,6 @@ async def trendsEndpoint(request: Request):
             "request": request,
             "seasons": seasons,
             "trends": json.dumps(trends),
-            "update": db.get_season_datetime(seasons[-1]),
         },
     )
 
