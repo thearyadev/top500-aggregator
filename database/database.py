@@ -140,22 +140,6 @@ class DatabaseAccess:
             key=lambda x: (int(x.split("_")[0]), int(x.split("_")[1])),
         )
 
-    def get_season_datetime(self, seasonNumber: str) -> datetime.datetime:
-        """Gets the timestamp of a season as a datetime object
-
-        Args:
-            seasonNumber (str): season number identifier. Format: season_{seasonNumber}_{subseasonNumber}
-
-        Returns:
-            datetime.datetime: timestamp of the season
-        """
-        lock.acquire()
-        self.cursor.execute(
-            f"SELECT collection_date FROM season_info WHERE id = 'season_{seasonNumber}'"
-        )
-        lock.release()
-        return datetime.datetime.fromtimestamp(self.cursor.fetchone()[0])
-
     def get_total_hero_occurrence_count(
         self, hero: str, region: leaderboards.Region, seasonNumber: str
     ) -> int:
