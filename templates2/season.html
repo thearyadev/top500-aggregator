@@ -4,14 +4,13 @@
 <script src="/static/js/season.js" defer> </script>
 {% endblock scripts %}
 
-{% block heading %}Season {{ currentSeason.split("_")[0] }}: Week {{currentSeason.split("_")[1]}} {% endblock heading
-%}
+{% block heading %}Season {{ currentSeason.split("_")[0] }} {% endblock heading %}
 {% block disclaimer %}
 
 {% if disclaimer %}
 <div class="disclaimer-container">
     <p class="disclaimer"><em>DISCLAIMER:</em> {{ disclaimer }}</p>
-    
+
 </div>
 
 {% endif %}
