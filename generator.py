@@ -46,7 +46,7 @@ def main():
     global target_season, model_name  # globals so the worker threads can access them
     # sorry
 
-    target_season = "35_8"
+    target_season = "1_8"
     model_name = "thearyadev-2023-04-30"
     dba.create_season(seasonNumber=target_season)
 

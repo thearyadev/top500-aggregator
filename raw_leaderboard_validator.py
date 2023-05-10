@@ -95,7 +95,7 @@ def main():
     files = os.listdir("assets\leaderboard_images")  # get all files
 
     check = []  # array to hold failed files
-    with ThreadPoolExecutor(max_workers=4) as executor:  # adjust max workers as needed
+    with ThreadPoolExecutor(max_workers=16) as executor:  # adjust max workers as needed
         # use tpe to process files in parallel
         futures = [executor.submit(process_file, file) for file in files]
         for future in track(futures, description="scanning files"):
