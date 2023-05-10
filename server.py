@@ -410,12 +410,13 @@ async def hit_endpoint():
 
 @app.get("/trends/seasonal")
 async def trendsEndpoint(request: Request):
+    request.app.state.templates.env.filters["group_subseasons"] = group_subseasons
+
     return templates.TemplateResponse(
         "trends.html",
         {
             "request": request,
             "seasons": seasons,
-            "trends": json.dumps(trends),
         },
     )
 
