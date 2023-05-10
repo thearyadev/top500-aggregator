@@ -1,6 +1,68 @@
 {% extends "base_template.html" %}
-{% block heading %}Seasonal Trends{% endblock heading %}
+{% block scripts %}
+<script src="/static/js/trends.js" defer> </script>
+{% endblock scripts %}
+{% block heading %}Cross Season Trends{% endblock heading %}
 
 {% block content %}
-<h1>This page is under construction. Please refer to <a href="https://github.com/thearyadev/top500-aggregator">this project's github repository</a> for more details</h1>
+
+
+<main class="body">
+    <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card ">
+        <h2 class="section-title">All Heroes: By Region</h2>
+        <div class="break p-5"></div>
+        <article class="article">
+            <div>
+                <p>All Regions</p>
+                <div id="AHBR_ALL" class="big-chart">
+
+                </div>
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
+
+        <article class="article">
+            <div>
+                <p>Americas</p>
+                <div id="AHBR_AMERICAS" class="big-chart">
+
+                </div>
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
+        <article class="article">
+            <div>
+                <p>Europe</p>
+                <div id="AHBR_EUROPE" class="big-chart">
+
+                </div>
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
+        <article class="article">
+            <div>
+                <p>Asia</p>
+                <div id="AHBR_ASIA" class="big-chart">
+
+                </div>
+
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
+        
+
+
+    </section>
+
+
+</main>
+
 {% endblock content %}
