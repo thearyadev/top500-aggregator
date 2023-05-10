@@ -165,25 +165,13 @@ def get_number_of_thp(data: list[leaderboards.LeaderboardEntry]) -> int:
 
 def get_hero_trends(
     db: database.DatabaseAccess,
-) -> dict[str, list[list[str, int, int, int]]]:
-    results: dict[str, list[list[str, int, int, int]]] = dict()
+) -> dict[str, dict[str, int]]:
+    results: dict[str, dict[str, int]] = dict()
+    seasons: list[str] = db.get_seasons()
+    for season in seasons:
+        records: list[leaderboards.LeaderboardEntry] = db.get_all_records(seasonNumber=season)
+        for r in records:
+            ...
 
-    # hero, list[point(seasonNumber, americas, europe, asia)]
-    for hero in [h for h in allHeroes if h != ["Blank", "Blank2"]]:
-        results[hero] = list()
-        for season in db.get_seasons():
-            results[hero].append(
-                [
-                    season,
-                    db.get_total_hero_occurrence_count(
-                        hero, region=leaderboards.Region.AMERICAS, seasonNumber=season
-                    ),
-                    db.get_total_hero_occurrence_count(
-                        hero, region=leaderboards.Region.EUROPE, seasonNumber=season
-                    ),
-                    db.get_total_hero_occurrence_count(
-                        hero, region=leaderboards.Region.ASIA, seasonNumber=season
-                    ),
-                ]
-            )
+
     return results
