@@ -13,7 +13,6 @@ from statistic import (
     get_games_played_max,
     get_games_played_min,
     get_games_played_total,
-    get_hero_trends,
     get_mean,
     get_number_of_ohp,
     get_number_of_thp,
@@ -21,6 +20,7 @@ from statistic import (
     get_occurrences_most_played,
     get_stdev,
     get_variance,
+    get_hero_trends_all_heroes_by_region,
 )
 
 templates = Jinja2Templates(directory="templates2")
@@ -30,8 +30,10 @@ db = database.DatabaseAccess("./data/data.db")
 seasons = db.get_seasons()
 
 data = dict()
-trends: dict[str, list[list[str, int, int, int]]] = get_hero_trends(db)
 hits = 0
+
+
+trends_data = json.dumps(get_hero_trends_all_heroes_by_region(db=db))
 
 
 def calculate():
@@ -417,6 +419,7 @@ async def trendsEndpoint(request: Request):
         {
             "request": request,
             "seasons": seasons,
+            "trends": trends_data,
         },
     )
 
