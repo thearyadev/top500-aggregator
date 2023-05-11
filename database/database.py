@@ -135,26 +135,20 @@ class DatabaseAccess:
         data: list[tuple[str, int]] = self.cursor.fetchall()
         lock.release()
         # filter and sort and some other stuff lol.
-        return sorted(
+        seasons_sorted = sorted(
             [entry[0].replace("season_", "") for entry in data],
             key=lambda x: (int(x.split("_")[0]), int(x.split("_")[1])),
         )
+        output_seasons = list()
+        for season in seasons_sorted:
+            if season in ("34_8", "35_8", "36_8"):
+                output_seasons.append(season)
 
-    def get_season_datetime(self, seasonNumber: str) -> datetime.datetime:
-        """Gets the timestamp of a season as a datetime object
+        for season in seasons_sorted:
+            if season not in ("34_8", "35_8", "36_8"):
+                output_seasons.append(season)
 
-        Args:
-            seasonNumber (str): season number identifier. Format: season_{seasonNumber}_{subseasonNumber}
-
-        Returns:
-            datetime.datetime: timestamp of the season
-        """
-        lock.acquire()
-        self.cursor.execute(
-            f"SELECT collection_date FROM season_info WHERE id = 'season_{seasonNumber}'"
-        )
-        lock.release()
-        return datetime.datetime.fromtimestamp(self.cursor.fetchone()[0])
+        return output_seasons
 
     def get_total_hero_occurrence_count(
         self, hero: str, region: leaderboards.Region, seasonNumber: str
@@ -199,6 +193,17 @@ class DatabaseAccess:
         result: tuple[str] = self.cursor.fetchone()
         lock.release()
         return result[0]
+
+    def add_season_info_entry(
+        self, season_identifier: str, disclaimer: str | None, patch_notes: str | None
+    ) -> None:
+        lock.acquire()
+        self.cursor.execute(
+            f"INSERT INTO season_info (id, disclaimer, patch_notes) VALUES(?, ?, ?)",
+            (season_identifier, disclaimer, patch_notes),
+        )
+        lock.release()
+        return None
 
 
 if __name__ == "__main__":

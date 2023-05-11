@@ -2,7 +2,7 @@ import statistics
 
 import database
 import leaderboards
-from heroes import allHeroes
+from heroes import allHeroes, Heroes
 
 
 def convert_dict_to_hero_count_array(data: dict) -> list[dict]:
@@ -163,27 +163,56 @@ def get_number_of_thp(data: list[leaderboards.LeaderboardEntry]) -> int:
     return len([i for i in data if i.heroes[1] == "Blank" or i.heroes[1] == "Blank2"])
 
 
-def get_hero_trends(
-    db: database.DatabaseAccess,
-) -> dict[str, list[list[str, int, int, int]]]:
-    results: dict[str, list[list[str, int, int, int]]] = dict()
+def fill_missing_heroes(hero_dict: dict[str, int]) -> dict[str, int]:
+    for hero in Heroes("./assets/hero_images").hero_labels.values():
+        if hero in ("Blank", "Blank2"):
+            continue
 
-    # hero, list[point(seasonNumber, americas, europe, asia)]
-    for hero in [h for h in allHeroes if h != ["Blank", "Blank2"]]:
-        results[hero] = list()
-        for season in db.get_seasons():
-            results[hero].append(
-                [
-                    season,
-                    db.get_total_hero_occurrence_count(
-                        hero, region=leaderboards.Region.AMERICAS, seasonNumber=season
-                    ),
-                    db.get_total_hero_occurrence_count(
-                        hero, region=leaderboards.Region.EUROPE, seasonNumber=season
-                    ),
-                    db.get_total_hero_occurrence_count(
-                        hero, region=leaderboards.Region.ASIA, seasonNumber=season
-                    ),
-                ]
+        if hero not in hero_dict:
+            hero_dict[hero] = 0
+    return hero_dict
+
+
+def fill_missing_hero_by_role(
+    hero_dict: dict[str, int], roleFilter: str
+) -> dict[str, int]:
+    heroes_present: list[str] = list(hero_dict.keys())
+    for hero, role in Heroes("./assets/hero_images").hero_role.items():
+        if hero in ("Blank", "Blank2"):
+            continue
+
+        if role == roleFilter:
+            if hero not in heroes_present:
+                hero_dict[hero] = 0
+    return hero_dict
+
+
+def get_hero_trends_all_heroes_by_region(
+    db: database.DatabaseAccess,
+) -> dict[
+    str, dict[str, dict[str, int]]
+]:  # dict[seasonNumber: dict[role, dict[hero, count]]]
+    results: dict[str, dict[str, dict[str, int]]] = {}
+    for season in db.get_seasons():
+        results[season] = {}
+
+        results[season] = {"SUPPORT": dict(), "DAMAGE": dict(), "TANK": dict()}
+
+        seasonData = db.get_all_records(season)
+        for entry in seasonData:
+            for hero in entry.heroes:
+                if hero in ("Blank", "Blank2"):
+                    continue
+                if hero not in results[season][entry.role.name]:
+                    results[season][entry.role.name][hero] = 0
+                results[season][entry.role.name][hero] += 1
+    for season, roleDict in results.items():
+        for role, heroesInRole in roleDict.items():
+            results[season][role] = fill_missing_hero_by_role(heroesInRole, role)
+            results[season][role] = convert_dict_to_hero_count_array(
+                results[season][role]
+            )
+            results[season][role] = sorted(
+                results[season][role], key=lambda x: x["hero"], reverse=False
             )
     return results
