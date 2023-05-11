@@ -148,10 +148,11 @@ class Heroes:
             self.heroes.append(
                 Hero(
                     name=file.replace(".png", ""),
-                    image=cv2.cvtColor(
-                        np.array(Image.open(f"{hero_images_path}/{file}")),
-                        cv2.COLOR_BGR2GRAY,  # loads images as grayscale
-                    ),
+                    image=None,
+                    # image=cv2.cvtColor(
+                    #     np.array(Image.open(f"{hero_images_path}/{file}")),
+                    #     cv2.COLOR_BGR2GRAY,  # loads images as grayscale
+                    # ),
                     image_array=np.array(Image.open(f"{hero_images_path}/{file}")),
                 )
             )
@@ -269,7 +270,7 @@ if __name__ == "__main__":
     # print(similarity(im1, im2))
     # print(similarity(im1, im3))
     # print(similarity(im2, im3))
-    d = Heroes("assets\hero_images").get_hero_name(
-        Image.open("G:/temp\Blank2/4cb57b5224974d3dbab9ec7e95377349.png")
+    d = Heroes(r"assets\hero_images").get_hero_name(
+        Image.open(r"G:/temp\Blank2/4cb57b5224974d3dbab9ec7e95377349.png")
     )
     print(d)
