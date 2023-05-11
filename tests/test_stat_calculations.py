@@ -1,7 +1,7 @@
 from database import DatabaseAccess
 from leaderboards import Region, Role
 from statistic import (
-    get_hero_trends,
+    get_hero_trends_all_heroes_by_region,
     get_mean,
     get_number_of_ohp,
     get_number_of_thp,
@@ -91,7 +91,7 @@ def test_get_stdev():
 
 
 def test_get_hero_trends():
-    assert get_hero_trends(dba)
+    assert get_hero_trends_all_heroes_by_region(dba)
 
 
 def test_get_number_of_ohp():

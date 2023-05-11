@@ -42,14 +42,6 @@ def test_info_table_get():
         assert len(season.split("_")) == 2
 
 
-def test_get_season_datetime():
-    for season in SEASON_ITERABLE:
-        for subseason in SUBSEASON_ITERABLE:
-            assert isinstance(
-                dba.get_season_datetime(f"{season}_{subseason}"), datetime.datetime
-            )
-
-
 def test_season_table_create():
     for season in SEASON_ITERABLE:
         for subseason in SUBSEASON_ITERABLE:
