@@ -213,6 +213,6 @@ def get_hero_trends_all_heroes_by_region(
                 results[season][role]
             )
             results[season][role] = sorted(
-                results[season][role], key=lambda x: x["hero"], reverse=True
+                results[season][role], key=lambda x: x["hero"], reverse=False
             )
     return results
