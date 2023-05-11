@@ -135,10 +135,20 @@ class DatabaseAccess:
         data: list[tuple[str, int]] = self.cursor.fetchall()
         lock.release()
         # filter and sort and some other stuff lol.
-        return sorted(
+        seasons_sorted = sorted(
             [entry[0].replace("season_", "") for entry in data],
             key=lambda x: (int(x.split("_")[0]), int(x.split("_")[1])),
         )
+        output_seasons = list()
+        for season in seasons_sorted:
+            if season in ("34_8", "35_8", "36_8"):
+                output_seasons.append(season)
+
+        for season in seasons_sorted:
+            if season not in ("34_8", "35_8", "36_8"):
+                output_seasons.append(season)
+
+        return output_seasons
 
     def get_total_hero_occurrence_count(
         self, hero: str, region: leaderboards.Region, seasonNumber: str
