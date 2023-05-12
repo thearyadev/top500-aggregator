@@ -1,391 +1,71 @@
-<!DOCTYPE html>
-<html>
+{% extends "base_template.html" %}
+{% block scripts %}
+<script src="/static/js/trends.js" defer> </script>
+{% endblock scripts %}
+{% block heading %}Cross Season Trends{% endblock heading %}
 
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4JC5QF6Y13"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+{% block disclaimer %}
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+<div class="disclaimer-container">
+    <p class="disclaimer"><em>DISCLAIMER:</em> The data for Overwatch 1 is heavily skewed by two factors: 1. Doomfist
+        was moved to tank, and the legacy leaderboards were updated. 2. The data was collected months after the
+        concusion of Overwatch 1, as such there are 3-5 pages missing from each section. Please consider both of these
+        when evaluating data from Overwatch 1.</p>
 
-        gtag('js', new Date());
+</div>
 
-        gtag('config', 'G-4JC5QF6Y13');
-    </script>
-
-    <meta charset="UTF-8">
-    <meta name="twitter:site" content="@t500-aggregator.aryankothari.dev" />
-    <meta name="twitter:title" content="Overwatch 2 Top 500 Data" />
-    <meta name="twitter:description" content="Top 500 Data collected from the Overwatch 2 Leaderboards" />
-    <title>t500 aggregator</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script>
+{% endblock disclaimer %}
 
 
-    </script>
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 
-        .nav {
-            display: block;
-            width: 100%;
-            background-color: #f2f2f2;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: start;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav li {
-            position: relative;
-        }
-
-        .nav a {
-            display: block;
-            padding: 10px;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .nav ul ul {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background-color: #f2f2f2;
-            display: none;
-        }
-
-        .nav ul li:hover>ul {
-            display: block;
-        }
-
-        .nav ul ul li {
-            width: 100%;
-            text-align: left;
-        }
-
-        .nav ul ul a {
-            padding: 10px;
-        }
-
-        .nav ul ul a:hover {
-            background-color: #ddd;
-        }
+{% block content %}
 
 
-        .body {
-            padding: 10px;
-            background-color: #FAF9F6;
-            font-family: 'Lato', sans-serif;
-        }
+<main class="body">
+    <data data-trends="{{trends}}"></data>
+    <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card ">
+        <!-- <h2 class="section-title">All Heroes: By Region</h2> -->
+        <div class="break p-5"></div>
+        <article class="article">
+            <div>
+                <p>Support</p>
+                <div id="SUPPORT" class="big-chart">
 
+                </div>
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
 
-        .section-box {
-            padding: 10px;
-            margin-bottom: 30px;
-            display: flex;
+        <article class="article">
+            <div>
+                <p>Damage</p>
+                <div id="DAMAGE" class="big-chart">
 
+                </div>
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
+        </div>
+        <article class="article">
+            <div>
+                <p>Tank</p>
+                <div id="TANK" class="big-chart">
 
-        }
-
-        /*.section-box > article{*/
-        /*    flex-grow: 1;*/
-        /*    width: calc(100% * (1/4) - 10px - 1px);*/
-        /*    display: inline-block;*/
-        /*}*/
-        .section-box>article {
-            padding: 15px;
-        }
-
-
-        /*div, article{*/
-        /*    outline: solid*/
-        /*}*/
-
-        .article {
-            padding: 5px;
-
-            margin: 5px;
-        }
-
-        .break {
-            flex-basis: 100%;
-            height: 0;
-        }
-
-        .article p,
-        .section-box h2 {
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .section-box h2 {
-            padding: 20px;
-        }
-
-        .title {
-            margin-bottom: 25px;
-        }
-
-        .toolbar {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            z-index: 1000;
-            margin: 25px;
-        }
-
-        .btn,
-        .btn-primary {
-            width: 70px;
-            height: 70px;
-            padding: 10px 16px;
-            border-radius: 100px;
-            font-size: 24px;
-            line-height: 1.33;
-        }
-
-        .misc-data {
-            font-size: 150px;
-            margin-top: -50px;
-        }
-
-        .navbar {
-            padding-right: 25px;
-            padding-left: 25px;
-        }
-
-        /*.article > div > div{*/
-        /*    height: 75vh;*/
-        /*}*/
-
-        .big-chart {
-            height: 50vh;
-        }
-
-        .small-chart {
-            height: 45vh;
-        }
-
-        .section-box {
-            padding-bottom: 50px;
-        }
-
-        /*div{*/
-        /*    outline: solid;*/
-        /*}*/
-        @media (max-width: 990px) {
-            .small-chart {
-                height: 35vh;
-            }
-
-            .big-chart {
-                height: 50vh;
-            }
-
-            .navbar-toggler {
-                display: none;
-                visibility: hidden;
-            }
-        }
-
-
-        div.chart-box {}
-
-        section.trend-area {
-            display: flex;
-        }
-    </style>
-
-</head>
-
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">OW2 T500 Aggregator</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-
-        </nav>
-        <div class="nav">
-            <ul>
-                <li><a href="/trends/seasonal">Trends</a></li>
-                {% for season, subseasons in (seasons | group_subseasons).items() %}
-                <li><a href="/season/{{subseasons[-1]}}">Season {{season}}</a>
-                    <ul>
-                        {% for subseason in subseasons %}
-                        <li><a href="/season/{{subseason}}">{{subseason.replace("_", ".")}}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                {% endfor %}
-
-            </ul>
+                </div>
+            </div>
+        </article>
+        <div class="break p-5">
+            <hr class="p-5">
         </div>
 
 
-    </header>
-    <main class="body">
-        <div style="display: none;" data-trenddata="{{trends}}" id="data"></div>
-        <div id="info_panel">
-            <h1>Trends</h1>
-            <h6>Last Updated: {{ update.date() }}</h6>
-            <p>
-                <strong>Welcome to Overwatch 2 Top 500 Data.</strong>
-            </p>
-            <p>The data available on this page is not 100% accurate.
-                Data collection involves computer vision and as such has a slight error rate.
-                This error rate is most apparent in some charts where the incorrect role appears. Such as a support
-                chart
-                containing Echo.
-
-                More information on data collection is available on my <a
-                    href="https://github.com/thearyadev/top500-aggregator" target="_blank">github</a> page
+    </section>
 
 
-            </p>
-            <p>
-                <strong>What is this data?</strong>
-            </p>
-            <p>
+</main>
 
-                The data below is taken from the in-game top 500 leaderboards. The information available there includes
-                a single players: matches played and top 3 heroes played.
-
-                The charts and categories below represent data for the hero "slot" in a top 500 leaderboard entry.
-                For example, they count the number of people that have Kiriko as their most played hero,
-                or Widowmaker as their second most played hero.
-
-                The data is a high level overview of what heroes are good or bad, and by no means is an accurate
-                representation
-                of hero pick rates.
-
-
-            </p>
-            <p>
-                The individual hero trends counts each occurrence of a given hero in all top 500 entries,
-                and graphs them season by season. The goal of this data is to visualize the change in hero occurrences
-                over time. Each data point represents two weeks of change.
-
-                <strong>Note: When interpreting this data, keep in mind that the information in top 500
-                    resets at the end of the season. This means that there is unlikely to be any major change within a
-                    single season
-                    but between seasons the difference should be noticeable assuming there is a change in the
-                    game.</strong>
-            </p>
-
-            <p>
-                <strong>When is this data updated?</strong>
-            </p>
-            <p>
-                The data set is updated once every week, on Tuesday. The season number is represented by the current
-                season
-                number,
-                and an identifier for the collection number.
-
-                Season 2.1 would be Season 2, and the first data collection that occurs one week after the start of the
-                season.
-                Season 2.2 would be Season 2, and the second data collection that occurs
-                two weeks into the season.
-                Season 2.8 is the final data collection for the season, 8 weeks into the season.
-            </p>
-
-            <p>
-                <strong>Trends</strong>
-            </p>
-            <p>
-                The data in trends counts every occurrence of a hero (all three slots) for each region.
-            </p>
-
-            <p><strong>More Questions?</strong></p>
-            <p>
-                Feel free to contact me! My information is available on my Github profile.
-            </p>
-        </div>
-
-
-        <section class="section-box card d-flex align-items-stretch" id="data-section">
-        </section>
-    </main>
-
-    <script>
-        const data = $("#data").data().trenddata
-        const dataSection = $("#data-section")
-        google.charts.load("current", { "packages": ['corechart'] })
-        google.charts.setOnLoadCallback(function () {
-            populate()
-        });
-
-
-        function populate() {
-            let x = 0
-            for (const hero in data) {
-                // create div
-                if (x === 3) {
-                    dataSection.append("<article class='h-100'>" +
-                        `<div id='${hero}' class='h-100'></div>` +
-                        "</article>" + "<div class='break'></div>")
-                    x = 0
-                } else {
-                    dataSection.append(
-                        "<article class='h-100'>" +
-                        `<div id='${hero}' class='h-100'></div>` +
-                        "</article>"
-                    )
-                }
-
-                x++
-                $(`#${hero}`)
-                var dataset = [
-                    ["Season", "Americas", "Europe", "Asia"]
-                ]
-                for (var i = 0; i < data[hero].length; i++) {
-                    let dataParsed = [data[hero][i][0].replace("_", "."), data[hero][i][1], data[hero][i][2], data[hero][i][3]]
-                    dataset.push(dataParsed)
-                }
-
-
-                var dataTable = google.visualization.arrayToDataTable(dataset)
-                var options = {
-                    'chartArea': {
-                        // "width": "100%"
-
-
-                    },
-                    vAxis: {
-                        minValue: 0,
-                    },
-
-                    title: hero
-
-                }
-                var chart = new google.visualization.LineChart(document.getElementById(hero));
-                chart.draw(dataTable, options)
-                // create chart
-            }
-        }
-
-
-    </script>
-</body>
-
-</html>
+{% endblock content %}
