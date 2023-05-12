@@ -5,7 +5,7 @@ T500 Aggregator is a suite of tools and a web service to collect and display dat
 
 
 ## Information
-The data for this is expected to be updated once every two weeks.
+The data for this is expected to be updated at the end of each season.
 This data is collected by taking screenshots and running analysis on them. Detailed below. 
 
 This data only consists of the data readily available in the top 500 leaderboards,
@@ -89,29 +89,7 @@ In order to add labels to the model, follow these steps:
 ![Generator.py Memory Profile; 16 workers](/gen_memory_profile.png)
 
 # Todo & Roadmap
-- ~~Clean up codebase~~
-- ~~Re-train model for LifeWeaver~~
-- ~~Move all Neural Network related files into a package for easier access~~
-- Use in-memory database instead of dictionary for datastore. 
-- ~~Purge season 2, 3, and 4 data.~~
-- ~~Add a browser icon~~
-- ~~improve frontend~~
-- ~~Add field in season_info table for season notes~~
-    - ~~add ui components and db queries to display this~~
-- ~~Rebuild collector.py and generator.py as full CLI tools.~~ 
-- remove games played from all tables
-- add health check endpoint
-- PWA optimize
-    - webmanifest
-    - ~~theme-color meta tag~~
-- ~~robots.txt~~
-- ~~correct meta tags~~
-- tests
-    - ~~web service~~
-    - database
-    - stat gen
 - move `benchmark.py` and `train.py` to `./neural_network`
-- ~~caching models~~
 
 
 
