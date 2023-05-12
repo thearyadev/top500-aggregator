@@ -14,7 +14,7 @@ REGIONS = [Region.AMERICAS, Region.EUROPE, Region.ASIA]
 ROLES = [Role.TANK, Role.DAMAGE, Role.SUPPORT]
 HEROES = [
     heroes.Hero(image=None, image_array=None, name=h)
-    for h in heroes.Heroes("./assets/hero_images").hero_labels.keys()
+    for h in heroes.Heroes().hero_labels.keys()
 ]
 
 
