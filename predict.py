@@ -3,6 +3,8 @@ import numpy as np
 
 from neural_network import Model
 
+
+"""This is a script to test model predictions."""
 # Label index to label name relation
 top_500_mnist_labels = {
     0: "Ana",

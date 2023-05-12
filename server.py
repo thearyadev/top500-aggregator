@@ -23,7 +23,7 @@ from statistic import (
     get_hero_trends_all_heroes_by_region,
 )
 
-templates = Jinja2Templates(directory="templates2")
+templates = Jinja2Templates(directory="templates")
 
 db = database.DatabaseAccess("./data/data.db")
 
