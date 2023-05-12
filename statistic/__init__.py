@@ -2,7 +2,7 @@ import statistics
 
 import database
 import leaderboards
-from heroes import allHeroes, Heroes
+from heroes import Heroes
 
 
 def convert_dict_to_hero_count_array(data: dict) -> list[dict]:
@@ -177,7 +177,7 @@ def fill_missing_hero_by_role(
     hero_dict: dict[str, int], roleFilter: str
 ) -> dict[str, int]:
     heroes_present: list[str] = list(hero_dict.keys())
-    for hero, role in Heroes("./assets/hero_images").hero_role.items():
+    for hero, role in Heroes().hero_role.items():
         if hero in ("Blank", "Blank2"):
             continue
 
@@ -190,28 +190,38 @@ def fill_missing_hero_by_role(
 def get_hero_trends_all_heroes_by_region(
     db: database.DatabaseAccess,
 ) -> dict[
-    str, dict[str, dict[str, int]]
+    str, dict[str, list[dict[str, int]]]
 ]:  # dict[seasonNumber: dict[role, dict[hero, count]]]
-    results: dict[str, dict[str, dict[str, int]]] = {}
+    results: dict[str, dict[str, list[dict[str, int]]]] = {}
+
+    # iter seasons
     for season in db.get_seasons():
-        results[season] = {}
-
+        # init season
         results[season] = {"SUPPORT": dict(), "DAMAGE": dict(), "TANK": dict()}
-
+        # get season data
         seasonData = db.get_all_records(season)
-        for entry in seasonData:
-            for hero in entry.heroes:
+        # iter season data
+        for entry in seasonData: # entry is a leaderboard entry
+            for hero in entry.heroes: # skip blanks
                 if hero in ("Blank", "Blank2"):
                     continue
+
+
+                # increment or init hero in dict. for its role
                 if hero not in results[season][entry.role.name]:
                     results[season][entry.role.name][hero] = 0
                 results[season][entry.role.name][hero] += 1
+    # filtering
     for season, roleDict in results.items():
+        #iter data
         for role, heroesInRole in roleDict.items():
+            # fill all missing heroes for respective roles
             results[season][role] = fill_missing_hero_by_role(heroesInRole, role)
+            # convert {hero: count} to [{hero: hero, count: count}]
             results[season][role] = convert_dict_to_hero_count_array(
                 results[season][role]
             )
+            # sort by hero name
             results[season][role] = sorted(
                 results[season][role], key=lambda x: x["hero"], reverse=False
             )
