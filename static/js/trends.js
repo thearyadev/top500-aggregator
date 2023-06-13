@@ -52,6 +52,12 @@ function drawChart(chartName) { // value is region. Americas, Europe, Asia, All
         isStacked: "relative",
         theme: "material",
         fontName: 'Lato',
+        hAxis: {
+            viewWindow: {
+                min: parsedGraphData.getColumnRange(0).min
+            }
+        },
+
 
 
 
