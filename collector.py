@@ -26,7 +26,7 @@ def generate_name() -> str:  # gens a name
 
 def main():
     ROLES = [
-        r.name for r in list(leaderboards.Role) if r not in (leaderboards.Role.ALL, leaderboards.Role.TANK)
+        r.name for r in list(leaderboards.Role) if r not in (leaderboards.Role.ALL, )
     ]
     REGIONS = [
         r.name for r in list(leaderboards.Region) if r != leaderboards.Region.ALL
