@@ -69,8 +69,8 @@ def parse(
     model_name: str | None = None,
 ) -> list[LeaderboardEntry]:
     results: list[LeaderboardEntry] = list()  # init return array
-    heroComparor = Heroes(
-        assets_path
+    heroComparor = (
+        Heroes()
     )  # class used to evaluate which hero is currently being looked at
     image_input: np.ndarray = cv2.imread(image_path)  # read the leaderboard image
     assert cv2.cvtColor(image_input, cv2.COLOR_BGR2GRAY).shape == (
