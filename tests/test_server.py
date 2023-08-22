@@ -1,9 +1,19 @@
 from fastapi.testclient import TestClient
 
-from database import DatabaseAccess
+import mysql_database
 from server import app
+import os
+from dotenv import load_dotenv
 
-dba = DatabaseAccess("./data/data.db")
+load_dotenv()
+
+dba = mysql_database.DatabaseAccess(
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=os.getenv("MYSQLPORT"),
+)
 client = TestClient(app)
 
 
