@@ -16,6 +16,7 @@ SETTINGS = {
 
 SUBFOLDER = "34"
 
+
 def next_page():
     pyautogui.click(1004, 884)  # click next page button
 
@@ -26,7 +27,7 @@ def generate_name() -> str:  # gens a name
 
 def main():
     ROLES = [
-        r.name for r in list(leaderboards.Role) if r not in (leaderboards.Role.ALL, )
+        r.name for r in list(leaderboards.Role) if r not in (leaderboards.Role.ALL,)
     ]
     REGIONS = [
         r.name for r in list(leaderboards.Region) if r != leaderboards.Region.ALL

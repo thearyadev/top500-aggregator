@@ -1,14 +1,18 @@
 import datetime
 import threading
 
-import leaderboards
 from mysql.connector import pooling
+
+import leaderboards
 from heroes import Hero
+
 lock = threading.Lock()
 
 
 class DatabaseAccess:
-    def __init__(self, user: str, password: str, host: str, port: str | int, database: str):
+    def __init__(
+        self, user: str, password: str, host: str, port: str | int, database: str
+    ):
         self.con_pool = pooling.MySQLConnectionPool(
             pool_name="pool",
             pool_size=5,
@@ -39,7 +43,9 @@ class DatabaseAccess:
             connection.close()
             lock.release()
 
-    def add_info_entry(self, season_identifier: str, disclaimer: str | None, patch_notes: str | None):
+    def add_info_entry(
+        self, season_identifier: str, disclaimer: str | None, patch_notes: str | None
+    ):
         """Adds a new entry to the season_info table in the database
 
         Args:
@@ -108,15 +114,21 @@ class DatabaseAccess:
             (region, role, gamesPlayed, firstMostPlayed, secondMostPlayed, thirdMostPlayed)
             VALUES(%s, %s, %s, %s, %s, %s)
             """,
-            (
-                leaderboard_entry.region.name,
-                leaderboard_entry.role.name,
-                leaderboard_entry.games,
-                # can be string or Hero object. If it's a Hero object, get the name.
-                leaderboard_entry.heroes[0].name if isinstance(leaderboard_entry.heroes[0], Hero) else leaderboard_entry.heroes[0],
-                leaderboard_entry.heroes[1].name if isinstance(leaderboard_entry.heroes[1], Hero) else leaderboard_entry.heroes[1],
-                leaderboard_entry.heroes[2].name if isinstance(leaderboard_entry.heroes[2], Hero) else leaderboard_entry.heroes[2]
-            ),
+                (
+                    leaderboard_entry.region.name,
+                    leaderboard_entry.role.name,
+                    leaderboard_entry.games,
+                    # can be string or Hero object. If it's a Hero object, get the name.
+                    leaderboard_entry.heroes[0].name
+                    if isinstance(leaderboard_entry.heroes[0], Hero)
+                    else leaderboard_entry.heroes[0],
+                    leaderboard_entry.heroes[1].name
+                    if isinstance(leaderboard_entry.heroes[1], Hero)
+                    else leaderboard_entry.heroes[1],
+                    leaderboard_entry.heroes[2].name
+                    if isinstance(leaderboard_entry.heroes[2], Hero)
+                    else leaderboard_entry.heroes[2],
+                ),
             )
             connection.commit()
         finally:
@@ -139,21 +151,22 @@ class DatabaseAccess:
             connection = self.con_pool.get_connection()
             cursor = connection.cursor()
             cursor.execute(
-                f"SELECT * FROM season_{seasonNumber}",)
+                f"SELECT * FROM season_{seasonNumber}",
+            )
             data: list[tuple[str, str, str, int, str, str, str]] = cursor.fetchall()
         finally:
             cursor.close()
             connection.close()
             lock.release()
-        
+
         results = list()
         for line in data:
             results.append(
                 leaderboards.LeaderboardEntry(
                     heroes=[
-                       line[4],  # fmp
-                          line[5],  # smp
-                            line[6],  # tmp
+                        line[4],  # fmp
+                        line[5],  # smp
+                        line[6],  # tmp
                     ],
                     role=leaderboards.Role[line[2]],
                     region=leaderboards.Region[line[1]],
@@ -213,19 +226,19 @@ class DatabaseAccess:
             connection = self.con_pool.get_connection()
             cursor = connection.cursor()
             cursor.execute(
-            f"""
+                f"""
             SELECT COUNT(*) FROM season_{seasonNumber}
                 WHERE region = '{region.name}'
                     AND (
                     firstMostPlayed = '{hero}' OR secondMostPlayed = '{hero}' OR thirdMostPlayed = '{hero}'
                     )
             """,
-        )
+            )
             connection.commit()
         finally:
             cursor.close()
             connection.close()
-            lock.release()  
+            lock.release()
         result: tuple[int] = self.cursor.fetchone()
         return result[0]
 
@@ -243,40 +256,38 @@ class DatabaseAccess:
             connection = self.con_pool.get_connection()
             cursor = connection.cursor()
             cursor.execute(
-            f"SELECT disclaimer FROM season_info WHERE id = 'season_{seasonNumber}'",
-        )
+                f"SELECT disclaimer FROM season_info WHERE id = 'season_{seasonNumber}'",
+            )
             result: tuple[str] = cursor.fetchone()
 
         finally:
             cursor.close()
             connection.close()
-            lock.release()  
+            lock.release()
         return result[0]
 
     def add_season_info_entry(
         self, season_identifier: str, disclaimer: str | None, patch_notes: str | None
     ) -> None:
-        
         lock.acquire()
         try:
             connection = self.con_pool.get_connection()
             cursor = connection.cursor()
             cursor.execute(
-            f"INSERT INTO season_info (id, disclaimer, patch_notes) VALUES(?, ?, ?)",
-            (season_identifier, disclaimer, patch_notes),
-        )
+                f"INSERT INTO season_info (id, disclaimer, patch_notes) VALUES(?, ?, ?)",
+                (season_identifier, disclaimer, patch_notes),
+            )
             connection.commit()
         finally:
             cursor.close()
             connection.close()
-            lock.release()        
+            lock.release()
         return None
 
     def drop_and_rebuild_testing_db(self):
         """Drops the testing database. Only use for testing purposes."""
         if self.dbname == "railway":
             raise ValueError("Cannot drop railway database")
-
 
         lock.acquire()
         try:
