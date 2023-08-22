@@ -6,8 +6,8 @@ from rich.console import Console
 from rich.progress import Progress, track
 from rich.prompt import Prompt
 
-import legacy_database
 import leaderboards
+import legacy_database
 
 console = Console()
 dba = legacy_database.DatabaseAccess("./data/data.db")
@@ -22,7 +22,7 @@ def worker(file: str):
         region=region,
         model_name=model_name,
     )
-    
+
     for i in results:
         if i.heroes[0].name != "Blank":
             dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
@@ -64,7 +64,7 @@ def main():
             futures = [executor.submit(worker, file) for file in files]
             for future in as_completed(futures):
                 progress.advance(progress_bar)
- 
+
 
 if __name__ == "__main__":
     main()

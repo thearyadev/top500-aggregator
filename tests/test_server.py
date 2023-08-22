@@ -1,9 +1,10 @@
+import os
+
+from dotenv import load_dotenv
 from fastapi.testclient import TestClient
 
 import mysql_database
 from server import app
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 

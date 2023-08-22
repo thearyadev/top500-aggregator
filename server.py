@@ -1,18 +1,21 @@
 import json
+import os
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jinja2 import Environment
 
-import mysql_database
 import leaderboards
+import mysql_database
 from statistic import (
     get_avg_games_played_by_region,
     get_games_played_max,
     get_games_played_min,
     get_games_played_total,
+    get_hero_trends_all_heroes_by_region,
     get_mean,
     get_number_of_ohp,
     get_number_of_thp,
@@ -20,10 +23,7 @@ from statistic import (
     get_occurrences_most_played,
     get_stdev,
     get_variance,
-    get_hero_trends_all_heroes_by_region,
 )
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 

@@ -1,11 +1,12 @@
 import datetime
+import os
 import random
 
-import mysql_database
-import heroes
-from leaderboards import LeaderboardEntry, Region, Role
 from dotenv import load_dotenv
-import os
+
+import heroes
+import mysql_database
+from leaderboards import LeaderboardEntry, Region, Role
 
 load_dotenv()
 
@@ -88,6 +89,7 @@ def test_get_all_records():
             assert (
                 len(dba.get_all_records(f"{season}_{subseason}")) == ENTRIES_PER_TABLE
             )
+
 
 def pytest_sessionfinish(session, exitstatus):
     dba.drop_and_rebuild_testing_db()
