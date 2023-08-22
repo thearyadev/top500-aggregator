@@ -23,6 +23,7 @@ hypercorn = "0.14.4"
 pytest-cov = "^4.0.0"
 httpx = "^0.24.1"
 python-dotenv = "^1.0.0"
+mysql-connector-python = "^8.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
