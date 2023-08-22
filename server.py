@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jinja2 import Environment
 
-import database
+import mysql_database
 import leaderboards
 from statistic import (
     get_avg_games_played_by_region,
@@ -22,11 +22,20 @@ from statistic import (
     get_variance,
     get_hero_trends_all_heroes_by_region,
 )
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 templates = Jinja2Templates(directory="templates")
 
-db = database.DatabaseAccess("./data/data.db")
-
+db = mysql_database.DatabaseAccess(
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=os.getenv("MYSQLPORT"),
+)
 seasons = db.get_seasons()
 
 data = dict()
