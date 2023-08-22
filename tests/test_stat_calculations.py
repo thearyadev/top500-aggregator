@@ -1,4 +1,9 @@
+import os
+
 from database import DatabaseAccess
+from dotenv import load_dotenv
+
+import mysql_database
 from leaderboards import Region, Role
 from statistic import (
     get_hero_trends_all_heroes_by_region,
@@ -10,12 +15,6 @@ from statistic import (
     get_stdev,
     get_variance,
 )
-
-import os
-
-
-from dotenv import load_dotenv
-import mysql_database
 
 load_dotenv()
 
