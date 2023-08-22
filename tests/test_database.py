@@ -1,15 +1,28 @@
 import datetime
+import os
 import random
 
-import database
+from dotenv import load_dotenv
+
 import heroes
+import mysql_database
 from leaderboards import LeaderboardEntry, Region, Role
 
-dba = database.DatabaseAccess(":memory:")
+load_dotenv()
 
-SEASON_ITERABLE = range(1, 6)
-SUBSEASON_ITERABLE = range(1, 9)
-ENTRIES_PER_TABLE = 4500
+dba = mysql_database.DatabaseAccess(
+    host=os.getenv("TESTING_MYSQLHOST"),
+    user=os.getenv("TESTING_MYSQLUSER"),
+    password=os.getenv("TESTING_MYSQLPASSWORD"),
+    database=os.getenv("TESTING_MYSQLDATABASE"),
+    port=os.getenv("TESTING_MYSQLPORT"),
+)
+dba.drop_and_rebuild_testing_db()
+
+
+SEASON_ITERABLE = range(1, 2)
+SUBSEASON_ITERABLE = range(1, 2)
+ENTRIES_PER_TABLE = 25
 REGIONS = [Region.AMERICAS, Region.EUROPE, Region.ASIA]
 ROLES = [Role.TANK, Role.DAMAGE, Role.SUPPORT]
 HEROES = [
@@ -56,8 +69,8 @@ def test_season_table_add_entries():
                     dba.add_leaderboard_entry(
                         f"{season}_{subseason}",
                         LeaderboardEntry(
-                            region=random.choice(REGIONS).name,
-                            role=random.choice(ROLES).name,
+                            region=random.choice(REGIONS),
+                            role=random.choice(ROLES),
                             games=0,
                             heroes=[
                                 random.choice(HEROES),
@@ -76,3 +89,7 @@ def test_get_all_records():
             assert (
                 len(dba.get_all_records(f"{season}_{subseason}")) == ENTRIES_PER_TABLE
             )
+
+
+def pytest_sessionfinish(session, exitstatus):
+    dba.drop_and_rebuild_testing_db()

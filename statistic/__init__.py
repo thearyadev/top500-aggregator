@@ -1,6 +1,6 @@
 import statistics
 
-import database
+import mysql_database
 import leaderboards
 from heroes import Heroes
 
@@ -188,7 +188,7 @@ def fill_missing_hero_by_role(
 
 
 def get_hero_trends_all_heroes_by_region(
-    db: database.DatabaseAccess,
+    db: mysql_database.DatabaseAccess,
 ) -> dict[
     str, dict[str, list[dict[str, int]]]
 ]:  # dict[seasonNumber: dict[role, dict[hero, count]]]

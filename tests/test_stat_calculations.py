@@ -1,4 +1,4 @@
-from database import DatabaseAccess
+from legacy_database import DatabaseAccess
 from leaderboards import Region, Role
 from statistic import (
     get_hero_trends_all_heroes_by_region,
@@ -11,7 +11,21 @@ from statistic import (
     get_variance,
 )
 
-dba = DatabaseAccess("./data/data.db")
+import os
+
+
+from dotenv import load_dotenv
+import mysql_database
+
+load_dotenv()
+
+dba = mysql_database.DatabaseAccess(
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=os.getenv("MYSQLPORT"),
+)
 data = []
 
 for season in dba.get_seasons():
