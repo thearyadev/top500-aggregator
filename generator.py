@@ -6,11 +6,11 @@ from rich.console import Console
 from rich.progress import Progress, track
 from rich.prompt import Prompt
 
-import database
+import legacy_database
 import leaderboards
 
 console = Console()
-dba = database.DatabaseAccess("./data/data.db")
+dba = legacy_database.DatabaseAccess("./data/data.db")
 
 
 def worker(file: str):
