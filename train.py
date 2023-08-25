@@ -17,6 +17,7 @@ from neural_network import (
     Optimizer_Adam,
     create_data_mnist,
 )
+import time
 
 
 def train(
@@ -53,7 +54,7 @@ def train(
     model.add(Activation_ReLU())
     model.add(Layer_Dense(128, 128))
     model.add(Activation_ReLU())
-    model.add(Layer_Dense(128, 39))  # second parameter is the number of classes
+    model.add(Layer_Dense(128, 40))  # second parameter is the number of classes
     model.add(Activation_Softmax())
 
     # Set loss, optimizer and accuracy objects
@@ -111,8 +112,7 @@ def write(
         model_source = model_file.read()
         with open(f"models/{model_name}/model.py", "w+") as f:
             f.write(model_source)
-
-    with open(f"/models/{model_name}/__init__.py", "w+") as f:
+    with open(f"models/{model_name}/__init__.py", "w+") as f:
         f.write(f"from .model import Model")
     return None
 
