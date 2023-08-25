@@ -1,7 +1,7 @@
 import json
 import os
 
-import pyautogui as pg
+# import pyautogui as pg
 from rich import print
 
 import heroes as HeroComparisonClass
