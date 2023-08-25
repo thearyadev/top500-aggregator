@@ -84,7 +84,7 @@ def main():
             assets_path="./assets/hero_images",
             region=leaderboards.Region.AMERICAS,  # doesnt matter
             role=leaderboards.Role.DAMAGE,  # doesnt matter
-            model_name="thearyadev-2023-04-30",
+            model_name="thearyadev-2023-08-25",
         )
 
         for entry, answer in zip(result, heroes):  # validate results
