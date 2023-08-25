@@ -48,7 +48,7 @@ def main():
     # sorry
 
     target_season = "5_8"
-    model_name = "thearyadev-2023-04-30"
+    model_name = "thearyadev-2023-08-25"
     dba.create_season(seasonNumber=target_season)
 
     files = os.listdir("./assets/leaderboard_images")

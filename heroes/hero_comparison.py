@@ -96,6 +96,7 @@ class Heroes:
             36: "Zarya",
             37: "Zenyatta",
             38: "LifeWeaver",
+            39: "Illari",
         }
         self.hero_role: dict[str, str] = {
             "Ana": "SUPPORT",
@@ -111,6 +112,7 @@ class Heroes:
             "Echo": "DAMAGE",
             "Genji": "DAMAGE",
             "Hanzo": "DAMAGE",
+            "Illari": "SUPPORT",
             "Junker Queen": "TANK",
             "Junkrat": "DAMAGE",
             "Kiriko": "SUPPORT",
