@@ -10,13 +10,18 @@ from leaderboards import LeaderboardEntry, Region, Role
 
 load_dotenv()
 
-dba = mysql_database.DatabaseAccess(
-    host=os.getenv("TESTING_MYSQLHOST"),
-    user=os.getenv("TESTING_MYSQLUSER"),
-    password=os.getenv("TESTING_MYSQLPASSWORD"),
-    database=os.getenv("TESTING_MYSQLDATABASE"),
-    port=os.getenv("TESTING_MYSQLPORT"),
-)
+try:
+    dba = mysql_database.DatabaseAccess(
+        host=os.getenv("TESTING_MYSQLHOST"),
+        user=os.getenv("TESTING_MYSQLUSER"),
+        password=os.getenv("TESTING_MYSQLPASSWORD"),
+        database=os.getenv("TESTING_MYSQLDATABASE"),
+        port=os.getenv("TESTING_MYSQLPORT"),
+    )
+except TypeError as e:
+    raise ConnectionError(
+        "The tests require a MySQL Database connection. See `.env.sample` and populate a new .env file to run tests."
+    ) from e
 dba.drop_and_rebuild_testing_db()
 
 
