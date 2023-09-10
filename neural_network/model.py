@@ -1,10 +1,10 @@
 import os
 
-import nnfs
+import nnfs  # type: ignore
 import numpy as np
 
 try:
-    import cv2
+    import cv2  # type: ignore
 except Exception:
     # In the Railway server, cv2 is not installed. This try except will catch the import error when using this module in Railway
     pass
@@ -947,7 +947,7 @@ class Model:
                 str(self.optimizer.current_learning_rate),
             )
             table.add_row(*r)
-            training_results.append(r) # type: ignore
+            training_results.append(r)  # type: ignore
 
             # If there is the validation data
             if validation_data is not None:
