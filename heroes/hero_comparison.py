@@ -1,6 +1,4 @@
 import importlib  # importlib is used to import the model from the model file
-import os
-import time
 
 from PIL import Image
 
@@ -22,7 +20,7 @@ class Hero:
     Hero class to store hero data. This class has some reduenancy but is utilized for better organization in some areas of this project
     """
 
-    def __init__(self, image: Image.Image, image_array: list, name: str):
+    def __init__(self, image: Image.Image | None, image_array: list | None, name: str):
         self.image, self.image_array, self.name = image, image_array, name
 
     def __repr__(self):
@@ -164,7 +162,7 @@ class Heroes:
             if label == predictions[0]:
                 results.append((1, Hero(image=None, image_array=None, name=hero_name)))
             else:
-                results.append((0, hero_name))
+                results.append((0, Hero(image=None, image_array=None, name=hero_name)))
             i += 1
 
         results = sorted(results, key=lambda x: x[0], reverse=True)
