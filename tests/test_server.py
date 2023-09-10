@@ -8,13 +8,22 @@ from server import app
 
 load_dotenv()
 
-dba = mysql_database.DatabaseAccess(
-    host=os.getenv("MYSQLHOST"),
-    user=os.getenv("MYSQLUSER"),
-    password=os.getenv("MYSQLPASSWORD"),
-    database=os.getenv("MYSQLDATABASE"),
-    port=os.getenv("MYSQLPORT"),
-)
+try:
+    dba = mysql_database.DatabaseAccess(
+        host=os.getenv("MYSQLHOST"),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE"),
+        port=os.getenv("MYSQLPORT"),
+    )
+except TypeError as e:
+    raise ConnectionError(
+        "The tests require a MySQL Database connection. See `.env.sample` and populate a new .env file to run tests."
+    ) from e
+
+
+
+
 client = TestClient(app)
 
 
