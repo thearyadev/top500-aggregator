@@ -239,7 +239,7 @@ class DatabaseAccess:
             cursor.close()
             connection.close()
             lock.release()
-        result: tuple[int] = self.cursor.fetchone()
+        result: tuple[int] = cursor.fetchone()
         return result[0]
 
     def get_season_disclaimer(self, seasonNumber: str) -> str:
