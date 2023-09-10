@@ -34,7 +34,7 @@ def dist(hist1, hist2) -> float:
 def psnr(image1, image2) -> float:
     # Peak Signal to Noise Ratio comparison
     mse = np.mean((image1 - image2) ** 2)
-    result = -1
+    result = -1.0
     if mse == 0:
         result = 100
     PIXEL_MAX = 255.0
