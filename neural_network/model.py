@@ -507,7 +507,7 @@ class Loss:
 
     def calculate(self, output, y, *, include_regularization=False):
         # Calculate sample losses
-        sample_losses = self.forward(output, y)
+        sample_losses = self.forward(output, y)  # type: ignore
 
         # Calculate mean loss
         data_loss = np.mean(sample_losses)
@@ -695,7 +695,7 @@ class Accuracy:
     # given predictions and ground truth values
     def calculate(self, predictions, y):
         # Get comparison results
-        comparisons = self.compare(predictions, y)
+        comparisons = self.compare(predictions, y)  # type: ignore
 
         # Calculate an accuracy
         accuracy = np.mean(comparisons)
