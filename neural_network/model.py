@@ -947,7 +947,7 @@ class Model:
                 str(self.optimizer.current_learning_rate),
             )
             table.add_row(*r)
-            training_results.append(r)
+            training_results.append(r) # type: ignore
 
             # If there is the validation data
             if validation_data is not None:
