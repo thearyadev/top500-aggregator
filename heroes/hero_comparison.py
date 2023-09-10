@@ -7,39 +7,14 @@ from PIL import Image
 from neural_network import Model as NNModel
 
 try:
-    import cv2
+    import cv2  # type: ignore
 except Exception:
     # In the Railway server, cv2 is not installed. This try except will catch the import error when using this module in Railway
     pass
-import math
-import uuid
 
 import numpy as np
 
 model_cache: dict[str, NNModel] = {}
-
-
-def similarity(image1, image2) -> float:
-    # Substract method
-    return np.sum(cv2.subtract(image1, image2) ** 2) / (
-        float(image1.shape[0] * image1.shape[1])
-    )
-
-
-def dist(hist1, hist2) -> float:
-    # Historogram comparison
-    return cv2.compareHist(hist1, hist2, cv2.HISTCMP_CHISQR)
-
-
-def psnr(image1, image2) -> float:
-    # Peak Signal to Noise Ratio comparison
-    mse = np.mean((image1 - image2) ** 2)
-    result = -1.0
-    if mse == 0:
-        result = 100
-    PIXEL_MAX = 255.0
-    result = 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
-    return result
 
 
 class Hero:
@@ -47,7 +22,7 @@ class Hero:
     Hero class to store hero data. This class has some reduenancy but is utilized for better organization in some areas of this project
     """
 
-    def __init__(self, image: Image, image_array: list, name: str):
+    def __init__(self, image: Image.Image, image_array: list, name: str):
         self.image, self.image_array, self.name = image, image_array, name
 
     def __repr__(self):
@@ -195,53 +170,3 @@ class Heroes:
         results = sorted(results, key=lambda x: x[0], reverse=True)
 
         return results[0][1]
-
-    def calculate_hero_name(self, image_data: np.ndarray) -> Hero:
-        """Uses a combination of different methods to calculate the hero name from an image. This currently does not work very well...
-
-        Now deprecated. Use predict_hero_name instead.
-        Args:
-            image_data (np.ndarray): array of image data
-
-        Returns:
-            Hero: hero object with hero name only.
-        """
-        hero_array = np.array(image_data)  # color
-        hero_image = cv2.cvtColor(hero_array, cv2.COLOR_BGR2GRAY)  # grayscale
-        hero_hist = cv2.calcHist([hero_image], [0], None, [256], [0, 256])
-        cv2.normalize(hero_hist, hero_hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX)
-
-        results_subs: list[tuple[float, Hero]] = list()
-        results_dist: list[tuple[float, Hero]] = list()
-        results_psnr: list[tuple[float, Hero]] = list()
-
-        for hero in self.heroes:
-            query_hist = cv2.calcHist([hero.image], [0], None, [256], [0, 256])
-            cv2.normalize(
-                query_hist, query_hist, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX
-            )
-
-            results_subs.append((similarity(hero_image, hero.image), hero))
-
-            results_dist.append((dist(hero_hist, query_hist), hero))
-
-            results_psnr.append((psnr(hero_array, hero.image_array), hero))
-        results_subs = sorted(results_subs, key=lambda x: x[0])
-        results_dist = sorted(results_dist, key=lambda x: x[0])
-        results_psnr = sorted(results_subs, key=lambda x: x[0], reverse=True)
-        # print(f"Confidence: {result[0][0]}")
-        # time.sleep(0.1)
-        # If two or more values match they are returned, if there are not a definitive match, substract value is returned
-        if (
-            results_subs[0][1] == results_dist[0][1]
-            or results_subs[0][1] == results_psnr[0][1]
-        ):
-            return results_subs[0][1]
-        elif results_subs[0][1] == results_psnr[0][1]:
-            return results_subs[0][1]
-        else:
-            return results_subs[0][1]
-
-
-if __name__ == "__main__":
-    ...
