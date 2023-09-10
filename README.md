@@ -86,8 +86,6 @@ In order to add labels to the model, follow these steps:
 7. Do manual validation of the model. Using `./benchmarks.py`, you can test the model against a set of images that have been manually classified. This script will output the results of the test. If the model is not performing well, you can re-train the model.
 8. In your pull request, include a screenshot of the results of `./benchmarks.py` and a screenshot of the "Training Progress" table shown during training. 
 
-![Generator.py Memory Profile; 16 workers](/gen_memory_profile.png)
-
 # Todo & Roadmap
 - move `benchmark.py` and `train.py` to `./neural_network`
 
