@@ -2,7 +2,7 @@ import statistics
 
 import mysql_database
 import leaderboards
-from heroes import Heroes
+from heroes import Heroes, Hero
 
 
 def convert_dict_to_hero_count_array(data: dict) -> list[dict]:
@@ -18,11 +18,14 @@ def filter_games_results(i: leaderboards.LeaderboardEntry) -> bool:
 
 
 def get_occurrences(
-    *, data: list[leaderboards.LeaderboardEntry], region: leaderboards.Region = None
+    *,
+    data: list[leaderboards.LeaderboardEntry],
+    region: leaderboards.Region | None = None,
+    role: leaderboards.Role | None = None,
 ) -> list[dict]:
     results: dict[str, int] = {}
     acceptedRegions: list[leaderboards.Region] = [
-        region,
+        region or leaderboards.Region.ALL,
     ]
     if region == leaderboards.Region.ALL:
         acceptedRegions = [
@@ -32,13 +35,19 @@ def get_occurrences(
         ]
 
     for entry in data:
+        if role and entry.role != role:
+            continue
+
         if entry.region not in acceptedRegions:
             continue
         for hero in entry.heroes:
-            if hero in results:
-                results[hero] += 1
-                continue
-            results[hero] = 1
+            if isinstance(
+                hero, str
+            ):  # stupid me! I designed the leaderboard entry to be able to accept list[hero] and list[str]
+                if hero in results:
+                    results[hero] += 1
+                    continue
+                results[hero] = 1
     try:
         results.pop("Blank")
         results.pop("Blank2")
@@ -56,7 +65,7 @@ def get_occurrences_most_played(
     data: list[leaderboards.LeaderboardEntry],
     role: leaderboards.Role,
     region: leaderboards.Region,
-    mostPlayedSlot: int
+    mostPlayedSlot: int,
 ) -> list[dict]:
     mostPlayedSlot = mostPlayedSlot - 1
     results: dict[str, int] = {}
@@ -87,11 +96,13 @@ def get_occurrences_most_played(
         if entry.role not in acceptedRoles:
             continue
 
-        mostPlayedHero: str = entry.heroes[mostPlayedSlot]
-        if mostPlayedHero in results:
-            results[mostPlayedHero] += 1
-            continue
-        results[mostPlayedHero] = 1
+        mostPlayedHero: Hero | str = entry.heroes[mostPlayedSlot]
+        if isinstance(mostPlayedHero, str):
+            if mostPlayedHero in results:
+                results[mostPlayedHero] += 1
+                continue
+            results[mostPlayedHero] = 1
+
     try:
         results.pop("Blank")
         results.pop("Blank2")
@@ -164,7 +175,7 @@ def get_number_of_thp(data: list[leaderboards.LeaderboardEntry]) -> int:
 
 
 def fill_missing_heroes(hero_dict: dict[str, int]) -> dict[str, int]:
-    for hero in Heroes("./assets/hero_images").hero_labels.values():
+    for hero in Heroes().hero_labels.values():
         if hero in ("Blank", "Blank2"):
             continue
 
@@ -191,35 +202,39 @@ def get_hero_trends_all_heroes_by_region(
     db: mysql_database.DatabaseAccess,
 ) -> dict[
     str, dict[str, list[dict[str, int]]]
-]:  # dict[seasonNumber: dict[role, dict[hero, count]]]
+]:  
+    
+    # NOTE: This function does multiple cross type mutations to the results variable. 
+    #      I've ignored type checks for the mutations. The result type is accurate. 
+    #      I tried to strictly type this but it made the code redundant/verbose and 
+    #      I don't think it's worth it.
     results: dict[str, dict[str, list[dict[str, int]]]] = {}
 
     # iter seasons
     for season in db.get_seasons():
         # init season
-        results[season] = {"SUPPORT": dict(), "DAMAGE": dict(), "TANK": dict()}
+        results[season] = {"SUPPORT": dict(), "DAMAGE": dict(), "TANK": dict()}  # type: ignore
         # get season data
         seasonData = db.get_all_records(season)
         # iter season data
-        for entry in seasonData: # entry is a leaderboard entry
-            for hero in entry.heroes: # skip blanks
+        for entry in seasonData:  # entry is a leaderboard entry
+            for hero in entry.heroes:  # skip blanks
                 if hero in ("Blank", "Blank2"):
                     continue
 
-
                 # increment or init hero in dict. for its role
                 if hero not in results[season][entry.role.name]:
-                    results[season][entry.role.name][hero] = 0
-                results[season][entry.role.name][hero] += 1
+                    results[season][entry.role.name][hero] = 0  # type: ignore
+                results[season][entry.role.name][hero] += 1  # type: ignore
     # filtering
     for season, roleDict in results.items():
-        #iter data
+        # iter data
         for role, heroesInRole in roleDict.items():
             # fill all missing heroes for respective roles
-            results[season][role] = fill_missing_hero_by_role(heroesInRole, role)
+            results[season][role] = fill_missing_hero_by_role(heroesInRole, role)  # type: ignore
             # convert {hero: count} to [{hero: hero, count: count}]
             results[season][role] = convert_dict_to_hero_count_array(
-                results[season][role]
+                results[season][role]  # type: ignore
             )
             # sort by hero name
             results[season][role] = sorted(
