@@ -1,5 +1,6 @@
-from heroes import Hero, Heroes
 from PIL import Image
+
+from heroes import Hero, Heroes
 
 try:
     import cv2  # type: ignore
