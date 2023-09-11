@@ -5,23 +5,17 @@ from fastapi.testclient import TestClient
 
 import mysql_database
 from server import app
+from utils.raise_for_missing_env import raise_for_missing_env_vars
 
 load_dotenv()
 
-try:
-    dba = mysql_database.DatabaseAccess(
-        host=os.getenv("MYSQLHOST"),
-        user=os.getenv("MYSQLUSER"),
-        password=os.getenv("MYSQLPASSWORD"),
-        database=os.getenv("MYSQLDATABASE"),
-        port=os.getenv("MYSQLPORT"),
-    )
-except TypeError as e:
-    raise ConnectionError(
-        "The tests require a MySQL Database connection. See `.env.sample` and populate a new .env file to run tests."
-    ) from e
-
-
+dba = mysql_database.DatabaseAccess(
+    host=os.getenv("MYSQLHOST") or raise_for_missing_env_vars(),
+    user=os.getenv("MYSQLUSER") or raise_for_missing_env_vars(),
+    password=os.getenv("MYSQLPASSWORD") or raise_for_missing_env_vars(),
+    database=os.getenv("MYSQLDATABASE") or raise_for_missing_env_vars(),
+    port=os.getenv("MYSQLPORT") or raise_for_missing_env_vars(),
+)
 
 
 client = TestClient(app)
