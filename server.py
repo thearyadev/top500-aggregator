@@ -11,10 +11,6 @@ from jinja2 import Environment
 import leaderboards
 import mysql_database
 from statistic import (
-    get_avg_games_played_by_region,
-    get_games_played_max,
-    get_games_played_min,
-    get_games_played_total,
     get_hero_trends_all_heroes_by_region,
     get_mean,
     get_number_of_ohp,
@@ -24,17 +20,22 @@ from statistic import (
     get_stdev,
     get_variance,
 )
+from utils.raise_for_missing_env import raise_for_missing_env_vars
 
 load_dotenv()
 
 templates = Jinja2Templates(directory="templates")
 
+
+
+
+
 db = mysql_database.DatabaseAccess(
-    host=os.getenv("MYSQLHOST"),
-    user=os.getenv("MYSQLUSER"),
-    password=os.getenv("MYSQLPASSWORD"),
-    database=os.getenv("MYSQLDATABASE"),
-    port=os.getenv("MYSQLPORT"),
+    host=os.getenv("MYSQLHOST") or raise_for_missing_env_vars(),
+    user=os.getenv("MYSQLUSER") or raise_for_missing_env_vars(),
+    password=os.getenv("MYSQLPASSWORD") or raise_for_missing_env_vars(),
+    database=os.getenv("MYSQLDATABASE") or raise_for_missing_env_vars(),
+    port=os.getenv("MYSQLPORT") or raise_for_missing_env_vars(),
 )
 seasons = db.get_seasons()
 
@@ -365,8 +366,8 @@ def calculate():
         # conducts calculations for mean variance and standard dev
         for key, val in data[s].items():
             if key != "MISC":
-                graphData = data[s][key]["graph"]
-                data[s][key]["statistic"] = {
+                graphData = data[s][key]["graph"]  # type: ignore
+                data[s][key]["statistic"] = {  # type: ignore
                     "mean": round(get_mean(graphData), 3),
                     "variance": round(get_variance(graphData), 3),
                     "standard_deviation": round(get_stdev(graphData), 3),
@@ -395,8 +396,9 @@ async def season(request: Request, season_number: str):
                 "request": request,
                 "seasons": seasons,
                 "currentSeason": season_number,
-                **data[season_number],
-                **data[season_number]["MISC"],
+                **data[season_number],  # type: ignore
+                **data[season_number]["MISC"],  # type: ignore
+                # this does work. Im not sure why mypy is complaining. It unpacks all of the chart datas into the global scope of the template
                 "disclaimer": db.get_season_disclaimer(season_number),
             },
         )
@@ -434,7 +436,7 @@ async def trendsEndpoint(request: Request):
 
 
 def group_subseasons(seasons: list[str]) -> dict[str, list[str]]:
-    subseasons = {}
+    subseasons: dict[str, list[str]] = {}
     for season in seasons:
         subseason = season.split("_")[0]
         if subseason not in subseasons:
