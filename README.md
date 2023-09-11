@@ -35,13 +35,13 @@ Google Charts is used on the frontend to display all the data collected and gene
 
 ### Data Collection
 1. Install all dependencies using poetry
-2. Run `python collector.py` to begin
+2. Run `python utils/collector.py` to begin
 
 ### Generating Databse Entries
 1. Install all dependencies
 2. Prepare the raw leaderboard images, place them in `./assets/leaderboard_images`
-3. Configure the correct settings for the season identifier in `./generator.py`
-4. Run `python generator.py`
+3. Configure the correct settings for the season identifier in `./utils/generator.py`
+4. Run `python utils/generator.py`
 
 
 ### Serving Webpage 
@@ -50,6 +50,8 @@ Use docker to build the dockerfile, or run `uvicorn server:app --reload` after i
 
 
 ### Development 
+
+Note: Some of the mentioned scripts have been moved to `./utils/`
 Install all dependencies using poetry. There are some dev dependencies for code formatting. 
 
 `./assets` contains hero images, neural network dataset, and some t500 images used during testing. Do not modify these files. Create the directory `./assets/leaderboard_images` as a supply for `generator.py`
@@ -85,8 +87,6 @@ In order to add labels to the model, follow these steps:
 6. In `./heroes/hero_comparison.py`, add the new label to the `hero_labels` dict. This list is used to map the label to the hero name.
 7. Do manual validation of the model. Using `./benchmarks.py`, you can test the model against a set of images that have been manually classified. This script will output the results of the test. If the model is not performing well, you can re-train the model.
 8. In your pull request, include a screenshot of the results of `./benchmarks.py` and a screenshot of the "Training Progress" table shown during training. 
-
-![Generator.py Memory Profile; 16 workers](/gen_memory_profile.png)
 
 # Todo & Roadmap
 - move `benchmark.py` and `train.py` to `./neural_network`

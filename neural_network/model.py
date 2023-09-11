@@ -1,10 +1,10 @@
 import os
 
-import nnfs
+import nnfs  # type: ignore
 import numpy as np
 
 try:
-    import cv2
+    import cv2  # type: ignore
 except Exception:
     # In the Railway server, cv2 is not installed. This try except will catch the import error when using this module in Railway
     pass
@@ -507,7 +507,7 @@ class Loss:
 
     def calculate(self, output, y, *, include_regularization=False):
         # Calculate sample losses
-        sample_losses = self.forward(output, y)
+        sample_losses = self.forward(output, y)  # type: ignore
 
         # Calculate mean loss
         data_loss = np.mean(sample_losses)
@@ -695,7 +695,7 @@ class Accuracy:
     # given predictions and ground truth values
     def calculate(self, predictions, y):
         # Get comparison results
-        comparisons = self.compare(predictions, y)
+        comparisons = self.compare(predictions, y)  # type: ignore
 
         # Calculate an accuracy
         accuracy = np.mean(comparisons)
@@ -947,7 +947,7 @@ class Model:
                 str(self.optimizer.current_learning_rate),
             )
             table.add_row(*r)
-            training_results.append(r) # type: ignore
+            training_results.append(r)  # type: ignore
 
             # If there is the validation data
             if validation_data is not None:
