@@ -1,11 +1,5 @@
-from PIL import Image
 
 from heroes import Hero, Heroes
-
-try:
-    import cv2  # type: ignore
-except Exception as e:
-    pass
 import os
 from enum import Enum
 
@@ -63,6 +57,10 @@ def parse(
     role: Role,
     model_name: str | None = None,
 ) -> list[LeaderboardEntry]:
+
+    from PIL import Image
+    import cv2 
+
     results: list[LeaderboardEntry] = list()  # init return array
     heroComparor = (
         Heroes()

@@ -1,14 +1,6 @@
+from __future__ import annotations
+
 import importlib  # importlib is used to import the model from the model file
-
-from PIL import Image
-
-from neural_network import Model as NNModel
-
-try:
-    import cv2  # type: ignore
-except Exception:
-    # In the Railway server, cv2 is not installed. This try except will catch the import error when using this module in Railway
-    pass
 
 import numpy as np
 
@@ -128,6 +120,10 @@ class Heroes:
         # image_data = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
 
         # Resize to the same size as Fashion MNIST images
+
+        from PIL import Image
+        import cv2
+        from neural_network import Model as NNModel
         image_data = cv2.resize(image_data, (49, 50))
 
         # Reshape and scale pixel data
