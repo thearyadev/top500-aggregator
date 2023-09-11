@@ -7,21 +7,18 @@ from dotenv import load_dotenv
 import heroes
 import mysql_database
 from leaderboards import LeaderboardEntry, Region, Role
+from utils.raise_for_missing_env import raise_for_missing_env_vars
+
 
 load_dotenv()
 
-try:
-    dba = mysql_database.DatabaseAccess(
-        host=os.getenv("TESTING_MYSQLHOST"),
-        user=os.getenv("TESTING_MYSQLUSER"),
-        password=os.getenv("TESTING_MYSQLPASSWORD"),
-        database=os.getenv("TESTING_MYSQLDATABASE"),
-        port=os.getenv("TESTING_MYSQLPORT"),
-    )
-except TypeError as e:
-    raise ConnectionError(
-        "The tests require a MySQL Database connection. See `.env.sample` and populate a new .env file to run tests."
-    ) from e
+dba = mysql_database.DatabaseAccess(
+    host=os.getenv("TESTING_MYSQLHOST") or raise_for_missing_env_vars(),
+    user=os.getenv("TESTING_MYSQLUSER") or raise_for_missing_env_vars(),
+    password=os.getenv("TESTING_MYSQLPASSWORD") or raise_for_missing_env_vars(),
+    database=os.getenv("TESTING_MYSQLDATABASE") or raise_for_missing_env_vars(),
+    port=os.getenv("TESTING_MYSQLPORT") or raise_for_missing_env_vars(),
+)
 dba.drop_and_rebuild_testing_db()
 
 
@@ -30,10 +27,7 @@ SUBSEASON_ITERABLE = range(1, 2)
 ENTRIES_PER_TABLE = 25
 REGIONS = [Region.AMERICAS, Region.EUROPE, Region.ASIA]
 ROLES = [Role.TANK, Role.DAMAGE, Role.SUPPORT]
-HEROES = [
-    heroes.Hero(image=None, image_array=None, name=h)
-    for h in heroes.Heroes().hero_labels.keys()
-]
+HEROES = [heroes.Hero(image=None, name=h) for h in heroes.Heroes().hero_labels.values()]
 
 
 def test_info_table_create():
@@ -45,7 +39,9 @@ def test_info_table_create():
             assert (
                 dba.add_info_entry(
                     f"season_{season}_{subseason}",
-                    (START_DATE + datetime.timedelta(days=(7 * season))).timestamp(),
+                    str(
+                        (START_DATE + datetime.timedelta(days=(7 * season))).timestamp()
+                    ),
                     "disclaimer",
                 )
                 == None
