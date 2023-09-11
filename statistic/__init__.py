@@ -1,8 +1,8 @@
 import statistics
 
-import mysql_database
 import leaderboards
-from heroes import Heroes, Hero
+import mysql_database
+from heroes import Hero, Heroes
 
 
 def convert_dict_to_hero_count_array(data: dict) -> list[dict]:
@@ -200,13 +200,10 @@ def fill_missing_hero_by_role(
 
 def get_hero_trends_all_heroes_by_region(
     db: mysql_database.DatabaseAccess,
-) -> dict[
-    str, dict[str, list[dict[str, int]]]
-]:  
-    
-    # NOTE: This function does multiple cross type mutations to the results variable. 
-    #      I've ignored type checks for the mutations. The result type is accurate. 
-    #      I tried to strictly type this but it made the code redundant/verbose and 
+) -> dict[str, dict[str, list[dict[str, int]]]]:
+    # NOTE: This function does multiple cross type mutations to the results variable.
+    #      I've ignored type checks for the mutations. The result type is accurate.
+    #      I tried to strictly type this but it made the code redundant/verbose and
     #      I don't think it's worth it.
     results: dict[str, dict[str, list[dict[str, int]]]] = {}
 

@@ -1,5 +1,6 @@
 import inspect
 import os
+import time
 
 import numpy as np
 from rich import print
@@ -17,7 +18,6 @@ from neural_network import (
     Optimizer_Adam,
     create_data_mnist,
 )
-import time
 
 
 def train(
