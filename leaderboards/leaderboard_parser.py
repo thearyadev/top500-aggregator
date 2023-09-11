@@ -1,20 +1,14 @@
-import uuid
-
-import numpy
-
 from heroes import Hero, Heroes
+from PIL import Image
 
 try:
-    import cv2
+    import cv2  # type: ignore
 except Exception as e:
     pass
 import os
-import string
 from enum import Enum
 
 import numpy as np
-import pytesseract
-from PIL import Image
 
 
 class Region(Enum):
@@ -36,8 +30,8 @@ class LeaderboardEntry:
         self,
         heroes: list[Hero] | list[str],
         games: int,
-        region: Region = None,
-        role: Role = None,
+        region: Region,
+        role: Role,
     ):
         self.heroes = heroes
         self.games = games
@@ -98,34 +92,20 @@ def parse(
                     starting_top_point[1] : starting_bottom_point[1],
                     starting_top_point[0] : starting_bottom_point[0],
                 ]
-                # write the file to the file system.
-                # this is required because passing the cv2 numpy array directly
-                # to the hero comparison caused failed tests
-                # converting cv2 numpy array to PIL image did not work either.
-                # save to filesystem, and let PIL reload it.
-                # cv2.imwrite(
-                # path := f"{temp_directory}/{uuid.uuid4().hex}.png", modified
-                # )
+
                 if model_name is not None:
                     heroes_played.append(
                         Hero(
-                            # name=heroComparor.get_hero_name(Image.open(path)).name,
                             name=heroComparor.predict_hero_name(
                                 cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY),
                                 model_name=model_name,
                             ).name,
-                            image=modified,
-                            image_array=modified,
+                            image=Image.fromarray(modified),
                         )  # creates and appends hero object to results
                     )
                 else:
-                    heroes_played.append(
-                        Hero(
-                            name=heroComparor.calculate_hero_name(modified).name,
-                            image=modified,
-                            image_array=modified,
-                        )  # creates and appends hero object to results
-                    )
+                    raise Exception("model_name is not defined. Cannot continue.")
+
                 continue
 
             # moves box to the next hero in the leaderboard entry. This happens two times after the initial box.
@@ -136,7 +116,8 @@ def parse(
             # to the hero comparison caused failed tests
             # converting cv2 numpy array to PIL image did not work either.
             # save to filesystem, and let PIL reload it.
-            modified: np.ndarray = image_input[
+            modified: np.ndarray = image_input[  # type: ignore
+                # type ignored for var redeclaration
                 starting_top_point[1] : starting_bottom_point[1],
                 starting_top_point[0] : starting_bottom_point[0],
             ]
@@ -149,18 +130,11 @@ def parse(
                             cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY),
                             model_name=model_name,
                         ).name,
-                        image=modified,
-                        image_array=modified,
+                        image=Image.fromarray(modified),
                     )  # creates and appends hero object to results
                 )
             else:
-                heroes_played.append(
-                    Hero(
-                        name=heroComparor.calculate_hero_name(modified).name,
-                        image=modified,
-                        image_array=modified,
-                    )  # creates and appends hero object to results
-                )
+                raise Exception("model_name is not defined. Cannot continue.")
 
         # for the games played
         # move the box back and widen it to fit all the text.
