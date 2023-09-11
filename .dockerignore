@@ -1,3 +1,7 @@
 assets
 models
 tests
+Dockerfile
+README.md
+mypy-t.sh
+LICENSE
