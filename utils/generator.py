@@ -1,13 +1,13 @@
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+import legacy_database
 from PIL import Image
 from rich.console import Console
 from rich.progress import Progress, track
 from rich.prompt import Prompt
 
 import leaderboards
-import legacy_database
 
 console = Console()
 dba = legacy_database.DatabaseAccess("./data/data.db")

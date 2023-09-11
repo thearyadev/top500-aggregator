@@ -9,7 +9,6 @@ import mysql_database
 from leaderboards import LeaderboardEntry, Region, Role
 from utils.raise_for_missing_env import raise_for_missing_env_vars
 
-
 load_dotenv()
 
 dba = mysql_database.DatabaseAccess(

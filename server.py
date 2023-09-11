@@ -27,9 +27,6 @@ load_dotenv()
 templates = Jinja2Templates(directory="templates")
 
 
-
-
-
 db = mysql_database.DatabaseAccess(
     host=os.getenv("MYSQLHOST") or raise_for_missing_env_vars(),
     user=os.getenv("MYSQLUSER") or raise_for_missing_env_vars(),
@@ -57,7 +54,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_SUPPORT_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -65,7 +62,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_SUPPORT_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -73,7 +70,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_DAMAGE_AMERICAS": {
                 "graph": get_occurrences_most_played(
@@ -81,7 +78,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_DAMAGE_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -89,7 +86,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_DAMAGE_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -97,7 +94,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_TANK_AMERICAS": {
                 "graph": get_occurrences_most_played(
@@ -105,7 +102,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_TANK_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -113,7 +110,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_TANK_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -121,7 +118,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_SUPPORT_ALL": {
                 "graph": get_occurrences_most_played(
@@ -129,7 +126,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_DAMAGE_ALL": {
                 "graph": get_occurrences_most_played(
@@ -137,7 +134,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             "OFMP_TANK_ALL": {
                 "graph": get_occurrences_most_played(
@@ -145,7 +142,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=1,
-                )
+                ),
             },
             # occurrences second most played
             "OSMP_SUPPORT_AMERICAS": {
@@ -154,7 +151,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_SUPPORT_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -162,7 +159,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_SUPPORT_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -170,7 +167,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_DAMAGE_AMERICAS": {
                 "graph": get_occurrences_most_played(
@@ -178,7 +175,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_DAMAGE_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -186,7 +183,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_DAMAGE_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -194,7 +191,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_TANK_AMERICAS": {
                 "graph": get_occurrences_most_played(
@@ -202,7 +199,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_TANK_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -210,7 +207,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_TANK_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -218,7 +215,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_SUPPORT_ALL": {
                 "graph": get_occurrences_most_played(
@@ -226,7 +223,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_DAMAGE_ALL": {
                 "graph": get_occurrences_most_played(
@@ -234,7 +231,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             "OSMP_TANK_ALL": {
                 "graph": get_occurrences_most_played(
@@ -242,7 +239,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=2,
-                )
+                ),
             },
             # occurrences third most played
             "OTMP_SUPPORT_AMERICAS": {
@@ -251,7 +248,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_SUPPORT_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -259,7 +256,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_SUPPORT_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -267,7 +264,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_DAMAGE_AMERICAS": {
                 "graph": get_occurrences_most_played(
@@ -275,7 +272,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_DAMAGE_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -283,7 +280,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_DAMAGE_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -291,7 +288,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_TANK_AMERICAS": {
                 "graph": get_occurrences_most_played(
@@ -299,7 +296,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.AMERICAS,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_TANK_EUROPE": {
                 "graph": get_occurrences_most_played(
@@ -307,7 +304,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.EUROPE,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_TANK_ASIA": {
                 "graph": get_occurrences_most_played(
@@ -315,7 +312,7 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.ASIA,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_SUPPORT_ALL": {
                 "graph": get_occurrences_most_played(
@@ -323,7 +320,7 @@ def calculate():
                     role=leaderboards.Role.SUPPORT,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_DAMAGE_ALL": {
                 "graph": get_occurrences_most_played(
@@ -331,7 +328,7 @@ def calculate():
                     role=leaderboards.Role.DAMAGE,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "OTMP_TANK_ALL": {
                 "graph": get_occurrences_most_played(
@@ -339,23 +336,25 @@ def calculate():
                     role=leaderboards.Role.TANK,
                     region=leaderboards.Region.ALL,
                     mostPlayedSlot=3,
-                )
+                ),
             },
             "O_ALL_AMERICAS": {
                 "graph": get_occurrences(
-                    data=dataset, region=leaderboards.Region.AMERICAS
-                )
+                    data=dataset,
+                    region=leaderboards.Region.AMERICAS,
+                ),
             },
             "O_ALL_EUROPE": {
                 "graph": get_occurrences(
-                    data=dataset, region=leaderboards.Region.EUROPE
-                )
+                    data=dataset,
+                    region=leaderboards.Region.EUROPE,
+                ),
             },
             "O_ALL_ASIA": {
-                "graph": get_occurrences(data=dataset, region=leaderboards.Region.ASIA)
+                "graph": get_occurrences(data=dataset, region=leaderboards.Region.ASIA),
             },
             "O_ALL_ALL": {
-                "graph": get_occurrences(data=dataset, region=leaderboards.Region.ALL)
+                "graph": get_occurrences(data=dataset, region=leaderboards.Region.ALL),
             },
             "MISC": {
                 "OHP": get_number_of_ohp(dataset),
