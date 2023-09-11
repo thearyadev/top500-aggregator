@@ -1,4 +1,4 @@
-FROM python:3.10.12-bookworm
+FROM python:3.10.13-slim
 WORKDIR /t500-aggregator
 COPY . .
 
