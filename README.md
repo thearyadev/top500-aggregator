@@ -35,13 +35,13 @@ Google Charts is used on the frontend to display all the data collected and gene
 
 ### Data Collection
 1. Install all dependencies using poetry
-2. Run `python collector.py` to begin
+2. Run `python utils/collector.py` to begin
 
 ### Generating Databse Entries
 1. Install all dependencies
 2. Prepare the raw leaderboard images, place them in `./assets/leaderboard_images`
-3. Configure the correct settings for the season identifier in `./generator.py`
-4. Run `python generator.py`
+3. Configure the correct settings for the season identifier in `./utils/generator.py`
+4. Run `python utils/generator.py`
 
 
 ### Serving Webpage 
@@ -50,6 +50,8 @@ Use docker to build the dockerfile, or run `uvicorn server:app --reload` after i
 
 
 ### Development 
+
+Note: Some of the mentioned scripts have been moved to `./utils/`
 Install all dependencies using poetry. There are some dev dependencies for code formatting. 
 
 `./assets` contains hero images, neural network dataset, and some t500 images used during testing. Do not modify these files. Create the directory `./assets/leaderboard_images` as a supply for `generator.py`
