@@ -1,3 +1,6 @@
+import sys
+
+sys.path.append("./")  # used to import from root directory
 import json
 import os
 
