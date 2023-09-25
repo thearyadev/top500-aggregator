@@ -9,3 +9,5 @@ temp
 /assets/top_500_unprocessed_images
 /node_modules
 .env
+.bashrc
+.idea
