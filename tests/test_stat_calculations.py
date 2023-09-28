@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-import mysql_database
+import database
 from leaderboards import Region, Role
 from statistic import (
     get_hero_trends_all_heroes_by_region,
@@ -17,7 +17,7 @@ from statistic import (
 from utils.raise_for_missing_env import raise_for_missing_env_vars
 
 load_dotenv()
-dba = mysql_database.DatabaseAccess(
+dba = database.DatabaseAccess(
     host=os.getenv("MYSQLHOST") or raise_for_missing_env_vars(),
     user=os.getenv("MYSQLUSER") or raise_for_missing_env_vars(),
     password=os.getenv("MYSQLPASSWORD") or raise_for_missing_env_vars(),
