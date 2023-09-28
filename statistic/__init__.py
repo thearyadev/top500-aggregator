@@ -1,7 +1,7 @@
 import statistics
 
 import leaderboards
-import mysql_database
+import database
 from heroes import Hero, Heroes
 
 
@@ -199,7 +199,7 @@ def fill_missing_hero_by_role(
 
 
 def get_hero_trends_all_heroes_by_region(
-    db: mysql_database.DatabaseAccess,
+    db: database.DatabaseAccess,
 ) -> dict[str, dict[str, list[dict[str, int]]]]:
     # NOTE: This function does multiple cross type mutations to the results variable.
     #      I've ignored type checks for the mutations. The result type is accurate.

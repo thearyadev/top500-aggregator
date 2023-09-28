@@ -9,7 +9,7 @@ from fastapi.templating import Jinja2Templates
 from jinja2 import Environment
 
 import leaderboards
-import mysql_database
+import database
 from statistic import (
     get_hero_trends_all_heroes_by_region,
     get_mean,
@@ -27,7 +27,7 @@ load_dotenv()
 templates = Jinja2Templates(directory="templates")
 
 
-db = mysql_database.DatabaseAccess(
+db = database.DatabaseAccess(
     host=os.getenv("MYSQLHOST") or raise_for_missing_env_vars(),
     user=os.getenv("MYSQLUSER") or raise_for_missing_env_vars(),
     password=os.getenv("MYSQLPASSWORD") or raise_for_missing_env_vars(),
