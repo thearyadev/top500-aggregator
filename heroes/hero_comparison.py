@@ -4,7 +4,8 @@ import importlib  # importlib is used to import the model from the model file
 
 import numpy as np
 
-model_cache: dict[str, NNModel] = {}
+# conditionally imported; type not required
+model_cache: dict[str, NNModel] = {}  # type: ignore
 
 
 class Hero:
@@ -12,7 +13,8 @@ class Hero:
     Hero class to store hero data. This class has some reduenancy but is utilized for better organization in some areas of this project
     """
 
-    def __init__(self, image: Image.Image | None, name: str):
+    # conditionally imported; type not required
+    def __init__(self, image: Image.Image | None, name: str):  # type: ignore
         self.image, self.name = image, name
 
     def __repr__(self):
@@ -110,6 +112,7 @@ class Heroes:
         """Predicts the hero name from an image using a neural network model.
 
         Args:
+            model_name: name of model in models dir
             image_data (np.ndarray): array of image data
             model_path (str): path to the Fashion MNIST model
 
@@ -122,8 +125,9 @@ class Heroes:
         # Resize to the same size as Fashion MNIST images
 
         from PIL import Image
-        import cv2
+        import cv2  # type: ignore
         from neural_network import Model as NNModel
+
         image_data = cv2.resize(image_data, (49, 50))
 
         # Reshape and scale pixel data

@@ -412,7 +412,7 @@ async def index_redirect(request: Request):
 
     if "robots.txt" in str(request.url):
         return FileResponse("static/robots.txt")
-    return RedirectResponse(f"/season/{seasons[-1]}")
+    return await season(request, season_number=seasons[-1])
 
 
 @app.get("/i/hits", response_class=JSONResponse)
