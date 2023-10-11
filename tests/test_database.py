@@ -43,7 +43,7 @@ def test_info_table_create():
                     ),
                     "disclaimer",
                 )
-                == None
+                is None
             )
 
 
@@ -79,7 +79,7 @@ def test_season_table_add_entries():
                             ],
                         ),
                     )
-                    == None
+                    is None
                 )
 
 
