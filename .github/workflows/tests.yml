@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Start MySQL Server
-        run: docker run -d -p 3800:3306 --name mysql -e MYSQL_ROOT_PASSWORD=dbtestpassword mysql@sha256:566007208a3f1cc8f9df6b767665b5c9b800fc4fb5f863d17aa1df362880ed04
+        run: docker run -d -p 3800:3306 --name mysql -e MYSQL_ROOT_PASSWORD=dbtestpassword MYSQL_DATABASE=mysql@sha256:566007208a3f1cc8f9df6b767665b5c9b800fc4fb5f863d17aa1df362880ed04
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -23,10 +23,10 @@ jobs:
         run: sleep 10
 
       - name: Add Testing Database
-        run: mysql -h localhost -u root -pdbtestpassword -P 3800 -e "CREATE DATABASE testing_ghworkflow_testdb;"
+        run: mysql -h 127.0.0.1 -u root -pdbtestpassword -P 3800 -e "CREATE DATABASE testing_ghworkflow_testdb;"
 
       - name: Copy data into database
-        run: mysql -h localhost -u root -pdbtestpassword -P 3800 testing_ghworkflow_testdb < ./archive/latest.sql
+        run: mysql -h localhost -u root -pdbtestpassword -P 3800 ghworkflow_testdb < ./archive/latest.sql
 
 
       - name: Install Poetry
