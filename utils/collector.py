@@ -1,3 +1,6 @@
+import sys
+sys.path.append(".")
+
 import os
 import time
 import uuid
@@ -14,7 +17,6 @@ SETTINGS = {
     "page": 1,
 }  # settings for the leaderboard page
 
-SUBFOLDER = "34"
 
 
 def next_page():
@@ -56,5 +58,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-    # pg.screenshot(f"./assets/leaderboard_images/MANUAL/SUPPORT-ASIA-44.png",region=(0,0,1920,1080,),)
+    # main()
+    pg.screenshot(f"./assets/manual/SUPPORT-EUROPE-46.png",region=(0,0,1920,1080,),)
