@@ -1,8 +1,8 @@
-name: Docker Image CI for GHCR
-on: 
-  push:
+name: Tests and CI
+on:
   pull_request:
-    branches: [ main ]
+  push:
+
 jobs:
   run_pytest:
     runs-on: ubuntu-latest
