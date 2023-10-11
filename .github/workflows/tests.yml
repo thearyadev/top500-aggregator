@@ -3,7 +3,7 @@ on:
   push:
 
 jobs:
-  build_and_publish:
+  run_pytest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -12,7 +12,7 @@ jobs:
         with:
           host port: 3800
           mysql version: '8.0'
-          mysql database: 'some_test'
+          mysql database: 'ghworkflow_testdb'
           mysql root password: 'dbtestpassword'
           mysql user: 'dbtestuser'
           mysql password: 'dbtestpassword'
@@ -22,6 +22,16 @@ jobs:
         with:
           python-version: 3.11
 
+      - name: Install MySQL Client
+        run: sudo apt-get install -y mysql-client
+
+      - name: Add Testing Database
+        run: mysql -h localhost -u root -pdbtestpassword -e "CREATE DATABASE testing_ghworkflow_testdb;"
+
+      - name: Copy data into database
+        run: mysql -h localhost -u root -pdbtestpassword testing_ghworkflow_testdb < ./archive/latest.sql
+
+
       - name: Install Poetry
         uses: snok/install-poetry@v1
       - name: Install Dependencies
@@ -30,3 +40,15 @@ jobs:
       - name: Run Tests
         run: |
           poetry run pytest
+        env:
+          MYSQLDATABASE: 'ghworkflow_testdb'
+          MYSQLUSER: 'root'
+          MYSQLPASSWORD: 'dbtestpassword'
+          MYSQLHOST: 'localhost'
+          MYSQLPORT: '3806'
+
+          TESTING_MYSQLDATABASE: 'testing_ghworkflow_testdb'
+          TESTING_MYSQLUSER: 'root'
+          TESTING_MYSQLPASSWORD: 'dbtestpassword'
+          TESTING_MYSQLHOST: 'localhost'
+          TESTING_MYSQLPORT: '3806'
