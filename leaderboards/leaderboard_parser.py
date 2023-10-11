@@ -4,15 +4,22 @@ from enum import Enum
 
 import numpy as np
 
+class ByNameEnum(Enum):
+    @classmethod
+    def by_name(cls, name):
+        for enum_member, _ in cls.__members__.items():
+            if enum_member == name:
+                return cls[enum_member]
+        return None
 
-class Region(Enum):
+class Region(ByNameEnum):
     AMERICAS = 1
     EUROPE = 2
     ASIA = 3
     ALL = 4
 
 
-class Role(Enum):
+class Role(ByNameEnum):
     TANK = 1
     DAMAGE = 2
     SUPPORT = 3
