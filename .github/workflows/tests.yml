@@ -24,6 +24,9 @@ jobs:
 
       - name: Install MySQL Client
         run: sudo apt-get install -y mysql-client
+        
+      - name: Wait for MySQL Server to Start
+        run: sleep 10
 
       - name: Add Testing Database
         run: mysql -h localhost -u root -pdbtestpassword -P 3800 -e "CREATE DATABASE testing_ghworkflow_testdb;"
@@ -45,10 +48,10 @@ jobs:
           MYSQLUSER: 'root'
           MYSQLPASSWORD: 'dbtestpassword'
           MYSQLHOST: 'localhost'
-          MYSQLPORT: '3806'
+          MYSQLPORT: '3800'
 
           TESTING_MYSQLDATABASE: 'testing_ghworkflow_testdb'
           TESTING_MYSQLUSER: 'root'
           TESTING_MYSQLPASSWORD: 'dbtestpassword'
           TESTING_MYSQLHOST: 'localhost'
-          TESTING_MYSQLPORT: '3806'
+          TESTING_MYSQLPORT: '3800'
