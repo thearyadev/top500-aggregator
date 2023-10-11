@@ -1,10 +1,7 @@
-name: Run Tests
-on:
+name: Docker Image CI for GHCR
+on: 
   push:
-  pull_request:
-    branches:
-      - main
-
+    branches: [ main ]
 jobs:
   run_pytest:
     runs-on: ubuntu-latest
@@ -52,3 +49,15 @@ jobs:
           TESTING_MYSQLPASSWORD: 'dbtestpassword'
           TESTING_MYSQLHOST: 'localhost'
           TESTING_MYSQLPORT: '3800'
+
+  build_and_publish:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build and push the image
+        run: |
+          docker login --username thearyadev --password ${{ secrets.GH_PAT }} ghcr.io
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator:latest
+          docker push ghcr.io/thearyadev/top500-aggregator:latest
