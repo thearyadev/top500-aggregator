@@ -26,7 +26,7 @@ jobs:
         run: mysql -h 127.0.0.1 -u root -pdbtestpassword -P 3800 -e "CREATE DATABASE testing_ghworkflow_testdb;"
 
       - name: Copy data into database
-        run: mysql -h localhost -u root -pdbtestpassword -P 3800 ghworkflow_testdb < ./archive/latest.sql
+        run: mysql -h 127.0.0.1 -u root -pdbtestpassword -P 3800 ghworkflow_testdb < ./archive/latest.sql
 
 
       - name: Install Poetry
