@@ -2,7 +2,7 @@ import json
 import os
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -21,11 +21,14 @@ from statistic import (
     get_variance,
 )
 from utils.raise_for_missing_env import raise_for_missing_env_vars
+from typing import Annotated, Any
+from functools import lru_cache
 
 load_dotenv()
-
 templates = Jinja2Templates(directory="templates")
-
+app = FastAPI()
+app.state.templates = templates  # type: ignore
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 db = database.DatabaseAccess(
     host=os.getenv("MYSQLHOST") or raise_for_missing_env_vars(),
@@ -34,17 +37,17 @@ db = database.DatabaseAccess(
     database=os.getenv("MYSQLDATABASE") or raise_for_missing_env_vars(),
     port=os.getenv("MYSQLPORT") or raise_for_missing_env_vars(),
 )
-seasons = db.get_seasons()
-
-data = dict()
-hits = 0
 
 
-trends_data = json.dumps(get_hero_trends_all_heroes_by_region(db=db))
+@lru_cache
+def seasons_list() -> list[str]:
+    return db.get_seasons()
 
 
-def calculate():
-    for s in seasons:
+@lru_cache
+def season_data() -> dict[str, Any]:
+    data: dict = dict()
+    for s in seasons_list():
         dataset: list[leaderboards.LeaderboardEntry] = db.get_all_records(s)
         data[s] = {
             # occurrences first most played
@@ -372,65 +375,75 @@ def calculate():
                     "standard_deviation": round(get_stdev(graphData), 3),
                 }
                 data[s][key] = json.dumps(val)
+    return data
 
 
-app = FastAPI()
-app.state.templates = templates
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-calculate()
-
-
-@app.get("/season/{season_number}")
-async def season(request: Request, season_number: str):
-    global hits
-
-    request.app.state.templates.env.filters["group_subseasons"] = group_subseasons
-
-    if season_number in seasons:
-        hits += 1
-        return templates.TemplateResponse(
-            "season.html",
-            {
-                "request": request,
-                "seasons": seasons,
-                "currentSeason": season_number,
-                **data[season_number],  # type: ignore
-                **data[season_number]["MISC"],  # type: ignore
-                # this does work. Im not sure why mypy is complaining. It unpacks all of the chart datas into the global scope of the template
-                "disclaimer": db.get_season_disclaimer(season_number),
-            },
-        )
-    return RedirectResponse(f"/season{seasons[-1]}")
+@lru_cache
+def trends_data() -> dict[str, dict[str, list[dict[str, int]]]]:
+    return get_hero_trends_all_heroes_by_region(db=db)
 
 
 @app.get("/{_}")
 @app.get("/")
-async def index_redirect(request: Request):
+async def index_redirect(
+    request: Request,
+    seasons_list: Annotated[list[str], Depends(seasons_list)],
+    seasons_data: Annotated[dict, Depends(season_data)],
+):
     if "favicon.ico" in str(request.url):
         return FileResponse("static/favicon.ico")
 
     if "robots.txt" in str(request.url):
         return FileResponse("static/robots.txt")
-    return await season(request, season_number=seasons[-1])
+    return await season(
+        request,
+        season_number=seasons_list[-1],
+        seasons_data=seasons_data,
+        seasons_list=seasons_list,
+    )
 
 
-@app.get("/i/hits", response_class=JSONResponse)
-async def hit_endpoint():
-    return {"hits": hits}
+@app.get("/season/{season_number}")
+async def season(
+    request: Request,
+    season_number: str,
+    seasons_data: Annotated[dict, Depends(season_data)],
+    seasons_list: Annotated[list[str], Depends(seasons_list)],
+):
+    request.app.state.templates.env.filters["group_subseasons"] = group_subseasons
+
+    if season_number in seasons_list:
+        return templates.TemplateResponse(
+            "season.html",
+            {
+                "request": request,
+                "seasons": seasons_list,
+                "currentSeason": season_number,
+                **seasons_data[season_number],  # type: ignore
+                **seasons_data[season_number]["MISC"],  # type: ignore
+                # this does work. Im not sure why mypy is complaining.
+                # It unpacks all of the chart datas into the global scope of the template
+                "disclaimer": db.get_season_disclaimer(season_number),
+            },
+        )
+    return RedirectResponse(f"/season{seasons_list[-1]}")
 
 
 @app.get("/trends/seasonal")
-async def trendsEndpoint(request: Request):
+async def trendsEndpoint(
+    request: Request,
+    seasons_list: Annotated[list[str], Depends(seasons_list)],
+    trends_data: Annotated[dict, Depends(trends_data)],
+):
     request.app.state.templates.env.filters["group_subseasons"] = group_subseasons
 
     return templates.TemplateResponse(
         "trends.html",
         {
             "request": request,
-            "seasons": seasons,
-            "trends": trends_data,
-        },
+            "seasons": seasons_list,
+            "trends": json.dumps(trends_data),
+        }
     )
 
 
