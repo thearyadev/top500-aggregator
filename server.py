@@ -2,11 +2,10 @@ import json
 import os
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request, Depends
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
+from fastapi import FastAPI, Request, Depends
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from jinja2 import Environment
 
 import leaderboards
 import database
@@ -41,11 +40,24 @@ db = database.DatabaseAccess(
 
 @lru_cache
 def seasons_list() -> list[str]:
+    """
+    Wrapper for db.get_seasons() to cache the result
+    Returns:
+        list[str]: list of seasons
+    """
     return db.get_seasons()
 
 
 @lru_cache
 def season_data() -> dict[str, Any]:
+    """
+    Creates the data structure for use on the season page.
+    This function is cached.
+    Returns:
+        dict[str, Any]: data structure for use on the season page
+        see function implementation for exact data structure shape. (sorry)
+
+    """
     data: dict = dict()
     for s in seasons_list():
         dataset: list[leaderboards.LeaderboardEntry] = db.get_all_records(s)
@@ -380,6 +392,12 @@ def season_data() -> dict[str, Any]:
 
 @lru_cache
 def trends_data() -> dict[str, dict[str, list[dict[str, int]]]]:
+    """
+    Creates the data structure for use on the trends page.
+    This function is cached.
+    Returns:
+        dict[str, dict[str, list[dict[str, int]]]]: data structure for use on the trends page
+    """
     return get_hero_trends_all_heroes_by_region(db=db)
 
 
@@ -443,11 +461,18 @@ async def trendsEndpoint(
             "request": request,
             "seasons": seasons_list,
             "trends": json.dumps(trends_data),
-        }
+        },
     )
 
 
 def group_subseasons(seasons: list[str]) -> dict[str, list[str]]:
+    """
+    Groups sub seasons together, to shrink the menu size.
+    Args:
+        seasons: list of seasons
+    Returns:
+        dict[str, list[str]]: dict of subseasons and their seasons
+    """
     subseasons: dict[str, list[str]] = {}
     for season in seasons:
         subseason = season.split("_")[0]
