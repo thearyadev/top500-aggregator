@@ -1,3 +1,7 @@
+"""This tests the integrity of ./archive/latest.sql by running all calculations on it.
+The goal of these tests is to catch errors that would cause invalid data or prevent the server from starting
+"""
+
 import os
 
 from dotenv import load_dotenv
