@@ -39,7 +39,7 @@ function drawChart(value) {
     styles.push(...styles)
     styles.push(...styles)
 
-
+    let countSum = 0;
     const graphContainer = $(`#${value}`) // get the graph container of the current iter
     const graphData = graphContainer.data().graphdata // get the graph data from the container
     const stats = graphData.statistic // get the stats from the graph data
@@ -48,6 +48,7 @@ function drawChart(value) {
     ]
     for (var i = 0; i < graphData.graph.length; i++) {
         let current = graphData.graph[i]
+        countSum += current.count
         table.push([current.hero, stats.mean, stats.standard_deviation, current.count, styles[i]]) // push to table
     }
 
@@ -78,7 +79,7 @@ function drawChart(value) {
     var chart = new google.visualization.ComboChart(document.getElementById(value)); // draw chart
     chart.draw(data, options);
     // add stats to the bottom
-    graphContainer.append(`<p class='small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation}</small></p>`)
+    graphContainer.append(`<p class='small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation} | # Entires: ${countSum}</small></p>`)
 }
 
 window.addEventListener('resize', function () { // redraw charts on resize
