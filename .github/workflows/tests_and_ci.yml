@@ -51,6 +51,14 @@ jobs:
           TESTING_MYSQLHOST: 'localhost'
           TESTING_MYSQLPORT: '3800'
 
+  docker-buildable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the image
+        run: |
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator:latest
+
   build_and_publish:
     runs-on: ubuntu-latest
     needs: tests
