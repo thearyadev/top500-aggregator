@@ -10,7 +10,7 @@ import pyautogui as pg
 
 import leaderboards
 
-pg.PAUSE = 2  # delay for each pg actin
+pg.PAUSE = 2  # delay for each pg action
 SETTINGS = {
     "role": None,
     "region": None,
