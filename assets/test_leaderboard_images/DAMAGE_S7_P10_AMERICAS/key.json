@@ -1,0 +1,14 @@
+{
+  "answers": [
+    ["Sojourn", "Sombra", "Soldier 76"],
+    ["Sojourn", "Soldier 76", "Cassidy"],
+    ["Sojourn", "Ashe", "Widowmaker"],
+    ["Tracer", "Genji", "Sojourn"],
+    ["Tracer", "Hanzo", "Widowmaker"],
+    ["Sojourn", "Hanzo", "Genji"],
+    ["Sojourn", "Widowmaker", "Tracer"],
+    ["Junkrat", "Sojourn", "Widowmaker"],
+    ["Genji", "Soldier 76", "Mei"],
+    ["Junkrat", "Torbjorn", "Blank"]
+  ]
+}
