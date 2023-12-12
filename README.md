@@ -45,9 +45,15 @@ Google Charts is used on the frontend to display all the data collected and gene
 4. Run `python utils/generator.py`
 
 
-### Serving Webpage 
-#### Docker
-Use docker to build the dockerfile, or run `uvicorn server:app --reload` after installing dependencies.
+### Deploy
+The deployment for this project is done using docker. 
+
+You will require `docker`, `docker compose` and `mysql-client` installed. 
+1. Clone this repository
+2. Run `docker compose up -d` in the project directory.
+
+Once complete, the stack will be serving Top 500 Aggregator. The issue is, the data is not populated by default. You will need to use `mysql` cli tool to insert the `./archive/latest.sql` file into the database. 
+
 
 
 ### Development 
