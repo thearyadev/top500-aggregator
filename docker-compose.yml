@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   nginx:
-    image: nginx@sha256:32da30332506740a2f7c34d5dc70467b7f14ec67d912703568daff790ab3f755
+    image: nginx:latest
     depends_on:
       - web
     volumes:
