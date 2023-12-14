@@ -228,6 +228,29 @@ main {
     display: none;
 }
 
-/*.highcharts-yaxis-labels{*/
-/*    display: none;*/
-/*}*/
+.nav {
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    .nav li {
+        display: inline-block;
+        margin-right: 20px;
+    }
+
+    .nav a {
+        text-decoration: none;
+        color: #333;
+    }
