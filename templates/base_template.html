@@ -76,7 +76,7 @@
         <div class="nav">
             <ul>
                 <li><a href="/trends/seasonal">Trends</a></li>
-                {% for season, subseasons in (seasons | group_subseasons).items() %}
+                {% for season, subseasons in ((seasons | group_subseasons).items()|reverse) %}
                 <li><a href="/season/{{subseasons[-1]}}">Season {{season}}</a>
                 </li>
                 {% endfor %}
