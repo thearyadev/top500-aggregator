@@ -1,17 +1,19 @@
 import json
 import os
+from functools import lru_cache
+from typing import Annotated, Any, Dict, List
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request, Depends
+from fastapi import Depends, FastAPI, Request
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-import leaderboards
 import database
+import leaderboards
 from statistic import (
-    get_hero_trends_all_heroes_by_region,
     get_hero_occurrence_trend,
+    get_hero_trends_all_heroes_by_region,
     get_mean,
     get_number_of_ohp,
     get_number_of_thp,
@@ -21,8 +23,6 @@ from statistic import (
     get_variance,
 )
 from utils.raise_for_missing_env import raise_for_missing_env_vars
-from typing import Annotated, Any, List, Dict
-from functools import lru_cache
 
 load_dotenv()
 templates = Jinja2Templates(directory="templates")
