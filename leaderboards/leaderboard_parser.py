@@ -1,8 +1,10 @@
-from heroes import Hero, Heroes
 import os
 from enum import Enum
 
 import numpy as np
+
+from heroes import Hero, Heroes
+
 
 class ByNameEnum(Enum):
     @classmethod
@@ -11,6 +13,7 @@ class ByNameEnum(Enum):
             if enum_member == name:
                 return cls[enum_member]
         return None
+
 
 class Region(ByNameEnum):
     AMERICAS = 1
@@ -63,8 +66,8 @@ def parse(
     role: Role,
     model_name: str | None = None,
 ) -> list[LeaderboardEntry]:
-    from PIL import Image
     import cv2  # type: ignore
+    from PIL import Image
 
     results: list[LeaderboardEntry] = list()  # init return array
     heroComparor = (

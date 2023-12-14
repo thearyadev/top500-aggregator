@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append(".")
 
 import os
@@ -16,7 +17,6 @@ SETTINGS = {
     "region": None,
     "page": 1,
 }  # settings for the leaderboard page
-
 
 
 def next_page():
@@ -59,4 +59,12 @@ def main():
 
 if __name__ == "__main__":
     # main()
-    pg.screenshot(f"./assets/manual/SUPPORT-EUROPE-50.png",region=(0,0,1920,1080,),)
+    pg.screenshot(
+        f"./assets/manual/SUPPORT-EUROPE-50.png",
+        region=(
+            0,
+            0,
+            1920,
+            1080,
+        ),
+    )

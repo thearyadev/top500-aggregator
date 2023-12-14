@@ -124,8 +124,9 @@ class Heroes:
 
         # Resize to the same size as Fashion MNIST images
 
-        from PIL import Image
         import cv2  # type: ignore
+        from PIL import Image
+
         from neural_network import Model as NNModel
 
         image_data = cv2.resize(image_data, (49, 50))

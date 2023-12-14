@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import database
 from leaderboards import Region, Role
 from statistic import (
+    get_hero_occurrence_trend,
     get_hero_trends_all_heroes_by_region,
     get_mean,
     get_number_of_ohp,
@@ -17,7 +18,6 @@ from statistic import (
     get_occurrences_most_played,
     get_stdev,
     get_variance,
-    get_hero_occurrence_trend
 )
 from utils.raise_for_missing_env import raise_for_missing_env_vars
 
@@ -116,9 +116,9 @@ def test_get_hero_occurrence_trends():
     num_seasons = len(dba.get_seasons())
     trends_data = get_hero_occurrence_trend(dba)
     for hero in trends_data:
-        assert hero['name']
-        assert hero['data']
-        assert len(hero['data']) == num_seasons
+        assert hero["name"]
+        assert hero["data"]
+        assert len(hero["data"]) == num_seasons
 
 
 def test_get_number_of_ohp():
