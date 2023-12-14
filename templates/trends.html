@@ -1,5 +1,7 @@
 {% extends "base_template.html" %}
 {% block scripts %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
 <script src="/static/js/trends.js" defer> </script>
 {% endblock scripts %}
 {% block heading %}Cross Season Trends{% endblock heading %}
@@ -24,44 +26,18 @@
 
 <main class="body">
     <data data-trends="{{trends}}"></data>
+    <seasons style="display: none;" data-seasons="{{ seasons }}"></seasons>
     <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card ">
         <!-- <h2 class="section-title">All Heroes: By Region</h2> -->
         <div class="break p-5"></div>
         <article class="article">
             <div>
-                <p>Support</p>
-                <div id="SUPPORT" class="big-chart">
+                <p>Hero Trends</p>
+                <div id="T_ALL_ALL" class="big-chart">
 
                 </div>
             </div>
         </article>
-        <div class="break p-5">
-            <hr class="p-5">
-        </div>
-
-        <article class="article">
-            <div>
-                <p>Damage</p>
-                <div id="DAMAGE" class="big-chart">
-
-                </div>
-            </div>
-        </article>
-        <div class="break p-5">
-            <hr class="p-5">
-        </div>
-        <article class="article">
-            <div>
-                <p>Tank</p>
-                <div id="TANK" class="big-chart">
-
-                </div>
-            </div>
-        </article>
-        <div class="break p-5">
-            <hr class="p-5">
-        </div>
-
 
     </section>
 
