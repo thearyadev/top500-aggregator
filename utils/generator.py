@@ -1,17 +1,18 @@
 import sys
+
 sys.path.append(".")
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-import database
+import dotenv
 from PIL import Image
 from rich.console import Console
 from rich.progress import Progress, track
 from rich.prompt import Prompt
-from utils.raise_for_missing_env import raise_for_missing_env_vars
 
+import database
 import leaderboards
-import dotenv
+from utils.raise_for_missing_env import raise_for_missing_env_vars
 
 dotenv.load_dotenv()
 
@@ -23,6 +24,7 @@ dba = database.DatabaseAccess(
     database=os.getenv("MYSQLDATABASE") or raise_for_missing_env_vars(),
     port=os.getenv("MYSQLPORT") or raise_for_missing_env_vars(),
 )
+
 
 def worker(file: str):
     role, region, _ = file.split("-")  # parse the filename
@@ -40,6 +42,7 @@ def worker(file: str):
     for i in results:
         if i.heroes[0].name != "Blank":
             dba.add_leaderboard_entry(seasonNumber=target_season, leaderboard_entry=i)
+
 
 def main():
     global target_season, model_name  # globals so the worker threads can access them

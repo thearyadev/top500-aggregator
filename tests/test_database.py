@@ -4,8 +4,8 @@ import random
 
 from dotenv import load_dotenv
 
-import heroes
 import database
+import heroes
 from leaderboards import LeaderboardEntry, Region, Role
 from utils.raise_for_missing_env import raise_for_missing_env_vars
 
