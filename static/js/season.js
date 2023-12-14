@@ -75,16 +75,19 @@ function drawChart(chartName) {
 
 }
 
+let lastWidth = window.innerWidth;
 
 window.addEventListener('resize', function () { // redraw charts on resize
-    
-    charts.forEach((value) => {
-        $(`#${value}`).empty()
-        $(".chart-stats").remove()
-    })
+    const currentWidth = window.innerWidth;
+    if (currentWidth !== lastWidth) {
+        charts.forEach((value) => {
+            $(`#${value}`).empty()
+            $(".chart-stats").remove()
+        })
+        lastWidth = currentWidth
+        charts.forEach(drawChart)
+    }
 
-
-    charts.forEach(drawChart)
 });
 
 window.onload = () => {
