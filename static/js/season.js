@@ -17,76 +17,77 @@ const charts = [ // define all chart ids here
     'OTMP_DAMAGE_ALL', 'OTMP_TANK_ALL', 'O_ALL_AMERICAS', 'O_ALL_EUROPE',
     'O_ALL_ASIA', 'O_ALL_ALL', 
 ]
-google.charts.load("current", { "packages": ['corechart'] }) // load charts
-google.charts.setOnLoadCallback(function () {
-    charts.forEach(drawChart) // draw charts
-});
 
+function map_multi_array(arrayOfObjects){
+    const heroes = [];
+    const counts = [];
 
-function drawChart(value) {
+    arrayOfObjects.forEach(item => {
+        heroes.push(item.hero)
+        counts.push(item.count)
+    })
+    return [heroes, counts]
 
-    let styles = [
-        "fill-color: #ff6384; fill-opacity: 0.1; stroke-color: #ff6384;",
-        "fill-color: #ff9f40; fill-opacity: 0.1; stroke-color: #ff9f40;",
-        "fill-color: #ffcd56; fill-opacity: 0.1; stroke-color: #ffcd56;",
-        "fill-color: #4bc0c0; fill-opacity: 0.1; stroke-color: #4bc0c0;",
-        "fill-color: #36a2eb; fill-opacity: 0.1; stroke-color: #36a2eb;",
-        "fill-color: #9966ff; fill-opacity: 0.1; stroke-color: #9966ff;",
-        "fill-color: #c9cbcf; fill-opacity: 0.1; stroke-color: #c9cbcf;",
-    ] // this is used to define the rotating chart color scheme. 
-    styles.push(...styles)
-    styles.push(...styles)
-    styles.push(...styles)
-    styles.push(...styles)
-
-    let countSum = 0;
-    const graphContainer = $(`#${value}`) // get the graph container of the current iter
-    const graphData = graphContainer.data().graphdata // get the graph data from the container
-    const stats = graphData.statistic // get the stats from the graph data
-    var table = [
-        ["Hero", "Mean", "Standard Deviation", "Count", { role: "style" }], // conv to table
-    ]
-    for (var i = 0; i < graphData.graph.length; i++) {
-        let current = graphData.graph[i]
-        countSum += current.count
-        table.push([current.hero, stats.mean, stats.standard_deviation, current.count, styles[i]]) // push to table
-    }
-
-    var data = google.visualization.arrayToDataTable(table) // convert to google data table
-
-
-    var options = { // chart styles
-
-        'chartArea': {
-            'width': '85%'
-        },
-        hAxis: {
-            slantedTextAngle: 75
-        },
-
-        legend: { position: 'none' },
-        theme: "material",
-        fontName: 'Lato',
-        seriesType: "bars",
-        series: {
-            0: { type: "line" },
-            1: { type: "line" }
-
-        },
-        tooltip: { isHtml: true },
-    };
-
-    var chart = new google.visualization.ComboChart(document.getElementById(value)); // draw chart
-    chart.draw(data, options);
-    // add stats to the bottom
-    graphContainer.append(`<p class='small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation} | # Entires: ${countSum}</small></p>`)
 }
+
+function drawChart(chartName) {
+
+    const chartElement = $(`#${chartName}`)
+    const chartDataRaw = chartElement.data().graphdata
+    const [heroes, counts] = map_multi_array(chartDataRaw.graph)
+    const stats = chartDataRaw.statistic
+    Highcharts.chart(chartName, {
+        chart: {
+            type: 'column'
+        },
+        xAxis: {
+            categories: heroes,
+            crosshair: true,
+            accessibility: {
+                description: 'Heroes'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Occurrences'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' Occurrences'
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [
+            {
+                name: `::`,
+                data: counts
+            },
+        ]
+    });
+
+
+    chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation} | # Entires: ${counts.reduce((acc, cur) => acc + cur, 0)}</small></p>`)
+
+}
+
 
 window.addEventListener('resize', function () { // redraw charts on resize
     
     charts.forEach((value) => {
         $(`#${value}`).empty()
+        $(".chart-stats").remove()
     })
+
 
     charts.forEach(drawChart)
 });
+
+window.onload = () => {
+    charts.forEach(drawChart)
+
+}
