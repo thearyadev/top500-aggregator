@@ -2,8 +2,6 @@ function drawHeroTrendChartAllRegions() {
     const chartElement = $('#T_ALL_ALL')
     const data = $('data').data().trends
     const seasons = JSON.parse($('seasons').data().seasons.replace(/'/g, '"')).map(item => item.split("_")[0])
-    console.log(seasons)
-    // const xAxisLabels = Object.keys(data.map(item => item.split("_")[0])
 
 
 
@@ -58,9 +56,15 @@ Highcharts.chart('T_ALL_ALL', {
 }
 
 drawHeroTrendChartAllRegions()
+let lastWidth = window.innerWidth;
 
 window.addEventListener('resize', function () { // redraw charts on resize
-    $('#T_ALL_ALL').empty()
-    drawHeroTrendChartAllRegions()
-});
+    const currentWidth = window.innerWidth;
+    if (currentWidth !== lastWidth) {
 
+        $('#T_ALL_ALL').empty()
+        lastWidth = currentWidth
+        drawHeroTrendChartAllRegions()
+    }
+
+});
