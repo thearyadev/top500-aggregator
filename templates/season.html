@@ -1,6 +1,7 @@
 {% extends "base_template.html" %}
 
 {% block scripts %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="/static/js/season.js" defer> </script>
 {% endblock scripts %}
 
@@ -19,7 +20,13 @@
 
 
 {% block content %}
+<style>
 
+    .highcharts-legend{
+        display: none;
+    }
+
+</style>
 <main class="body">
     <section id="hero_occ_all" class="section-box d-flex flex-row flex-wrap card ">
         <h2 class="section-title">Hero Occurrences: All Slots</h2>
