@@ -159,19 +159,25 @@ main {
 /*    outline: solid;*/
 /*}*/
 @media (max-width: 990px) {
-    .small-chart {
-        height: 35vh;
-    }
+    /*.small-chart {*/
+    /*    height: 35vh;*/
+    /*}*/
 
-    .big-chart {
-        height: 50vh;
-    }
+    /*.big-chart {*/
+    /*    height: 50vh;*/
+    /*}*/
 
     /* hide on small screen */
     .navbar-toggler {
         display: none;
         visibility: hidden;
     }
+
+
+    .article {
+        flex: 1 0 50%;
+    }
+
 }
 
 /* charts tooltip  */
@@ -209,3 +215,19 @@ main {
 
 
 /* disclaimer end */
+
+
+.highcharts-credits {
+    display: none;
+}
+.highcharts-yaxis {
+    display: none;
+
+}
+.highcharts-title{
+    display: none;
+}
+
+/*.highcharts-yaxis-labels{*/
+/*    display: none;*/
+/*}*/

@@ -11,6 +11,7 @@ import leaderboards
 import database
 from statistic import (
     get_hero_trends_all_heroes_by_region,
+    get_hero_occurrence_trend,
     get_mean,
     get_number_of_ohp,
     get_number_of_thp,
@@ -20,7 +21,7 @@ from statistic import (
     get_variance,
 )
 from utils.raise_for_missing_env import raise_for_missing_env_vars
-from typing import Annotated, Any
+from typing import Annotated, Any, List, Dict
 from functools import lru_cache
 
 load_dotenv()
@@ -391,14 +392,14 @@ def season_data() -> dict[str, Any]:
 
 
 @lru_cache
-def trends_data() -> dict[str, dict[str, list[dict[str, int]]]]:
+def trends_data() -> list[dict[str, list[int]]]:
     """
     Creates the data structure for use on the trends page.
     This function is cached.
     Returns:
         dict[str, dict[str, list[dict[str, int]]]]: data structure for use on the trends page
     """
-    return get_hero_trends_all_heroes_by_region(db=db)
+    return get_hero_occurrence_trend(db=db)
 
 
 @app.get("/{_}")
