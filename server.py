@@ -414,6 +414,22 @@ async def index_redirect(
 
     if "robots.txt" in str(request.url):
         return FileResponse("static/robots.txt")
+
+    if "apple-touch-icon.png" in str(request.url):
+        return FileResponse("static/apple-touch-icon.png")
+
+    if "favicon-32x32.png" in str(request.url):
+        return FileResponse("static/favicon-32x32.png")
+
+    if "favicon-16x16.png" in str(request.url):
+        return FileResponse("static/favicon-16x16.png")
+
+    if "site.webmanifest" in str(request.url):
+        return FileResponse("static/site.webmanifest")
+
+    if "safari-pinned-tab.svg" in str(request.url):
+        return FileResponse("static/safari-pinned-tab.svg")
+
     return await season(
         request,
         season_number=seasons_list[-1],
