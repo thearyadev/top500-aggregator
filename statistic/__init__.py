@@ -18,10 +18,10 @@ def filter_games_results(i: leaderboards.LeaderboardEntry) -> bool:
 
 
 def get_occurrences(
-    *,
-    data: list[leaderboards.LeaderboardEntry],
-    region: leaderboards.Region | None = None,
-    role: leaderboards.Role | None = None,
+        *,
+        data: list[leaderboards.LeaderboardEntry],
+        region: leaderboards.Region | None = None,
+        role: leaderboards.Role | None = None,
 ) -> list[dict]:
     results: dict[str, int] = {}
     acceptedRegions: list[leaderboards.Region] = [
@@ -42,7 +42,7 @@ def get_occurrences(
             continue
         for hero in entry.heroes:
             if isinstance(
-                hero, str
+                    hero, str
             ):  # stupid me! I designed the leaderboard entry to be able to accept list[hero] and list[str]
                 if hero in results:
                     results[hero] += 1
@@ -61,11 +61,11 @@ def get_occurrences(
 
 
 def get_occurrences_most_played(
-    *,
-    data: list[leaderboards.LeaderboardEntry],
-    role: leaderboards.Role,
-    region: leaderboards.Region,
-    mostPlayedSlot: int,
+        *,
+        data: list[leaderboards.LeaderboardEntry],
+        role: leaderboards.Role,
+        region: leaderboards.Region,
+        mostPlayedSlot: int,
 ) -> list[dict]:
     mostPlayedSlot = mostPlayedSlot - 1
     results: dict[str, int] = {}
@@ -116,7 +116,7 @@ def get_occurrences_most_played(
 
 
 def get_avg_games_played_by_region(
-    *, data: list[leaderboards.LeaderboardEntry], region: leaderboards.Region
+        *, data: list[leaderboards.LeaderboardEntry], region: leaderboards.Region
 ) -> list[dict]:
     results: dict[str, float] = {}
 
@@ -185,7 +185,7 @@ def fill_missing_heroes(hero_dict: dict[str, int]) -> dict[str, int]:
 
 
 def fill_missing_hero_by_role(
-    hero_dict: dict[str, int], roleFilter: str
+        hero_dict: dict[str, int], roleFilter: str
 ) -> dict[str, int]:
     heroes_present: list[str] = list(hero_dict.keys())
     for hero, role in Heroes().hero_role.items():
@@ -199,7 +199,7 @@ def fill_missing_hero_by_role(
 
 
 def get_hero_trends_all_heroes_by_region(
-    db: database.DatabaseAccess,
+        db: database.DatabaseAccess,
 ) -> dict[str, dict[str, list[dict[str, int]]]]:
     # NOTE: This function does multiple cross type mutations to the results variable.
     #      I've ignored type checks for the mutations. The result type is accurate.
@@ -238,3 +238,28 @@ def get_hero_trends_all_heroes_by_region(
                 results[season][role], key=lambda x: x["hero"], reverse=False
             )
     return results
+
+
+def get_hero_occurrences_single_season(season_data: list[leaderboards.LeaderboardEntry], hero: str) -> int:
+    count: int = 0
+    for entry in season_data:
+        if hero in entry.heroes:
+            count += 1
+    return count
+
+
+def get_hero_occurrence_trend(db: database.DatabaseAccess) -> list[dict[str, list[int]]]:
+    result: list[dict[str, list[int]]] = list()
+    leaderboard_data: dict[str, list[leaderboards.LeaderboardEntry]] = \
+        {s: db.get_all_records(s) for s in db.get_seasons()}
+    for hero in [h for h in Heroes().hero_labels.values() if h != "Blank"]:
+        hero_result = {
+            "name": hero,
+            "data": []
+        }
+
+        for season in db.get_seasons():
+            hero_result['data'].append(get_hero_occurrences_single_season(leaderboard_data[season], hero=hero))
+
+        result.append(hero_result)
+    return result
