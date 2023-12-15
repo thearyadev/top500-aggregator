@@ -152,4 +152,15 @@
     crossorigin="anonymous"></script>
 <!-- bootstrap js end -->
 
+<!-- Scrollbar Horizontal Scroll -->
+document.querySelector('.nav').addEventListener('wheel', function(e) {
+    if (e.deltaY != 0) {
+        this.scrollLeft += (e.deltaY * 1.5);
+        e.preventDefault();
+    }
+}, false);
+
+<!-- Scrollbar Horizontal Scroll End -->
+
+
 </html>
