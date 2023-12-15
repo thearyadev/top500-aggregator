@@ -48,7 +48,8 @@ function drawChart(chartName) {
 
     Highcharts.chart(chartName, {
         chart: {
-            type: 'column'
+            type: 'column',
+            margin: [75, 50, 75, 50]
         },
         xAxis: {
             categories: heroes,
