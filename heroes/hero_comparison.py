@@ -110,12 +110,12 @@ class Heroes:
 
         self.hero_colors: dict[str, str] = {
             "Ana": "#8796B6",
-            "Ashe": "#0E04EA",
+            "Ashe": "#808284",
             "Baptiste": "#7DB8CE",
             "Bastion": "#8c998c",
             "Blank": "#000000",
             "Brigitte": "#957D7E",
-            "Cassidy": "#557C7F",
+            "Cassidy": "#b77e80",
             "D.Va": "#F59CC8",
             "Doomfist": "#947F80",
             "Echo": "#A4CFF9",
