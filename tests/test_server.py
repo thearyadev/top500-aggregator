@@ -6,6 +6,9 @@ from fastapi.testclient import TestClient
 import database
 from server import app
 from utils.raise_for_missing_env import raise_for_missing_env_vars
+import zipfile
+import io
+import csv
 
 load_dotenv()
 
@@ -48,3 +51,18 @@ def test_robots():
 def test_sitemap():
     response = client.get("/sitemap.xml")
     assert response.status_code == 200
+
+
+def test_csv_gen():
+    response = client.get("/data/csv")
+    zipfile_data = io.BytesIO(response.content)
+    with zipfile.ZipFile(zipfile_data, "r") as zipf:
+        file_list = zipf.namelist()
+        for f in file_list:
+            with zipf.open(f) as file:
+                content = file.read()
+                assert content
+                reader = csv.reader(io.StringIO(content.decode()))
+                for _ in range(50):
+                    assert next(reader)
+                    
