@@ -17,7 +17,7 @@ const charts = [ // define all chart ids here
     'OTMP_DAMAGE_ALL', 'OTMP_TANK_ALL', 'O_ALL_AMERICAS', 'O_ALL_EUROPE',
     'O_ALL_ASIA', 'O_ALL_ALL', 
 ]
-
+const hero_color_data = $("colors").data().herocolors
 function map_multi_array(arrayOfObjects){
     const heroes = [];
     const counts = [];
@@ -65,7 +65,12 @@ function drawChart(chartName) {
         series: [
             {
                 name: `::`,
-                data: counts
+                data: counts.map(item => {
+                    return {
+                        y: item,
+                        color: lookup_hero_color(heroes[counts.indexOf(item)])
+                        }
+                })
             },
         ]
     });
@@ -74,6 +79,14 @@ function drawChart(chartName) {
     chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation} | # Entires: ${counts.reduce((acc, cur) => acc + cur, 0)}</small></p>`)
 
 }
+
+
+function lookup_hero_color(name){
+    return hero_color_data[name] || "black"
+}
+
+
+
 
 let lastWidth = window.innerWidth;
 
