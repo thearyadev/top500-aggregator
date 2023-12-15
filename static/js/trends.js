@@ -1,3 +1,7 @@
+
+const hero_color_data = $("colors").data().herocolors
+
+
 function drawHeroTrendChartAllRegions() {
     const chartElement = $('#T_ALL_ALL')
     const data = $('data').data().trends
@@ -35,7 +39,13 @@ Highcharts.chart('T_ALL_ALL', {
 
 
 
-    series: data,
+    series: data.map(item => {
+    console.log(item)
+     return {
+        color: lookup_hero_color(item.name),
+        ...item
+        }
+    }),
     responsive: {
         rules: [{
             condition: {
@@ -68,3 +78,7 @@ window.addEventListener('resize', function () { // redraw charts on resize
     }
 
 });
+
+function lookup_hero_color(name){
+    return hero_color_data[name] || "black"
+}
