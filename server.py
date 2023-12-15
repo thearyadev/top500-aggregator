@@ -10,6 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 import database
+import heroes
 import leaderboards
 from statistic import (
     get_hero_occurrence_trend,
@@ -454,6 +455,7 @@ async def season(
                 "request": request,
                 "seasons": seasons_list,
                 "currentSeason": season_number,
+                "hero_colors": json.dumps(heroes.Heroes().hero_colors),
                 **seasons_data[season_number],  # type: ignore
                 **seasons_data[season_number]["MISC"],  # type: ignore
                 # this does work. Im not sure why mypy is complaining.
@@ -478,6 +480,7 @@ async def trendsEndpoint(
             "request": request,
             "seasons": seasons_list,
             "trends": json.dumps(trends_data),
+            "hero_colors": json.dumps(heroes.Heroes().hero_colors),
         },
     )
 
