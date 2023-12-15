@@ -36,6 +36,16 @@ function drawChart(chartName) {
     const chartDataRaw = chartElement.data().graphdata
     const [heroes, counts] = map_multi_array(chartDataRaw.graph)
     const stats = chartDataRaw.statistic
+    const entries = counts.reduce((acc, cur) => acc + cur, 0)
+    const chartTypeBreakdown = chartName.split("_")
+    let yAxisLength = 300; // standard size for all single role single region charts
+    if (chartName === "O_ALL_ALL"){ // o type, all roles, all regions
+        yAxisLength = 1250
+    }else if (chartTypeBreakdown[chartTypeBreakdown.length - 1] === "ALL" || chartTypeBreakdown[0] === "O") { // all roles, single region or O-type chart
+        yAxisLength = 500
+    }
+
+
     Highcharts.chart(chartName, {
         chart: {
             type: 'column'
@@ -49,12 +59,10 @@ function drawChart(chartName) {
         },
         yAxis: {
             min: 0,
+            max: yAxisLength,
             title: {
                 text: 'Occurrences'
             }
-        },
-        tooltip: {
-            valueSuffix: ' Occurrences'
         },
         plotOptions: {
             column: {
@@ -64,7 +72,7 @@ function drawChart(chartName) {
         },
         series: [
             {
-                name: `::`,
+                name: `Occurrences`,
                 data: counts.map(item => {
                     return {
                         y: item,
@@ -76,7 +84,7 @@ function drawChart(chartName) {
     });
 
 
-    chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation} | # Entires: ${counts.reduce((acc, cur) => acc + cur, 0)}</small></p>`)
+    chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation} | # Entires: ${entries}</small></p>`)
 
 }
 
