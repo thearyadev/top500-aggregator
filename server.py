@@ -5,7 +5,7 @@ from typing import Annotated, Any, Dict, List
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, Request
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -24,6 +24,9 @@ from statistic import (
     get_variance,
 )
 from utils.raise_for_missing_env import raise_for_missing_env_vars
+import csv
+import io
+import zipfile
 
 load_dotenv()
 templates = Jinja2Templates(directory="templates")
@@ -48,6 +51,26 @@ def seasons_list() -> list[str]:
         list[str]: list of seasons
     """
     return db.get_seasons()
+
+
+@lru_cache
+def get_seasons_data_as_csv() -> io.BytesIO:
+    files: dict[str, io.StringIO] = dict()
+    for season_ in db.get_seasons():
+        season_csv_string_io: io.StringIO = io.StringIO()
+        data = db.get_all_records(season_)
+        writer = csv.writer(season_csv_string_io)
+        writer.writerow(("region", "role", "firstMostPlayed", "secondMostPlayed", "thirdMostPlayed"))
+        for entry in data:
+            writer.writerow((entry.region.name, entry.role.name, entry.heroes[0], entry.heroes[1], entry.heroes[2]))
+        files[f"season{season_}.csv"] = season_csv_string_io
+    in_memory_zip = io.BytesIO()
+    with zipfile.ZipFile(in_memory_zip, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for filename, content in files.items():
+            content.seek(0)
+            zipf.writestr(filename, content.read())
+            content.close()
+    return in_memory_zip
 
 
 @lru_cache
@@ -406,9 +429,9 @@ def trends_data() -> list[dict[str, list[int]]]:
 @app.get("/{_}")
 @app.get("/")
 async def index_redirect(
-    request: Request,
-    seasons_list: Annotated[list[str], Depends(seasons_list)],
-    seasons_data: Annotated[dict, Depends(season_data)],
+        request: Request,
+        seasons_list: Annotated[list[str], Depends(seasons_list)],
+        seasons_data: Annotated[dict, Depends(season_data)],
 ):
     if "favicon.ico" in str(request.url):
         return FileResponse("static/favicon.ico")
@@ -441,10 +464,10 @@ async def index_redirect(
 
 @app.get("/season/{season_number}")
 async def season(
-    request: Request,
-    season_number: str,
-    seasons_data: Annotated[dict, Depends(season_data)],
-    seasons_list: Annotated[list[str], Depends(seasons_list)],
+        request: Request,
+        season_number: str,
+        seasons_data: Annotated[dict, Depends(season_data)],
+        seasons_list: Annotated[list[str], Depends(seasons_list)],
 ):
     request.app.state.templates.env.filters["group_subseasons"] = group_subseasons
 
@@ -468,9 +491,9 @@ async def season(
 
 @app.get("/trends/seasonal")
 async def trendsEndpoint(
-    request: Request,
-    seasons_list: Annotated[list[str], Depends(seasons_list)],
-    trends_data: Annotated[dict, Depends(trends_data)],
+        request: Request,
+        seasons_list: Annotated[list[str], Depends(seasons_list)],
+        trends_data: Annotated[dict, Depends(trends_data)],
 ):
     request.app.state.templates.env.filters["group_subseasons"] = group_subseasons
 
@@ -483,6 +506,15 @@ async def trendsEndpoint(
             "hero_colors": json.dumps(heroes.Heroes().hero_colors),
         },
     )
+
+
+@app.get("/data/csv")
+async def get_data_csv(request: Request) -> StreamingResponse:
+    zipfile_data = get_seasons_data_as_csv()
+    zipfile_data.seek(0)
+    return StreamingResponse(zipfile_data, media_type="application/zip",
+                             headers={
+                                 "Content-Disposition": "attachment; filename=t500-aggregator-all-seasons-archive.zip"})
 
 
 def group_subseasons(seasons: list[str]) -> dict[str, list[str]]:
