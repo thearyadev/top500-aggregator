@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(".")
+
 import inspect
 import os
 import time
@@ -54,7 +58,7 @@ def train(
     model.add(Activation_ReLU())
     model.add(Layer_Dense(128, 128))
     model.add(Activation_ReLU())
-    model.add(Layer_Dense(128, 40))  # second parameter is the number of classes
+    model.add(Layer_Dense(128, 41))  # second parameter is the number of classes
     model.add(Activation_Softmax())
 
     # Set loss, optimizer and accuracy objects
