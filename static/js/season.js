@@ -17,6 +17,10 @@ const charts = [ // define all chart ids here
     'OTMP_DAMAGE_ALL', 'OTMP_TANK_ALL', 'O_ALL_AMERICAS', 'O_ALL_EUROPE',
     'O_ALL_ASIA', 'O_ALL_ALL', 
 ]
+
+const chartCache = {}
+
+
 const hero_color_data = $("colors").data().herocolors
 function map_multi_array(arrayOfObjects){
     const heroes = [];
@@ -30,29 +34,39 @@ function map_multi_array(arrayOfObjects){
 
 }
 
-function drawChart(chartName) {
 
-    const chartElement = $(`#${chartName}`)
-    const chartDataRaw = chartElement.data().graphdata
-    const [heroes, counts] = map_multi_array(chartDataRaw.graph)
-    const stats = chartDataRaw.statistic
-    const entries = counts.reduce((acc, cur) => acc + cur, 0)
-    const chartTypeBreakdown = chartName.split("_")
-    let yAxisLength = 300; // standard size for all single role single region charts
-    if (chartName === "O_ALL_ALL"){ // o type, all roles, all regions
-        yAxisLength = 1250
-    }else if (chartTypeBreakdown[chartTypeBreakdown.length - 1] === "ALL" || chartTypeBreakdown[0] === "O") { // all roles, single region or O-type chart
-        yAxisLength = 500
+
+function drawChart(chartName) {
+    if (!chartCache.hasOwnProperty(chartName)){ // chart not in cache
+        const chartElement = $(`#${chartName}`)
+
+        const chartDataRaw = chartElement.data().graphdata
+        const [heroes, counts] = map_multi_array(chartDataRaw.graph)
+        const stats = chartDataRaw.statistic
+        const entries = counts.reduce((acc, cur) => acc + cur, 0)
+        const chartTypeBreakdown = chartName.split("_")
+        let yAxisLength = 300; // standard size for all single role single region charts
+        if (chartName === "O_ALL_ALL"){ // o type, all roles, all regions
+            yAxisLength = 1250
+        }else if (chartTypeBreakdown[chartTypeBreakdown.length - 1] === "ALL" || chartTypeBreakdown[0] === "O") { // all roles, single region or O-type chart
+            yAxisLength = 500
+        }
+
+        chartCache[chartName] = {
+            heroes, counts, stats, entries, yAxisLength, chartElement
+        }
+
     }
 
 
+    const chartDataCached = chartCache[chartName]
     Highcharts.chart(chartName, {
         chart: {
             type: 'column',
             margin: [75, 50, 75, 50]
         },
         xAxis: {
-            categories: heroes,
+            categories: chartDataCached.heroes,
             crosshair: true,
             accessibility: {
                 description: 'Heroes'
@@ -60,7 +74,7 @@ function drawChart(chartName) {
         },
         yAxis: {
             min: 0,
-            max: yAxisLength,
+            max: chartDataCached.yAxisLength,
             title: {
                 text: 'Occurrences'
             }
@@ -74,10 +88,10 @@ function drawChart(chartName) {
         series: [
             {
                 name: `Occurrences`,
-                data: counts.map((item, index) => {
+                data: chartDataCached.counts.map((item, index) => {
                     return {
                         y: item,
-                        color: lookup_hero_color(heroes[index])
+                        color: lookup_hero_color(chartDataCached.heroes[index])
                         }
                 })
             },
@@ -85,7 +99,7 @@ function drawChart(chartName) {
     });
 
 
-    chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${stats?.mean} | Variance: ${stats?.variance} | Standard Deviation: ${stats?.standard_deviation} | # Entires: ${entries}</small></p>`)
+    chartDataCached.chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${chartDataCached?.mean} | Variance: ${chartDataCached?.variance} | Standard Deviation: ${chartDataCached?.standard_deviation} | # Entires: ${chartDataCached.entries}</small></p>`)
 
 }
 
