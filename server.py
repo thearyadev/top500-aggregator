@@ -5,7 +5,7 @@ from typing import Annotated, Any, Dict, List
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, Request
-from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse
+from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -27,6 +27,7 @@ from utils.raise_for_missing_env import raise_for_missing_env_vars
 import csv
 import io
 import zipfile
+import xml.etree.ElementTree as ET
 
 load_dotenv()
 templates = Jinja2Templates(directory="templates")
@@ -41,6 +42,20 @@ db = database.DatabaseAccess(
     database=os.getenv("MYSQLDATABASE") or raise_for_missing_env_vars(),
     port=os.getenv("MYSQLPORT") or raise_for_missing_env_vars(),
 )
+
+
+@lru_cache
+def get_sitemap() -> str:
+    urls: list[str] = [
+        f"https://t500-aggregator.aryankothari.dev/season/{season}" for season in
+        db.get_seasons()]
+    urls.append("https://t500-aggregator.aryankothari.dev/trends/seasonal")
+    urlset = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
+    for url in urls:
+        url_element = ET.SubElement(urlset, "url")
+        loc = ET.SubElement(url_element, "loc")
+        loc.text = url
+    return ET.tostring(urlset, encoding="utf8", method="xml").decode()
 
 
 @lru_cache
@@ -444,6 +459,9 @@ async def index_redirect(
 
     if "favicon-32x32.png" in str(request.url):
         return FileResponse("static/favicon-32x32.png")
+
+    if "sitemap.xml" in str(request.url):
+        return Response(content=get_sitemap(), media_type="application/xml")
 
     if "favicon-16x16.png" in str(request.url):
         return FileResponse("static/favicon-16x16.png")
