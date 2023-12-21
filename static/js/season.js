@@ -124,7 +124,7 @@ window.addEventListener('resize', function () { // redraw charts on resize
         charts.forEach(drawChart)
     }
 
-}, 250); // delay
+});
 
 window.onload = () => {
     charts.forEach(drawChart)
