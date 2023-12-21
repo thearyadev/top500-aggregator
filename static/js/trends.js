@@ -1,14 +1,24 @@
 
 const hero_color_data = $("colors").data().herocolors
+const cache = {
+
+}
 
 
 function drawHeroTrendChartAllRegions() {
-    const chartElement = $('#T_ALL_ALL')
-    const data = $('data').data().trends
-    const seasons = JSON.parse($('seasons').data().seasons.replace(/'/g, '"')).map(item => item.split("_")[0])
+    const chartName = "HeroTrendChartAllRegions"
+    if (!cache.hasOwnProperty(chartName)){
+        const chartElement = $('#T_ALL_ALL')
+        const data = $('data').data().trends
+        const seasons = JSON.parse($('seasons').data().seasons.replace(/'/g, '"')).map(item => item.split("_")[0])
+        cache[chartName] = {
+            data,
+            seasons
+        }
+    }
 
 
-
+    const cachedData = cache[chartName]
 Highcharts.chart('T_ALL_ALL', {
     legend: {
         layout: 'vertical',
@@ -16,9 +26,9 @@ Highcharts.chart('T_ALL_ALL', {
         verticalAlign: 'middle'
     },
     xAxis: {
-        categories:  seasons,
+        categories:  cachedData.seasons,
         min: 0, // Replace with your actual minimum value
-        max: seasons.length -1, // Replace with your actual maximum value
+        max: cachedData.seasons.length -1, // Replace with your actual maximum value
         startOnTick: false,
         endOnTick: false,
     },
@@ -39,7 +49,7 @@ Highcharts.chart('T_ALL_ALL', {
 
 
 
-    series: data.map(item => {
+    series: cachedData.data.map(item => {
     console.log(item)
      return {
         color: lookup_hero_color(item.name),
