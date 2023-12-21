@@ -74,10 +74,10 @@ function drawChart(chartName) {
         series: [
             {
                 name: `Occurrences`,
-                data: counts.map(item => {
+                data: counts.map((item, index) => {
                     return {
                         y: item,
-                        color: lookup_hero_color(heroes[counts.indexOf(item)])
+                        color: lookup_hero_color(heroes[index])
                         }
                 })
             },
