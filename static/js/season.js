@@ -98,8 +98,8 @@ function drawChart(chartName) {
         ]
     });
 
-
-    chartDataCached.chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${chartDataCached?.mean} | Variance: ${chartDataCached?.variance} | Standard Deviation: ${chartDataCached?.standard_deviation} | # Entires: ${chartDataCached.entries}</small></p>`)
+    console.log(chartDataCached)
+    chartDataCached.chartElement.parent().append(`<p class='chart-stats small text-muted'><small>Mean: ${chartDataCached?.stats.mean} | Variance: ${chartDataCached?.stats.variance} | Standard Deviation: ${chartDataCached?.stats.standard_deviation} | # Entires: ${chartDataCached.entries}</small></p>`)
 
 }
 
