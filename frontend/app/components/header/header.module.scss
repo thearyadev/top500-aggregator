@@ -1,0 +1,15 @@
+.top_header_container {
+  @apply bg-black text-white mt-0 w-full p-2;
+}
+
+.navbar {
+  @apply bg-gray-300 w-full overflow-x-auto flex whitespace-nowrap;
+
+  ul {
+    @apply flex list-none space-x-4;
+  }
+
+  ul > li {
+    @apply p-3 hover:bg-gray-400 transition duration-100 ease-in-out;
+  }
+}

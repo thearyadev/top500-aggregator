@@ -1,0 +1,22 @@
+.card {
+    @apply border-2;
+    @apply p-3;
+    @apply rounded;
+    @apply mb-3
+}
+
+.heading-container {
+}
+
+.title{
+    @apply text-lg;
+    @apply font-bold
+}
+
+.subtitle{
+    @apply font-extralight
+}
+
+.cardBody {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-4;
+}
