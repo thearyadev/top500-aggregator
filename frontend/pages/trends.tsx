@@ -19,11 +19,11 @@ const Trends = ({data, season_list}: {data: TrendLine[], season_list: string[]})
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const res = await fetch(`http://localhost:7771/chart/trend/d`);
+    const res = await fetch(`http://web:8000/chart/trend/d`);
     const data = await res.json();
 
 
-    const res2 = await fetch("http://localhost:7771/d/seasons")
+    const res2 = await fetch("http://web:8000/d/seasons")
     const season_list = await res2.json()
 
     return {
