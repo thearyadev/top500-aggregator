@@ -9,7 +9,7 @@ services:
     ports:
       - "7777:80"
 
-  web: # port 8000 is server
+  server: # port 8000 is server
 
       image: ghcr.io/thearyadev/top500-aggregator:latest
       #    build: .
@@ -21,7 +21,12 @@ services:
         MYSQLPORT: '3306'
       depends_on:
         - database
-  
+
+  frontend:
+    build:
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
   # these services are internal, so secrets do not matter.
   database:
     image: mysql@sha256:566007208a3f1cc8f9df6b767665b5c9b800fc4fb5f863d17aa1df362880ed04
@@ -32,6 +37,3 @@ services:
       MYSQL_ROOT_PASSWORD: 'QiyWsI7y1oGGJjz4biiu'
     volumes:
         - ./mysql-data:/var/lib/mysql
-#    ports:
-#      - "3306:3306"
-

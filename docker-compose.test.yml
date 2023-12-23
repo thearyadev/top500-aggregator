@@ -9,7 +9,7 @@ services:
     ports:
       - "7779:80"
 
-  web: # port 8000 is server
+  server: # port 8000 is server
       build:
         dockerfile: Dockerfile.server
       environment:
