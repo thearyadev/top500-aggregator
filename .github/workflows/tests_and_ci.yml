@@ -2,6 +2,8 @@ name: Tests and CI
 on:
   pull_request:
   push:
+    branches:
+      - main
 
 jobs:
   tests:
@@ -51,13 +53,22 @@ jobs:
           TESTING_MYSQLHOST: 'localhost'
           TESTING_MYSQLPORT: '3800'
 
-  docker-buildable:
+  docker-server-buildable:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build the image
+      - name: Build the server image
         run: |
-          docker build . --tag ghcr.io/thearyadev/top500-aggregator:latest
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-server:latest --file ./Dockerfile.server
+
+  docker-frontend-buildable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the frontend image
+        run: |
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-frontend:latest --file ./Dockerfile.frontend
+  
 
   build_and_publish:
     runs-on: ubuntu-latest
@@ -65,8 +76,16 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      - name: Build and push the image
+      - name: Docker Login
         run: |
           docker login --username thearyadev --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build . --tag ghcr.io/thearyadev/top500-aggregator:latest
-          docker push ghcr.io/thearyadev/top500-aggregator:latest
+      - name: Build Frontend
+        run: |
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-frontend:latest --file ./Dockerfile.frontend
+      - name: Build Server
+        run: |
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-server:latest --file ./Dockerfile.server
+      - name: push images
+        run: |
+          docker push ghcr.io/thearyadev/top500-aggregator-frontend:latest
+          docker push ghcr.io/thearyadev/top500-aggregator-server:latest
