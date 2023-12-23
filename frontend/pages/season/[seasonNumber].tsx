@@ -31,7 +31,7 @@ const Season = ({data, season_list}: { data: SeasonData, season_list: string[]})
                 {Object.keys(data).map(key => {
                     if (key.includes("O_ALL")){
                         const [_, role, region] = key.split("_")
-                        return <BarChart title={`${role}: ${region}`} graph={data[key].graph} maxY={region === "ALL" ? 1250 : 500 } />
+                        return <BarChart title={`${region}`} graph={data[key].graph} maxY={region === "ALL" ? 1250 : 500 } />
                     }
                 })}
             </Card>
