@@ -18,7 +18,9 @@ function MyApp({Component, pageProps, data}: T500AggregatorAppProps) {
         <>
             <Header nav_links={[]}/>
             <main className="mt-5 lg:ml-3 lg:mr-3 sm:ml-1 sm:mr-1">
-                <h2 className="text-4xl pb-4">Season {seasonNumber}</h2>
+                {seasonNumber? <h2 className="text-4xl pb-4">Season {seasonNumber}</h2>: <h2 className="text-4xl pb-4">Trends</h2>}
+
+
                 <p className="pb-2"><strong>Welcome to Overwatch 2 Top 500 Aggregator</strong></p>
                 <p>The data available on this page is not 100% accurate. Data collection involves computer vision and
                     image classification using a neural network, and as
