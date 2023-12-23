@@ -16,7 +16,6 @@ function MyApp({Component, pageProps}: T500AggregatorAppProps) {
     const path = router.asPath
     const links = [
         {label: "Trends", path: "/trends"},
-        {label: "Season 8", path: "/season/8"},
         {label: "Season 7", path: "/season/7"},
         {label: "Season 6", path: "/season/6"},
     {label: "Season 5", path: "/season/5"},
