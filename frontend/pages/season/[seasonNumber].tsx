@@ -24,7 +24,7 @@ type SeasonData = {
 }
 
 
-const Season = ({data}: { data: SeasonData }) => {
+const Season = ({data, season_list}: { data: SeasonData, season_list: string[]}) => {
     return (
         <>
             <Card title="Hero Occurrences: All Slots" nowrap>
@@ -81,9 +81,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const res = await fetch(`http://localhost:7771/chart/${seasonNumber}_8`);
     const data = await res.json();
 
+
+    const res2 = await fetch("http://localhost:7771/d/seasons")
+    const season_list = await res2.json()
+
     return {
         props: {
-            data, // This will be passed to your page component
+            data,
+            season_list,
         },
     };
 }
