@@ -76,8 +76,16 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      - name: Build and push the image
+      - name: Docker Login
         run: |
           docker login --username thearyadev --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build . --tag ghcr.io/thearyadev/top500-aggregator:latest
-          docker push ghcr.io/thearyadev/top500-aggregator:latest
+      - name: Build Frontend
+        run: |
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-frontend:latest --file ./Dockerfile.frontend
+      - name: Build Server
+        run: |
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-server:latest
+      - name: push images
+        run: |
+          docker push ghcr.io/thearyadev/top500-aggregator-frontend:latest
+          docker push ghcr.io/thearyadev/top500-aggregator-server:latest
