@@ -9,7 +9,7 @@ interface T500AggregatorAppProps extends AppProps {
 }
 
 
-function MyApp({Component, pageProps, data}: T500AggregatorAppProps) {
+function MyApp({Component, pageProps}: T500AggregatorAppProps) {
 
     const router = useRouter()
     const {seasonNumber} = router.query
