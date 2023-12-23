@@ -52,14 +52,23 @@ jobs:
           TESTING_MYSQLHOST: 'localhost'
           TESTING_MYSQLPORT: '3800'
 
-  docker-buildable:
+  docker-server-buildable:
     runs-on: ubuntu-latest
     if: false
     steps:
       - uses: actions/checkout@v3
-      - name: Build the image
+      - name: Build the server image
         run: |
-          docker build . --tag ghcr.io/thearyadev/top500-aggregator:latest
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-server:latest
+
+  docker-frontend-buildable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the frontend image
+        run: |
+          docker build . --tag ghcr.io/thearyadev/top500-aggregator-frontend:latest --file ./Dockerfile.frontend
+  
 
   build_and_publish:
     runs-on: ubuntu-latest
