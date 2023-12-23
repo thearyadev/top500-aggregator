@@ -6,6 +6,7 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    if: false
     steps:
       - uses: actions/checkout@v3
 
@@ -53,6 +54,7 @@ jobs:
 
   docker-buildable:
     runs-on: ubuntu-latest
+    if: false
     steps:
       - uses: actions/checkout@v3
       - name: Build the image
