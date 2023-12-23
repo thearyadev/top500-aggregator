@@ -13,6 +13,7 @@ function MyApp({Component, pageProps}: T500AggregatorAppProps) {
 
     const router = useRouter()
     const {seasonNumber} = router.query
+    const path = router.asPath
     const links = [
         {label: "Trends", path: "/trends"},
         {label: "Season 8", path: "/season/8"},
@@ -31,8 +32,7 @@ function MyApp({Component, pageProps}: T500AggregatorAppProps) {
         <>
             <Header nav_links={links}/>
             <main className="mt-5 lg:ml-3 lg:mr-3 sm:ml-1 sm:mr-1">
-                {seasonNumber? <h2 className="text-4xl pb-4">Season {seasonNumber}</h2>: <h2 className="text-4xl pb-4">Trends</h2>}
-
+                <h2 className={"text-4xl pb-4"}>{seasonNumber? `Season ${seasonNumber}`: path.toLowerCase().includes("trends") ? "Trends" : "Season 8"}</h2>
 
                 <p className="pb-2"><strong>Welcome to Overwatch 2 Top 500 Aggregator</strong></p>
                 <p>The data available on this page is not 100% accurate. Data collection involves computer vision and
