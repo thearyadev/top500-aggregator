@@ -4,17 +4,20 @@ import {useRef} from "react";
 import styles from "./barChart.module.scss"
 import {HeroColors} from "@/app/components/charts/heroColors";
 
+interface GraphData {
+    labels: string[]
+    values: number[]
+}
 
 interface BarChartProps extends HighchartsReact.Props {
     title: string;
-    chartLabels: string[];
-    chartValues: number[];
+    graph: GraphData
     maxY: number;
 }
 
 
 const BarChart = (props: BarChartProps) => {
-    const {title, chartLabels, chartValues, maxY} = props;
+    const {title, graph, maxY} = props;
     const options: Highcharts.Options = {
         title: {
             // @ts-ignore
@@ -25,13 +28,13 @@ const BarChart = (props: BarChartProps) => {
             enabled: false,
         },
         xAxis: {
-            categories: chartLabels,
+            categories: graph.labels,
         },
         series: [{
             type: 'column',
             name: "Occurrences",
-            data: chartValues.map((item, index) => {
-                return {y: item, color: HeroColors[chartLabels[index]]} // do lookup
+            data: graph.values.map((item, index) => {
+                return {y: item, color: HeroColors[graph.labels[index]]} // do lookup
             })
         }],
         credits: {
