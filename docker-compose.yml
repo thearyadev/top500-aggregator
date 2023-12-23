@@ -11,7 +11,7 @@ services:
 
   server: # port 8000 is server
 
-      image: ghcr.io/thearyadev/top500-aggregator:latest
+      image: ghcr.io/thearyadev/top500-aggregator-server:latest
       #    build: .
       environment:
         MYSQLDATABASE: 'railway'
@@ -23,8 +23,7 @@ services:
         - database
 
   frontend:
-    build:
-      dockerfile: Dockerfile.frontend
+    image: ghcr.io/thearyadev/top500-aggregator-frontend:latest
     ports:
       - "3000:3000"
   # these services are internal, so secrets do not matter.
