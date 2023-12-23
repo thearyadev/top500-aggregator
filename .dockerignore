@@ -1,8 +1,10 @@
 assets
 models
 tests
-Dockerfile
+Dockerfile.server
+Dockerfile.frontend
 README.md
 mypy-t.sh
 LICENSE
 tmp
+node_modules/

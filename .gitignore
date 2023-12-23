@@ -12,3 +12,4 @@ temp
 .bashrc
 .idea
 tmp
+node_modules/
