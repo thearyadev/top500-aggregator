@@ -8,7 +8,6 @@ const Card = ({children, title, subtitle, nowrap}: { children: React.ReactNode, 
                 <h3 className={styles.title}>{title}</h3>
                 {subtitle ? <h4 className={styles.subtitle}>{subtitle}</h4> : null}
             </div>
-            <hr  className="m-4"/>
             <div className={ nowrap ? undefined : styles.cardBodyWrap}>
                 {children}
             </div>
