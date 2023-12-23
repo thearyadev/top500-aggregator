@@ -3,7 +3,7 @@ services:
   nginx:
     image: nginx:latest
     depends_on:
-      - web
+      - server
     volumes:
       - "./nginx.conf:/etc/nginx/nginx.conf"
     ports:
