@@ -13,10 +13,23 @@ function MyApp({Component, pageProps, data}: T500AggregatorAppProps) {
 
     const router = useRouter()
     const {seasonNumber} = router.query
-
+    const links = [
+        {label: "Trends", path: "/trends"},
+        {label: "Season 8", path: "/season/8"},
+        {label: "Season 7", path: "/season/7"},
+        {label: "Season 6", path: "/season/6"},
+    {label: "Season 5", path: "/season/5"},
+    {label: "Season 4", path: "/season/4"},
+    {label: "Season 3", path: "/season/3"},
+    {label: "Season 2", path: "/season/2"},
+    {label: "Season 1", path: "/season/1"},
+    {label: "Season 36", path: "/season/36"},
+    {label: "Season 35", path: "/season/35"},
+    {label: "Season 34", path: "/season/34"},
+    ]
     return (
         <>
-            <Header nav_links={[]}/>
+            <Header nav_links={links}/>
             <main className="mt-5 lg:ml-3 lg:mr-3 sm:ml-1 sm:mr-1">
                 {seasonNumber? <h2 className="text-4xl pb-4">Season {seasonNumber}</h2>: <h2 className="text-4xl pb-4">Trends</h2>}
 
