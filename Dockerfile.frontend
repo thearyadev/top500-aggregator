@@ -1,6 +1,8 @@
 # Install dependencies only when needed
 FROM node:lts-alpine as deps
-
+LABEL org.opencontainers.image.source=https://github.com/thearyadev/top500-aggregator
+LABEL org.opencontainers.image.description="Docker image for t500 aggregator frontend"
+LABEL org.opencontainers.image.licenses=MIT
 WORKDIR /opt/app
 COPY frontend/package.json /frontend/bun.lockb ./
 RUN npm install
