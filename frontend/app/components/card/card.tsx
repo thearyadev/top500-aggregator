@@ -1,7 +1,7 @@
 import styles from "./card.module.scss"
 
 
-const Card = ({children, title, subtitle}: { children: React.ReactNode, title: string, subtitle?: string }) => {
+const Card = ({children, title, subtitle, nowrap}: { children: React.ReactNode, title: string, subtitle?: string, nowrap?:boolean }) => {
     return (
         <div className={styles.card}>
             <div className={styles.headingContainer}>
@@ -9,7 +9,7 @@ const Card = ({children, title, subtitle}: { children: React.ReactNode, title: s
                 {subtitle ? <h4 className={styles.subtitle}>{subtitle}</h4> : null}
             </div>
             <hr  className="m-4"/>
-            <div className={styles.cardBody}>
+            <div className={ nowrap ? undefined : styles.cardBodyWrap}>
                 {children}
             </div>
         </div>
