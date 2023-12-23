@@ -2,6 +2,8 @@ name: Tests and CI
 on:
   pull_request:
   push:
+    branches:
+      - main
 
 jobs:
   tests:
