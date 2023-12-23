@@ -78,11 +78,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const {seasonNumber} = context.params;
 
     // Make an API call using seasonNumber
-    const res = await fetch(`http://web:8000/chart/${seasonNumber}_8`);
+    const res = await fetch(`http://server:8000/chart/${seasonNumber}_8`);
     const data = await res.json();
 
 
-    const res2 = await fetch("http://web:8000/d/seasons")
+    const res2 = await fetch("http://server:8000/d/seasons")
     const season_list = await res2.json()
 
     return {
