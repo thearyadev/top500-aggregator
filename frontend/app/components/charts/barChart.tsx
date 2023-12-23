@@ -52,7 +52,7 @@ const BarChart = (props: BarChartProps) => {
 
     return (
         <div className={styles.chartContainer}>
-            <h5 className="text-center pb-2">{title}</h5>
+            <h5 className="text-center pb-2 capitalize">{title.toLowerCase()}</h5>
             <HighchartsReact
                 id="gnomegnome"
                 highcharts={Highcharts}
