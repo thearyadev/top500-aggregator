@@ -64,7 +64,7 @@ class Heroes:
             37: "Zenyatta",
             38: "LifeWeaver",
             39: "Illari",
-            40: "Mauga"
+            40: "Mauga",
         }
         self.hero_role: dict[str, str] = {
             "Ana": "SUPPORT",
@@ -107,7 +107,7 @@ class Heroes:
             "Zarya": "TANK",
             "Zenyatta": "SUPPORT",
             "LifeWeaver": "SUPPORT",
-            "Mauga": "TANK"
+            "Mauga": "TANK",
         }
 
         self.hero_colors: dict[str, str] = {
@@ -150,7 +150,7 @@ class Heroes:
             "Zarya": "#F291BB",
             "Zenyatta": "#F5EC91",
             "LifeWeaver": "#E0B6C5",
-            "Mauga": "#E0B6C5"
+            "Mauga": "#E0B6C5",
         }
 
     def predict_hero_name(self, image_data: np.ndarray, model_name: str) -> Hero:
