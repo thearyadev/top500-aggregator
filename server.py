@@ -47,7 +47,7 @@ def seasons_list() -> list[str]:
 
 
 def map_to_label_count_array(data: dict):
-    result = dict()
+    result: dict[str, Any] = dict()
     for season in data.keys():
         result[season] = dict()
         for chart, values in data[season].items():

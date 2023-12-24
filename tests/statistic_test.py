@@ -1,4 +1,3 @@
-from .db_fixture import database
 from statistic import *
 import pytest
 from leaderboards import LeaderboardEntry, Region, Role
