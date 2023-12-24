@@ -154,3 +154,157 @@ def test_convert_count_dict_to_array(test, expected):
     assert isinstance(result, list)
     assert isinstance(result[0], int)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "season_data,hero,expected",
+    [
+        (
+            [
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Moira", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Illari"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+            ],
+            "Ana",
+            4,
+        ),
+        (
+            [
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Moira", "Lucio", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Illari"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+            ],
+            "Moira",
+            5,
+        ),
+        (
+            [
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Moira", "Lucio", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Illari"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+            ],
+            "Illari",
+            1,
+        ),
+        (
+            [
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Moira", "Lucio", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Zenyatta"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+                LeaderboardEntry(
+                    heroes=["Ana", "Moira", "Illari"],
+                    games=0,
+                    region=Region.AMERICAS,
+                    role=Role.SUPPORT,
+                ),
+            ],
+            "Widowmaker",
+            0,
+        ),
+    ],
+)
+def test_get_hero_occurrences_single_season(season_data, hero, expected):
+    result = get_hero_occurrences_single_season(season_data, hero)
+    assert result == expected
