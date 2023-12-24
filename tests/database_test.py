@@ -74,10 +74,14 @@ def test_get_all_records(database: DatabaseAccess):
     [
         (None, []),
         (["season_1_8", "season_2_8"], ["1_8", "2_8"]),
-        pytest.param("oasidjald", [], marks=pytest.mark.xfail(reason="Invalid season name")),
+        pytest.param(
+            "oasidjald", [], marks=pytest.mark.xfail(reason="Invalid season name")
+        ),
     ],
 )
-def test_get_seasons(test: str | list[str] | None, expected: list[str], database: DatabaseAccess):
+def test_get_seasons(
+    test: str | list[str] | None, expected: list[str], database: DatabaseAccess
+):
     if test is None:
         assert database.get_seasons() == expected
 
