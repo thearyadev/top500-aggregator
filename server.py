@@ -47,14 +47,17 @@ def seasons_list() -> list[str]:
 
 
 def map_to_label_count_array(data: dict):
-    result = dict()
+    result: dict[str, Any] = dict()
     for season in data.keys():
         result[season] = dict()
         for chart, values in data[season].items():
-            result[season][chart] = {"graph": {"labels": list(), "values": list()}, "statistic": values["statistic"]}
-            for hero in values['graph']:
-                result[season][chart]["graph"]["labels"].append(hero['hero'])
-                result[season][chart]["graph"]['values'].append(hero['count'])
+            result[season][chart] = {
+                "graph": {"labels": list(), "values": list()},
+                "statistic": values["statistic"],
+            }
+            for hero in values["graph"]:
+                result[season][chart]["graph"]["labels"].append(hero["hero"])
+                result[season][chart]["graph"]["values"].append(hero["count"])
     return result
 
 
@@ -404,14 +407,19 @@ def trends_data() -> list[dict[str, list[int]]]:
     """
     return get_hero_occurrence_trend(db=db)
 
-@app.get('/d/seasons')
+
+@app.get("/d/seasons")
 async def seasons_list_d():
     return Response(json.dumps(seasons_list()), media_type="application/json")
+
 
 @app.get("/chart/{season}")
 async def chart_data(season: str):
     print("gnome!")
-    return Response(content=json.dumps(season_data()[season]), media_type="application/json")
+    return Response(
+        content=json.dumps(season_data()[season]), media_type="application/json"
+    )
+
 
 @app.get("/chart/trend/d")
 async def trend_chart_data():
