@@ -302,3 +302,4 @@ class DatabaseAccess:
             cursor.close()
             connection.close()
             lock.release()
+        self.create_info_table()
