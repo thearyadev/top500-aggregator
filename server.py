@@ -18,8 +18,11 @@ from statistic import (
     get_occurrences_most_played,
     get_stdev,
     get_variance,
+    get_hero_occurrences_single_season,
 )
 from utils.raise_for_missing_env import raise_for_missing_env_vars
+import heroes
+import numpy as np
 
 load_dotenv()
 templates = Jinja2Templates(directory="templates")
@@ -408,14 +411,63 @@ def trends_data() -> list[dict[str, list[int]]]:
     return get_hero_occurrence_trend(db=db)
 
 
+@lru_cache
+def std_dev_data() -> dict[str, dict[str, float]]:
+    result: dict[str, dict[str, float]] = dict()
+    for season in seasons_list():
+        support, tank, damage = (
+            [
+                get_hero_occurrences_single_season(
+                    db.get_all_records(seasonNumber=season), name
+                )
+                for name, role in heroes.Heroes().hero_role.items()
+                if role == "SUPPORT"
+            ],
+            [
+                get_hero_occurrences_single_season(
+                    db.get_all_records(seasonNumber=season), name
+                )
+                for name, role in heroes.Heroes().hero_role.items()
+                if role == "TANK"
+            ],
+            [
+                get_hero_occurrences_single_season(
+                    db.get_all_records(seasonNumber=season), name
+                )
+                for name, role in heroes.Heroes().hero_role.items()
+                if role == "DAMAGE"
+            ],
+        )
+
+        # feeling creative.
+        # this file is a writeoff anyway.
+        def filter_fn(percentile):
+            def filter_fn_inner(x):
+                return x > percentile
+            return filter_fn_inner
+        exclude_percentile = 10
+        support = list(filter(filter_fn(np.percentile(support, exclude_percentile)), support))
+        damage = list(filter(filter_fn(np.percentile(damage, exclude_percentile)), damage))
+        tank = list(filter(filter_fn(np.percentile(tank, exclude_percentile)), tank))
+
+        result[season] = dict(SUPPORT=np.std(support), DAMAGE=np.std(damage), TANK=np.std(tank))
+    return result
+
+
 @app.get("/d/seasons")
 async def seasons_list_d():
     return Response(json.dumps(seasons_list()), media_type="application/json")
 
 
+@app.get("/d/single_season_std_by_role/{season}")
+async def single_season_std_by_role(season: str):
+    return Response(
+        content=json.dumps(std_dev_data()[season]), media_type="application/json"
+    )
+
+
 @app.get("/chart/{season}")
 async def chart_data(season: str):
-    print("gnome!")
     return Response(
         content=json.dumps(season_data()[season]), media_type="application/json"
     )
