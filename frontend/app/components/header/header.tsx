@@ -25,6 +25,8 @@ const Header = () => {
                 }
             }
 
+            setNavLinks(prev => ([{label: "Trends", path: "/trends"}, ...prev]))
+
             if (typeof window !== undefined){
                 const element = document.getElementById('navbar')
                 if (element){

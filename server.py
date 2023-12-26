@@ -6,8 +6,6 @@ from typing import Any
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.responses import Response
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
 import database
 import leaderboards
@@ -23,12 +21,11 @@ from statistic import (
 from utils.raise_for_missing_env import raise_for_missing_env_vars
 import heroes
 import numpy as np
+from rich import print
+from time import monotonic_ns
 
 load_dotenv()
-templates = Jinja2Templates(directory="templates")
 app = FastAPI()
-app.state.templates = templates  # type: ignore
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 db = database.DatabaseAccess(
     host=os.getenv("MYSQLHOST") or raise_for_missing_env_vars(),
@@ -455,8 +452,9 @@ def std_dev_data() -> dict[str, dict[str, float]]:
         result[season] = dict(SUPPORT=np.std(support), DAMAGE=np.std(damage), TANK=np.std(tank))
     return result
 
-
-def std_dev_data_flatten(data: dict[str, dict[str, float]]):
+@lru_cache
+def std_dev_data_flatten():
+    data = std_dev_data()
     result_pre = dict(SUPPORT=list(), DAMAGE=list(), TANK=list())
     for roles_and_std_dev in data.values():
         for role, std_dev in roles_and_std_dev.items():
@@ -475,9 +473,6 @@ async def seasons_list_d():
     return Response(json.dumps(seasons_list()), media_type="application/json")
 
 
-std_dev_data_flatten(std_dev_data())
-
-
 @app.get("/d/single_season_std_by_role/{season}")
 async def single_season_std_by_role(season: str):
     return Response(
@@ -488,7 +483,7 @@ async def single_season_std_by_role(season: str):
 @app.get("/d/all_seasons_std_by_role")
 async def all_seasons_std_by_role():
     return Response(
-        content=json.dumps(std_dev_data_flatten(std_dev_data())), media_type="application/json"
+        content=json.dumps(std_dev_data_flatten()), media_type="application/json"
     )
 
 
@@ -502,3 +497,21 @@ async def chart_data(season: str):
 @app.get("/chart/trend/d")
 async def trend_chart_data():
     return Response(content=json.dumps(trends_data()), media_type="application/json")
+
+
+@app.on_event("startup")
+async def startup():
+    start = monotonic_ns()
+    print("[green]Server is starting... This may take some time.")
+    print("[gray]Loading season list...", end="\r")
+    seasons_list()
+    print("[gray]Loading season data...", end="\r")
+    season_data()
+    print("[gray]Loading trend data...", end="\r")
+    trends_data()
+    print("[gray]Loading standard deviation data...", end="\r")
+    std_dev_data()
+    print("[gray]Loading standard deviation data (flattened)...")
+    std_dev_data_flatten()
+    print("[yellow bold]Server is ready. Took [green]", round((monotonic_ns() - start) / 1e9, 2), "seconds.")
+
