@@ -1,41 +1,40 @@
 import {GetServerSidePropsContext} from "next";
 import {Card} from "@/app/components";
 import {LineChart} from "@/app/components";
+import type {TrendLine} from "@/app/utils/serverSideProps";
+import {
+    fetchSeasonalOccurrenceTrend,
+    fetchSeasonList,
+    fetchSeasonalStdDevTrendByRole,
+} from "@/app/utils/serverSideProps";
 
-export type TrendLine = {
-    name: string;
-    data: number[]
-}
-
-
-const Trends = ({data, season_list, std_dev_data}: {data: TrendLine[], season_list: string[], std_dev_data: TrendLine[]}) => {
+const Trends = ({seasonalOccurrencesTrend, seasonalStdDevTrend, seasonList}: {
+    seasonalOccurrencesTrend: TrendLine[],
+    seasonalStdDevTrend: TrendLine[],
+    seasonList: string[]
+}) => {
     return (
         <>
-       <Card title={"Seasonal Trends"} nowrap>
-           <LineChart data={data} seasons={season_list} title={"Occurrences: All Roles All Regions"} />
-                       <LineChart title={"Standard Deviation: By Role All Regions"} data={std_dev_data} seasons={season_list} />
+            <Card title={"Seasonal Trends"} nowrap>
+                <LineChart data={seasonalOccurrencesTrend} seasons={seasonList}
+                           title={"Occurrences: All Roles All Regions"}/>
+                <LineChart title={"Standard Deviation: By Role All Regions"} data={seasonalStdDevTrend}
+                           seasons={seasonList}/>
 
-       </Card>
+            </Card>
         </>
     )
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const res = await fetch(`http://server:8000/chart/trend/d`);
-    const data = await res.json();
-
-
-    const res2 = await fetch("http://server:8000/d/seasons")
-    const season_list = await res2.json()
-
-    const res3 = await fetch("http://server:8000/d/all_seasons_std_by_role")
-    const std_dev_data = await res3.json()
-
+    const seasonalOccurrencesTrend = await fetchSeasonalOccurrenceTrend()
+    const seasonList = await fetchSeasonList()
+    const seasonalStdDevTrend = await fetchSeasonalStdDevTrendByRole()
     return {
         props: {
-            data,
-            season_list,
-            std_dev_data,
+            seasonalOccurrencesTrend,
+            seasonalStdDevTrend,
+            seasonList
         },
     };
 }

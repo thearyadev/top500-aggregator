@@ -2,8 +2,7 @@ import * as Highcharts from 'highcharts';
 import HighchartsReact from "highcharts-react-official";
 import {useRef} from "react";
 import {HeroColors} from "@/app/components/charts/heroColors";
-import type {TrendLine} from "@/pages/trends";
-
+import type {TrendLine} from "@/app/utils/serverSideProps";
 
 
 interface LineChartProps extends HighchartsReact.Props {
