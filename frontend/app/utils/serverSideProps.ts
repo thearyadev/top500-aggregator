@@ -1,5 +1,4 @@
-const mode = process.env.NODE_ENV;
-const backendUrl = mode === "development" ? "http://localhost:7771" : "http://server:8000"
+const backendUrl = process.env.BACKEND_URL;
 export type Statistic = {
     mean: number;
     standard_deviation: number;
