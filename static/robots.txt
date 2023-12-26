@@ -1,5 +1,0 @@
-robots.txt
-User-agent: *
-Disallow: 
-Crawl-delay: 5
-Sitemap: https://t500-aggregator.aryankothari.dev/static/sitemap.xml
