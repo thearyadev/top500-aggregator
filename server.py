@@ -444,7 +444,9 @@ def std_dev_data() -> dict[str, dict[str, float]]:
         def filter_fn(percentile):
             def filter_fn_inner(x):
                 return x > percentile
+
             return filter_fn_inner
+
         exclude_percentile = 10
         support = list(filter(filter_fn(np.percentile(support, exclude_percentile)), support))
         damage = list(filter(filter_fn(np.percentile(damage, exclude_percentile)), damage))
@@ -454,15 +456,39 @@ def std_dev_data() -> dict[str, dict[str, float]]:
     return result
 
 
+def std_dev_data_flatten(data: dict[str, dict[str, float]]):
+    result_pre = dict(SUPPORT=list(), DAMAGE=list(), TANK=list())
+    for roles_and_std_dev in data.values():
+        for role, std_dev in roles_and_std_dev.items():
+            result_pre[role].append(std_dev)
+    result: list[dict[str, list[float] | str]] = list()
+    for key, val in result_pre.items():
+        result.append(
+            {"name": key, "data": val}
+        )
+
+    return result
+
+
 @app.get("/d/seasons")
 async def seasons_list_d():
     return Response(json.dumps(seasons_list()), media_type="application/json")
+
+
+std_dev_data_flatten(std_dev_data())
 
 
 @app.get("/d/single_season_std_by_role/{season}")
 async def single_season_std_by_role(season: str):
     return Response(
         content=json.dumps(std_dev_data()[season]), media_type="application/json"
+    )
+
+
+@app.get("/d/all_seasons_std_by_role")
+async def all_seasons_std_by_role():
+    return Response(
+        content=json.dumps(std_dev_data_flatten(std_dev_data())), media_type="application/json"
     )
 
 

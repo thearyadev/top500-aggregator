@@ -28,7 +28,7 @@ const LineChart = (props: LineChartProps) => {
             max: 9
         },
         series: data.map(item => ({
-            color: HeroColors[item.name],
+            color: HeroColors[item.name] ?? null,
             type: "line",
             ...item
         })),
