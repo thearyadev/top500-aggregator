@@ -1,6 +1,6 @@
 import '../app/globals.scss';
 import type {AppProps} from 'next/app';
-import {Header} from "@/app/components";
+import {Footer, Header} from "@/app/components";
 import {useRouter} from "next/router";
 
 interface T500AggregatorAppProps extends AppProps {
@@ -40,6 +40,7 @@ function MyApp({Component, pageProps}: T500AggregatorAppProps) {
                 <hr className="m-5"/>
 
                 <Component {...pageProps} />
+                <Footer />
             </main>
         </>
     )
