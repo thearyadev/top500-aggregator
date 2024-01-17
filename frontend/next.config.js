@@ -12,7 +12,8 @@ const nextConfig = {
     },
     env: {
         BACKEND_URL: backendUrl
-    }
+    },
+    compress: true
 }
 
 module.exports = nextConfig
