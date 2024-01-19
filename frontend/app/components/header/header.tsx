@@ -1,56 +1,26 @@
-"use client";
-import {useEffect, useState} from "react";
+import Link from "next/link";
 import styles from "./header.module.scss"
-import {fetchSeasonList} from "@/app/utils/clientSideFetch";
-import {useRouter} from "next/router";
+import { fetchSeasonList } from "@/app/utils/serverSideProps";
 
 type NavLinks = {
     label: string;
     path: string
 }
 
-const Header = () => {
-    const [navLinks, setNavLinks] = useState<NavLinks[]>([])
-    const router = useRouter();
-    useEffect(() => {
-        fetchSeasonList().then(seasonList => {
-            setNavLinks(seasonList.reverse().map(season => {
-                const seasonNumber = season.split("_")[0]
-                return {label: `Season ${seasonNumber}`, path: `/season/${seasonNumber}`}
-            }))
-            if (router.pathname === "/" && typeof window !== undefined) {
-                const element = document.getElementById("curseason")
-                if (element) {
-                    element.innerText = `Season ${seasonList[0].split("_")[0]}`
-                }
-            }
+const Header = async() => {
 
-            setNavLinks(prev => ([{label: "Trends", path: "/trends"}, ...prev]))
-
-            if (typeof window !== undefined){
-                const element = document.getElementById('navbar')
-                if (element){
-                    element.addEventListener('wheel', function(e) {
-                        // @ts-ignore
-                        if (e.deltaY != 0) {
-                            // @ts-ignore
-                            this.scrollLeft += (e.deltaY * 1.5);
-                            e.preventDefault();
-                        }
-                    }, false);
-                }
-
-            }
-
-        })
-
-    }, []);
-
-
+    const seasons = await fetchSeasonList()
+    const navLinks: NavLinks[] = seasons.reverse().map(seasonNum => {
+        seasonNum = seasonNum.replace("_8", "")
+        return {label: `Season ${seasonNum}`, path: `/season/${seasonNum}` } 
+    })
+    navLinks.unshift({label: "Trends", path: "/trends"})
     return (
         <header>
             <div className={styles.top_header_container}>
-                <h1>Top 500 Aggregator</h1>
+                <Link href="/">
+                    <h1>Top 500 Aggregator</h1>
+                </Link>
             </div>
 
             <div className={styles.navbar} id="navbar">
