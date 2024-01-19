@@ -1,3 +1,6 @@
+"use client";
+
+
 import * as Highcharts from 'highcharts';
 import HighchartsReact from "highcharts-react-official";
 import {useRef} from "react";
