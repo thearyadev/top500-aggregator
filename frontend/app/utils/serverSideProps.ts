@@ -1,3 +1,5 @@
+"use server";
+
 const backendUrl = process.env.BACKEND_URL;
 export type Statistic = {
     mean: number;
