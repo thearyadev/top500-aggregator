@@ -35,7 +35,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
         {Object.keys(seasonChartData).map(key => {
           if (key.includes("O_ALL")) {
             const [_, role, region] = key.split("_")
-            return <BarChart title={`${region}`} graph={seasonChartData[key].graph} maxY={region === "ALL" ? 1250 : 500} />
+            return <BarChart title={`${region}`} graph={(seasonChartData as any)[key].graph} maxY={region === "ALL" ? 1250 : 500} />
           }
         })}
       </Card>
@@ -46,7 +46,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
         {Object.keys(seasonChartData).map(key => {
           if (key.includes("OFMP")) {
             const [_, role, region] = key.split("_")
-            return <BarChart title={`${role}: ${region}`} graph={seasonChartData[key].graph} maxY={region === "ALL" ? 500 : 300} />
+            return <BarChart title={`${role}: ${region}`} graph={(seasonChartData as any)[key].graph} maxY={region === "ALL" ? 500 : 300} />
           }
         })}
 
@@ -56,7 +56,8 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
         {Object.keys(seasonChartData).map(key => {
           if (key.includes("OSMP")) {
             const [_, role, region] = key.split("_")
-            return <BarChart title={`${role}: ${region}`} graph={seasonChartData[key].graph} maxY={region === "ALL" ? 500 : 300} />
+            return <BarChart title={`${role}: ${region}`} graph={(seasonChartData as any)[key].graph} maxY={region === "ALL" ? 500 : 300} />
+
           }
         })}
 
@@ -67,7 +68,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
         {Object.keys(seasonChartData).map(key => {
           if (key.includes("OTMP")) {
             const [_, role, region] = key.split("_")
-            return <BarChart title={`${role}: ${region}`} graph={seasonChartData[key].graph} maxY={region === "ALL" ? 500 : 300} />
+            return <BarChart title={`${role}: ${region}`} graph={(seasonChartData as any)[key].graph} maxY={region === "ALL" ? 500 : 300} />
           }
         })}
 
