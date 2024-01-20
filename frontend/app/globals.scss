@@ -26,11 +26,11 @@
 /*    rgb(var(--background-start-rgb));*/
 /*}*/
 
-
-html, body{
+html,
+body {
   margin: 0px;
 }
 
-main{
-  @apply mt-5 lg:ml-3 lg:mr-3 sm:ml-1 sm:mr-1
+main {
+  @apply mt-5 lg:ml-3 lg:mr-3 sm:ml-1 sm:mr-1;
 }
