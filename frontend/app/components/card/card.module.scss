@@ -1,22 +1,22 @@
 .card {
-    @apply border-2;
-    @apply p-3;
-    @apply rounded;
-    @apply mb-3
+  @apply border-2;
+  @apply p-3;
+  @apply rounded;
+  @apply mb-3;
 }
 
 .heading-container {
 }
 
-.title{
-    @apply text-lg;
-    @apply font-bold
+.title {
+  @apply text-lg;
+  @apply font-bold;
 }
 
-.subtitle{
-    @apply font-extralight text-center
+.subtitle {
+  @apply font-extralight text-center;
 }
 
 .cardBodyWrap {
-    @apply grid grid-cols-1 md:grid-cols-3 gap-4;
+  @apply grid grid-cols-1 md:grid-cols-3 gap-4;
 }

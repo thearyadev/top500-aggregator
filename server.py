@@ -445,12 +445,19 @@ def std_dev_data() -> dict[str, dict[str, float]]:
             return filter_fn_inner
 
         exclude_percentile = 10
-        support = list(filter(filter_fn(np.percentile(support, exclude_percentile)), support))
-        damage = list(filter(filter_fn(np.percentile(damage, exclude_percentile)), damage))
+        support = list(
+            filter(filter_fn(np.percentile(support, exclude_percentile)), support)
+        )
+        damage = list(
+            filter(filter_fn(np.percentile(damage, exclude_percentile)), damage)
+        )
         tank = list(filter(filter_fn(np.percentile(tank, exclude_percentile)), tank))
 
-        result[season] = dict(SUPPORT=np.std(support), DAMAGE=np.std(damage), TANK=np.std(tank))
+        result[season] = dict(
+            SUPPORT=np.std(support), DAMAGE=np.std(damage), TANK=np.std(tank)
+        )
     return result
+
 
 @lru_cache
 def std_dev_data_flatten():
@@ -461,9 +468,7 @@ def std_dev_data_flatten():
             result_pre[role].append(std_dev)
     result: list[dict[str, list[float] | str]] = list()
     for key, val in result_pre.items():
-        result.append(
-            {"name": key, "data": val}
-        )
+        result.append({"name": key, "data": val})
 
     return result
 
@@ -513,5 +518,8 @@ async def startup():
     std_dev_data()
     print("[gray]Loading standard deviation data (flattened)...")
     std_dev_data_flatten()
-    print("[yellow bold]Server is ready. Took [green]", round((monotonic_ns() - start) / 1e9, 2), "seconds.")
-
+    print(
+        "[yellow bold]Server is ready. Took [green]",
+        round((monotonic_ns() - start) / 1e9, 2),
+        "seconds.",
+    )
