@@ -78,7 +78,7 @@ jobs:
             exit 0
       - name: Setup Node
         uses: actions/setup-node@v4
-        working-directory: ./frontend
+        run: cd ./frontend
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
