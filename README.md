@@ -11,7 +11,7 @@ This data is collected by taking screenshots and running analysis on them. Detai
 This data only consists of the data readily available in the top 500 leaderboards,
 and does not include any information that would involve a single users profile. 
 
-## How Does This Work?
+## How Does This Work ?
 
 ### Data Collection: 
 Multiple scripts are used to collect and pre-process the data. This data is information collected from the Top 500 leaderboards in-game. Most of this data collection occurs in `./collector.py`
