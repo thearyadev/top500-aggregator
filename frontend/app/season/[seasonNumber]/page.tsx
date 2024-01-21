@@ -1,11 +1,21 @@
 import React from "react";
 import { Card } from "@/app/components";
 import {
+    fetchSeasonList,
   fetchSingleSeasonPageChartData,
   fetchSingleSeasonStdDevs,
 } from "@/app/utils/serverSideProps";
 import { BarChart } from "@/app/components";
 import TopMatter from "@/app/components/topmatter/topmatter";
+
+
+export async function generateStaticParams() {
+
+  const seasons = await fetchSeasonList()
+
+  console.log(seasons)
+  return seasons.map(season => ({seasonNumber: season.replace("_8", "")}))
+}
 
 const HeroStdDev = ({ value, role }: { value: number; role: string }) => {
   return (

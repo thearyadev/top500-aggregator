@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
-const backendUrl =
+let backendUrl =
   process.env.NODE_ENV === "development"
     ? "http://localhost:7771"
     : "http://server:8000";
+
+backendUrl = "http://localhost:7771"
 
 const nextConfig = {
   async rewrites() {
@@ -17,6 +19,7 @@ const nextConfig = {
     BACKEND_URL: backendUrl,
   },
   compress: true,
+  output: "export",
 };
 
 module.exports = nextConfig;
