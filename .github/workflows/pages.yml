@@ -54,7 +54,7 @@ jobs:
         run: poetry install --no-root --no-interaction
       - name: Run Server
         run: |
-          poetry run hypercorn server:app --bind 0.0.0.0:7771
+          poetry run hypercorn server:app --bind 0.0.0.0:7771 &
         env:
           MYSQLDATABASE: 'ghworkflow_testdb'
           MYSQLUSER: 'root'
