@@ -78,11 +78,13 @@ jobs:
             exit 0
       - name: Setup Node
         uses: actions/setup-node@v4
+        working-directory: ./frontend
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        working-directory: ./frontend
         with:
           # Automatically inject basePath in your Next.js configuration file and disable
           # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
@@ -91,6 +93,7 @@ jobs:
           static_site_generator: next
       - name: Restore cache
         uses: actions/cache@v3
+        working-directory: ./frontend
         with:
           path: |
             .next/cache
@@ -101,11 +104,17 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+        working-directory: ./frontend
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        working-directory: ./frontend
+
       - name: Static HTML export with Next.js
+        working-directory: ./frontend
+
         run: ${{ steps.detect-package-manager.outputs.runner }} next export
       - name: Upload artifact
+        working-directory: ./frontend
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
