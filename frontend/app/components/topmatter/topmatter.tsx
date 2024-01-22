@@ -44,10 +44,7 @@ const TopMatter = ({ seasonNumber }: { seasonNumber: string }) => {
         <strong>When is the data updated?</strong>
       </p>
       <p>
-        The dataset is updated once per season. Starting in season 8, the most
-        recent season will be updated weekly, overwritten each week until the
-        end of the season
-      </p>
+        The dataset is updated once per season.</p>
       <hr className="m-5" />
     </div>
   );
