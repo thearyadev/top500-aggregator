@@ -21,11 +21,13 @@ const TrendsPage = async () => {
           data={seasonalOccurrencesTrend}
           seasons={seasonList}
           title={"Occurrences: All Roles All Regions"}
+          className="min-h-[60rem]"
         />
         <LineChart
           title={"Standard Deviation: By Role All Regions"}
           data={seasonalStdDevTrend}
           seasons={seasonList}
+          className="min-h-[60rem]"
         />
       </Card>
     </main>
