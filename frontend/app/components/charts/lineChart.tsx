@@ -5,16 +5,17 @@ import HighchartsReact from "highcharts-react-official";
 import { useRef } from "react";
 import { HeroColors } from "@/app/components/charts/heroColors";
 import type { TrendLine } from "@/app/utils/serverSideProps";
+import classNames from "classnames";
 
 interface LineChartProps extends HighchartsReact.Props {
   title: string;
   data: TrendLine[];
   seasons: string[];
+  className: string;
 }
 
 const LineChart = (props: LineChartProps) => {
   const { data, seasons, title } = props;
-  console.log(data);
   const options: Highcharts.Options = {
     title: {
       // @ts-ignore
@@ -54,7 +55,7 @@ const LineChart = (props: LineChartProps) => {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
   return (
-    <div>
+    <div className={props.className}>
       <h5 className="text-center pb-2">{title}</h5>
       <HighchartsReact
         id="gnomegnome"
