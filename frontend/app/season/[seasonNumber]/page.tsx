@@ -57,6 +57,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
                 title={`${region}`}
                 graph={(seasonChartData as any)[key].graph}
                 maxY={region === "ALL" ? 1250 : 500}
+                className="min-h-[27rem]"
               />
             );
           }
@@ -72,6 +73,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
                 title={`${role}: ${region}`}
                 graph={(seasonChartData as any)[key].graph}
                 maxY={region === "ALL" ? 500 : 300}
+                className="min-h-[27rem]"
               />
             );
           }
@@ -87,6 +89,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
                 title={`${role}: ${region}`}
                 graph={(seasonChartData as any)[key].graph}
                 maxY={region === "ALL" ? 500 : 300}
+                className="min-h-[27rem]"
               />
             );
           }
@@ -102,6 +105,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
                 title={`${role}: ${region}`}
                 graph={(seasonChartData as any)[key].graph}
                 maxY={region === "ALL" ? 500 : 300}
+                className="min-h-[27rem]"
               />
             );
           }
