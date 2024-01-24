@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./barChart.module.scss";
 import { HeroColors } from "@/app/components/charts/heroColors";
 import classNames from "classnames";
-import {twMerge} from "tailwind-merge"
 
 interface GraphData {
   labels: string[];
@@ -58,7 +57,6 @@ const BarChart = (props: BarChartProps) => {
       }
     }
   };
-  console.log(props.graph.labels)
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   const chartContainerStyle = classNames(styles.chartContainer, props.className) // meow
   const [loading, setLoading] = useState(true)
