@@ -2,7 +2,7 @@
 
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { HeroColors } from "@/app/components/charts/heroColors";
 import type { TrendLine } from "@/app/utils/serverSideProps";
 import classNames from "classnames";
@@ -50,20 +50,31 @@ const LineChart = (props: LineChartProps) => {
     },
     chart: {
       height: "45%",
+      events:{
+        load: () => {setLoading(false)}
+      }
     },
   };
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
-
+  const [loading, setLoading] = useState(true)
   return (
     <div className={props.className}>
       <h5 className="text-center pb-2">{title}</h5>
-      <HighchartsReact
-        id="gnomegnome"
-        highcharts={Highcharts}
-        options={options}
-        ref={chartComponentRef}
-        {...props}
-      />
+
+      <div className={loading ? "hidden" : ""}>
+        <HighchartsReact
+          id="gnomegnome"
+          highcharts={Highcharts}
+          options={options}
+          ref={chartComponentRef}
+          {...props}
+        />
+
+      </div>
+
+      <div role="status" className={`max-w flex text-center justify-center items-center h-[60rem]  animate-pulse ${loading ? '' : "hidden"}`}>
+        <p>Loading...</p>
+      </div>
     </div>
   );
 };
