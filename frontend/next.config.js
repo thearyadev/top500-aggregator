@@ -7,14 +7,6 @@ let backendUrl =
 backendUrl = "http://localhost:7771";
 
 const nextConfig = {
-    async rewrites() {
-        return [
-            {
-                source: "/api/:path*",
-                destination: `${backendUrl}/:path*`,
-            },
-        ];
-    },
     env: {
         BACKEND_URL: backendUrl,
     },
