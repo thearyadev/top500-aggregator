@@ -11,7 +11,6 @@ import TopMatter from "@/app/components/topmatter/topmatter";
 export async function generateStaticParams() {
     const seasons = await fetchSeasonList();
 
-    console.log(seasons);
     return seasons.map((season) => ({
         seasonNumber: season.replace("_8", ""),
     }));
