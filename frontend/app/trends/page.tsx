@@ -11,7 +11,7 @@ import TopMatter from "../components/topmatter/topmatter";
 const TrendsPage = async () => {
     const seasonalOccurrencesTrend = await fetchSeasonalOccurrenceTrend();
     const seasonalStdDevTrend = await fetchSeasonalStdDevTrendByRole();
-    const seasonList = await fetchSeasonList();
+    const seasonList = (await fetchSeasonList()).map(seasonNum => seasonNum.replace("_8", ""));
 
     return (
         <main>
