@@ -33,7 +33,7 @@ export type TrendLine = {
 export async function fetchSingleSeasonPageChartData(
     seasonNumber: number,
 ): Promise<SingleChart[]> {
-    const response = await fetch(`${backendUrl}/chart/${seasonNumber}_8`);
+    const response = await fetch(`${backendUrl}/chart/${seasonNumber}`);
     return await response.json();
 }
 
@@ -46,7 +46,7 @@ export async function fetchSingleSeasonStdDevs(
     seasonNumber: number,
 ): Promise<StdDevs> {
     const response = await fetch(
-        `${backendUrl}/d/single_season_std_by_role/${seasonNumber}_8`,
+        `${backendUrl}/d/single_season_std_by_role/${seasonNumber}`,
     );
     return await response.json();
 }
