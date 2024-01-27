@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-
 backendUrl = "http://localhost:7771";
 
 const nextConfig = {
