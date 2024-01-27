@@ -9,10 +9,8 @@ import { BarChart } from "@/app/components";
 import TopMatter from "@/app/components/topmatter/topmatter";
 
 export async function generateStaticParams() {
-    const seasons = await fetchSeasonList();
-
-    return seasons.map((season) => ({
-        seasonNumber: season.replace("_8", ""),
+    return (await fetchSeasonList()).map(season => ({
+        seasonNumber: season
     }));
 }
 
