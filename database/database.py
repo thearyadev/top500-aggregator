@@ -195,15 +195,15 @@ class DatabaseAccess:
         # filter and sort and some other stuff lol.
         seasons_sorted = sorted(
             [entry[0].replace("season_", "") for entry in data],
-            key=lambda x: (int(x.split("_")[0]), int(x.split("_")[1])),
+            key=lambda x: int(x),
         )
         output_seasons = list()
         for season in seasons_sorted:
-            if season in ("34_8", "35_8", "36_8"):
+            if season in ("34", "35", "36"):
                 output_seasons.append(season)
 
         for season in seasons_sorted:
-            if season not in ("34_8", "35_8", "36_8"):
+            if season not in ("34", "35", "36"):
                 output_seasons.append(season)
 
         return output_seasons
