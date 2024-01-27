@@ -10,7 +10,6 @@ type NavLinks = {
 const Header = async () => {
     const seasons = await fetchSeasonList();
     const navLinks: NavLinks[] = seasons.reverse().map((seasonNum) => {
-        seasonNum = seasonNum.replace("_8", "");
         return { label: `Season ${seasonNum}`, path: `/season/${seasonNum}` };
     });
     navLinks.unshift({ label: "Trends", path: "/trends" });
