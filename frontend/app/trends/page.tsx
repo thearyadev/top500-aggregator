@@ -12,7 +12,6 @@ const TrendsPage = async () => {
     const seasonalOccurrencesTrend = await fetchSeasonalOccurrenceTrend();
     const seasonalStdDevTrend = await fetchSeasonalStdDevTrendByRole();
     const seasonList = await fetchSeasonList()
-    console.log(seasonList)
 
     return (
         <main>
