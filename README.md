@@ -1,4 +1,6 @@
 # Overwatch 2: Top 500 Aggregator
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator?ref=badge_shield)
+
 https://t500-aggregator.aryankothari.dev/
 
 T500 Aggregator is a suite of tools and a web service to collect and display data on the Overwatch 2 Top 500 leaderboards. 
@@ -84,3 +86,6 @@ I'm a developer. Actively learning and looking for new and interesting opportuni
 
 ## License
 [Apache-2.0](/LICENSE)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator?ref=badge_large)
