@@ -1,0 +1,37 @@
+{
+    "answers": [
+        [
+            "Ramattra",
+            "Sigma",
+            "Junker Queen"
+        ], 
+        [
+            "Orisa", "Junker Queen", "Zarya"
+        ], 
+        [
+            "Sigma", "Junker Queen", "Ramattra"
+        ],
+        [
+            "Mauga", "Ramattra", "Roadhog"
+        ],
+        [
+            "Roadhog", "Sigma", "Zarya"
+        ],
+        [
+            "Junker Queen", "Mauga", "Roadhog"
+        ],
+        [
+            "Roadhog", "Doomfist", "Blank"
+        ],
+        [
+            "Roadhog", "Sigma", "Junker Queen"
+        ],
+        [
+            "Junker Queen", "Roadhog", "Ramattra"
+        ], 
+        [
+            "Mauga", "Sigma", "Zarya"
+        ]
+        
+    ]
+}
