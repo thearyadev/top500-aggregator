@@ -48,8 +48,8 @@ def main():
     global target_season, model_name  # globals so the worker threads can access them
     # sorry
 
-    target_season = "7_8"
-    model_name = "thearyadev-2023-08-25"
+    target_season = "8_8"
+    model_name = "thearyadev-2023-12-20"
     dba.create_season(seasonNumber=target_season)
 
     files = os.listdir("./assets/leaderboard_images")
@@ -70,4 +70,5 @@ def main():
 
 
 if __name__ == "__main__":
+    dba.add_info_entry("season_8_8", None, None )
     main()
