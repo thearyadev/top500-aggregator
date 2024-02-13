@@ -150,7 +150,7 @@ class Heroes:
             "Zarya": "#F291BB",
             "Zenyatta": "#F5EC91",
             "LifeWeaver": "#E0B6C5",
-            "Mauga": "#E0B6C5",
+            "Mauga": "#DC847D",
         }
 
     def predict_hero_name(self, image_data: np.ndarray, model_name: str) -> Hero:
