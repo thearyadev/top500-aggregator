@@ -25,7 +25,7 @@ const LineChart = (props: LineChartProps) => {
         xAxis: {
             categories: seasons,
             min: 0,
-            max: 9,
+            max: seasons.length - 1,
         },
         series: data.map((item) => ({
             color: HeroColors[item.name] ?? null,
