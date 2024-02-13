@@ -60,7 +60,7 @@ def main():
 if __name__ == "__main__":
     # main()
     pg.screenshot(
-        f"./assets/manual/SUPPORT-EUROPE-50.png",
+        f"./assets/leaderboard_images/DAMAGE-EUROPE-50.png",
         region=(
             0,
             0,
