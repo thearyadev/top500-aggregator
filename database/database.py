@@ -1,13 +1,7 @@
-import datetime
 import threading
-
 from mysql.connector import pooling
-
 import leaderboards
-from heroes import Hero
-
 lock = threading.Lock()
-
 
 class DatabaseAccess:
     def __init__(
@@ -117,17 +111,11 @@ class DatabaseAccess:
                 (
                     leaderboard_entry.region.name,
                     leaderboard_entry.role.name,
-                    leaderboard_entry.games,
+                    0, # games played, legacy
                     # can be string or Hero object. If it's a Hero object, get the name.
-                    leaderboard_entry.heroes[0].name
-                    if isinstance(leaderboard_entry.heroes[0], Hero)
-                    else leaderboard_entry.heroes[0],
-                    leaderboard_entry.heroes[1].name
-                    if isinstance(leaderboard_entry.heroes[1], Hero)
-                    else leaderboard_entry.heroes[1],
-                    leaderboard_entry.heroes[2].name
-                    if isinstance(leaderboard_entry.heroes[2], Hero)
-                    else leaderboard_entry.heroes[2],
+                    leaderboard_entry.heroes[0],
+                    leaderboard_entry.heroes[1],
+                    leaderboard_entry.heroes[2],
                 ),
             )
             connection.commit()
@@ -170,7 +158,6 @@ class DatabaseAccess:
                     ],
                     role=leaderboards.Role[line[2]],
                     region=leaderboards.Region[line[1]],
-                    games=line[3],
                 )
             )
         return results
