@@ -1,24 +1,8 @@
 from __future__ import annotations
-
-import importlib  # importlib is used to import the model from the model file
-
-import numpy as np
-
-# conditionally imported; type not required
-model_cache: dict[str, NNModel] = {}  # type: ignore
-
-
-class Hero:
-    """
-    Hero class to store hero data. This class has some reduenancy but is utilized for better organization in some areas of this project
-    """
-
-    # conditionally imported; type not required
-    def __init__(self, image: Image.Image | None, name: str):  # type: ignore
-        self.image, self.name = image, name
-
-    def __repr__(self):
-        return self.name
+from PIL.Image import Image
+import torch
+import importlib
+from pathlib import Path
 
 
 class Heroes:
@@ -153,64 +137,24 @@ class Heroes:
             "Mauga": "#DC847D",
         }
 
-    def predict_hero_name(self, image_data: np.ndarray, model_name: str) -> Hero:
-        """Predicts the hero name from an image using a neural network model.
+    def predict_hero_name(self, image: Image, model_directory: Path) -> str:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        NNModel = importlib.import_module(f"models.{model_directory.name}.model").NNModel
+        transformer = importlib.import_module(f"models.{model_directory.name}.model").transformer
 
-        Args:
-            model_name: name of model in models dir
-            image_data (np.ndarray): array of image data
-            model_path (str): path to the Fashion MNIST model
+        st_dict = torch.load(model_directory / "model.pth")
+        model = NNModel(num_classes=40)
+        model.to(device)
+        model.load_state_dict(st_dict)
+        model.eval()
 
-        Returns:
-            Hero: Hero object with the predicted hero name; this is the hero with the highest confidence level. This object only contains the hero name.
-        """
-        # Read an image
-        # image_data = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+        model.to(device)
+        with open(model_directory / "classes", "r") as f:
+            classes = f.readlines()
 
-        # Resize to the same size as Fashion MNIST images
-
-        import cv2  # type: ignore
-        from PIL import Image
-
-        from neural_network import Model as NNModel
-
-        image_data = cv2.resize(image_data, (49, 50))
-
-        # Reshape and scale pixel data
-        image_data = (image_data.reshape(1, -1).astype(np.float32) - 127.5) / 127.5
-
-        # Load the model
-
-        if model_name not in model_cache:
-            model = (
-                importlib.import_module(f"models.{model_name}")
-                .Model()
-                .load(f"models/{model_name}/{model_name}.model")
-            )
-
-            model_cache[model_name] = model
-        else:
-            model = model_cache[model_name]
-
-        # Predict on the image
-        confidences = model.predict(image_data)
-
-        # Get prediction instead of confidence levels
-        predictions = model.output_layer_activation.predictions(confidences)
-
-        results: list[tuple[float, Hero]] = list()
-        i = 0
-
-        for (
-            label,
-            hero_name,
-        ) in self.hero_labels.items():  # match prediction to the hero
-            if label == predictions[0]:
-                results.append((1, Hero(image=None, name=hero_name)))
-            else:
-                results.append((0, Hero(image=None, name=hero_name)))
-            i += 1
-
-        results = sorted(results, key=lambda x: x[0], reverse=True)
-
-        return results[0][1]
+        with torch.no_grad():
+            tensor_img = transformer(image).unsqueeze(0).to(device)
+            output = model(tensor_img)
+            prediction = int(classes[int(torch.argmax(output, dim=1).item())])
+        
+        return self.hero_labels[prediction]
