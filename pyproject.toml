@@ -29,8 +29,13 @@ pyautogui = "^0.9.53"
 pillow = "^9.4.0"
 fastapi = "0.101.1"
 httpx = "^0.25.0"
-nnfs = "^0.5.1"
+torch = {version = "^2.2.0", source="torch"}
+torchvision = {version = "^0.17.0", source="torch"}
 
+[[tool.poetry.source]]
+name = "torch"
+url = "https://download.pytorch.org/whl/cu121"
+secondary = true
 
 [tool.poetry.group.server.dependencies]
 hypercorn = "0.14.4"
@@ -43,7 +48,7 @@ rich = "^13.3.1"
 
 [tool.mypy]
 check_untyped_defs = true
+strict=true
 exclude = [
     "utils",
-    "models"
 ]

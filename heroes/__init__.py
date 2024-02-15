@@ -1,1 +1,1 @@
-from .hero_comparison import Hero, Heroes
+from .hero_comparison import Heroes
