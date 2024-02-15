@@ -48,6 +48,7 @@ rich = "^13.3.1"
 
 [tool.mypy]
 check_untyped_defs = true
+strict=true
 exclude = [
     "utils",
 ]
