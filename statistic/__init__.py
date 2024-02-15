@@ -2,19 +2,11 @@ import statistics
 
 import database
 import leaderboards
-from heroes import Hero, Heroes
+from heroes import Heroes
 
 
 def convert_dict_to_hero_count_array(data: dict) -> list[dict]:
     return [{"hero": i[0], "count": i[1]} for i in data.items()]
-
-
-def extract_games_played(i: leaderboards.LeaderboardEntry):
-    return i.games
-
-
-def filter_games_results(i: leaderboards.LeaderboardEntry) -> bool:
-    return 25 <= i.games <= 725
 
 
 def get_occurrences(
@@ -96,7 +88,7 @@ def get_occurrences_most_played(
         if entry.role not in acceptedRoles:
             continue
 
-        mostPlayedHero: Hero | str = entry.heroes[mostPlayedSlot]
+        mostPlayedHero: str = entry.heroes[mostPlayedSlot]
         if isinstance(mostPlayedHero, str):
             if mostPlayedHero in results:
                 results[mostPlayedHero] += 1
@@ -108,26 +100,6 @@ def get_occurrences_most_played(
         results.pop("Blank2")
     except KeyError:
         pass
-    return sorted(
-        convert_dict_to_hero_count_array(results),
-        key=lambda x: x["count"],
-        reverse=True,
-    )
-
-
-def get_avg_games_played_by_region(
-    *, data: list[leaderboards.LeaderboardEntry], region: leaderboards.Region
-) -> list[dict]:
-    results: dict[str, float] = {}
-
-    for entry in filter(filter_games_results, data):
-        if entry.region != region:
-            continue
-        if entry.role.name in results:
-            results[entry.role.name] += entry.games / 500
-            continue
-        results[entry.role.name] = entry.games / 500
-
     return sorted(
         convert_dict_to_hero_count_array(results),
         key=lambda x: x["count"],
@@ -149,21 +121,6 @@ def get_variance(data: list[dict]) -> float:
 
 def get_stdev(data: list[dict]) -> float:
     return statistics.stdev(convert_count_dict_to_array(data))
-
-
-def get_games_played_max(data: list[leaderboards.LeaderboardEntry]) -> int:
-    # return max(map(extract_games_played, filter(filter_games_results, data)))
-    return 0
-
-
-def get_games_played_min(data: list[leaderboards.LeaderboardEntry]) -> int:
-    # return min(map(extract_games_played, filter(filter_games_results, data)))
-    return 0
-
-
-def get_games_played_total(data: list[leaderboards.LeaderboardEntry]) -> int:
-    # return sum(map(extract_games_played, filter(filter_games_results, data)))
-    return 0
 
 
 def get_number_of_ohp(data: list[leaderboards.LeaderboardEntry]) -> int:

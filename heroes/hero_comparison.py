@@ -142,7 +142,7 @@ class Heroes:
         NNModel = importlib.import_module(f"models.{model_directory.name}.model").NNModel
         transformer = importlib.import_module(f"models.{model_directory.name}.model").transformer
 
-        st_dict = torch.load("./model_save.pth")
+        st_dict = torch.load(model_directory / "model.pth")
         model = NNModel(num_classes=40)
         model.to(device)
         model.load_state_dict(st_dict)
