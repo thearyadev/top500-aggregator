@@ -100,7 +100,7 @@ def crop_split_column(pil_image: ImageType) -> list[ImageType]:
             break
     return list(reversed(result)) # Hero placement has been reversed in Season 9 (blizzard moment.)
 
-def parse_leaderboard_to_leaderboard_entries(leaderboard_image: ImageType, region: Region, role: Role) -> list[LeaderboardEntry]:
+def parse_leaderboard_to_leaderboard_entries(leaderboard_image: ImageType, region: Region, role: Role, model_name) -> list[LeaderboardEntry]:
     hero_comp = Heroes()
     hero_section = crop_to_hero_section(leaderboard_image)
     row_entries = crop_split_row(hero_section)
@@ -109,7 +109,7 @@ def parse_leaderboard_to_leaderboard_entries(leaderboard_image: ImageType, regio
     for row in split_column_entries: # each record (10)
 
         results.append(LeaderboardEntry(
-            heroes=[hero_comp.predict_hero_name(hero_image, Path("./models/tm")) for hero_image in row], 
+            heroes=[hero_comp.predict_hero_name(hero_image, Path(f"./models/{model_name}")) for hero_image in row], 
             role=role,
             region=region
 
