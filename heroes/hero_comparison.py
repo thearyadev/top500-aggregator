@@ -139,8 +139,8 @@ class Heroes:
 
     def predict_hero_name(self, image: Image, model_directory: Path) -> str:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        NNModel = importlib.import_module(f"models.{model_directory.name}.model").NNModel
-        transformer = importlib.import_module(f"models.{model_directory.name}.model").transformer
+        NNModel = importlib.import_module(f"models.{model_directory.name}").FrozenNeuralNetworkModel
+        transformer = importlib.import_module(f"models.{model_directory.name}").transformer
 
         st_dict = torch.load(model_directory / "model.pth")
         model = NNModel(num_classes=40)
