@@ -1,1 +1,14 @@
-{"answers": []}
+{
+  "answers": [
+    ["Kiriko", "Ana", "Baptiste"],
+    ["Ana", "Baptiste", "Kiriko"],
+    ["Lucio", "Brigitte", "Baptiste"],
+    ["Baptiste", "Kiriko", "Ana"],
+    ["Brigitte", "Blank", "Blank"],
+    ["Kiriko", "Baptiste", "Zenyatta"],
+    ["Ana", "Kiriko", "Illari"],
+    ["Ana", "Kiriko", "Illari"],
+    ["Lucio", "Zenyatta", "Ana"],
+    ["Kiriko", "Mercy", "Moira"]
+  ]
+} 

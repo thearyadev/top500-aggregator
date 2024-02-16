@@ -1,1 +1,14 @@
-{"answers": []}
+{
+	"answers": [
+		["Sojourn", "Widowmaker", "Tracer"],
+		["Sojourn", "Widowmaker", "Tracer"],
+		["Sojourn", "Widowmaker", "Tracer"],
+		["Tracer", "Genji", "Echo"],
+		["Sojourn", "Hanzo", "Ashe"],
+		["Tracer", "Sojourn", "Widowmaker"],
+		["Genji", "Tracer", "Echo"],
+		["Tracer", "Sojourn", "Ashe"],
+		["Soldier 76", "Sojourn", "Ashe"],
+		["Tracer", "Echo", "Genji"]
+	]
+}
