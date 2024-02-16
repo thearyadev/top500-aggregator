@@ -104,7 +104,7 @@ def main() -> int:
     shutil.copy(Path("./classifier/model.py"), model_dir / "frozen_model.py")
 
     with open(model_dir / "detail", "w+") as file:
-        file.writelines(info_file)
+        file.write("\n".join(info_file))
 
     with open(model_dir / "__init__.py", "w+") as file:
         file.write("from .frozen_model import transformer, NNModel as FrozenNeuralNetworkModel")
