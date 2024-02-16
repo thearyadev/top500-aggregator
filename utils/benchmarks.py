@@ -1,5 +1,7 @@
 import sys
 
+from PIL import Image
+
 sys.path.append("./")  # used to import from root directory
 import json
 import os
@@ -77,17 +79,16 @@ def main():
     passed_tests: int = 0
     failed_tests: int = 0
 
-    answers = load_answers("./assets/test_leaderboard_images")
+    answers = load_answers("./assets/benchmark")
     heroes_present: set[str] = set()
     for image, heroes in answers.items():  # iter answer key-value pairs
         result: list[
             leaderboards.LeaderboardEntry
-        ] = leaderboards.parse(  # parse leaderboard
-            image_path=f"./assets/test_leaderboard_images/{image}/LB-IMG.png",
-            assets_path="./assets/hero_images",
+        ] = leaderboards.parse_leaderboard_to_leaderboard_entries(  # parse leaderboard
+            leaderboard_image=Image.open(f"./assets/benchmark/{image}/LB-IMG.png"),
             region=leaderboards.Region.AMERICAS,  # doesnt matter
             role=leaderboards.Role.DAMAGE,  # doesnt matter
-            model_name="thearyadev-2023-12-20",
+            model_name="thearyadev-initial-15-02-2024",
         )
 
         for entry, answer in zip(result, heroes):  # validate results
@@ -119,9 +120,8 @@ def main():
     print(f"Passed tests: {passed_tests}")
     print(f"Failed tests: {failed_tests}")
     print(f"[yellow bold]Success rate: {round(passed_tests / total_tests * 100, 2)}%")
-    if len(heroes_present) == 0:
-        print(
-            f"Heroes not present in answer set: {heroes_present.symmetric_difference(set(HeroComparisonClass.Heroes('./assets/hero_images').hero_labels.values()))}"
+    print(
+            f"Heroes not present in answer set: {heroes_present.symmetric_difference(set(HeroComparisonClass.Heroes().hero_labels.values()))}"
         )
 
 

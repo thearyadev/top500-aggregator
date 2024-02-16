@@ -3,8 +3,8 @@ from PIL.Image import Image
 import torch
 import importlib
 from pathlib import Path
-
-
+from typing import Any
+model_cache: dict[Any, Any] = dict()
 class Heroes:
     def __init__(self):
         self.hero_labels: dict[int, str] = {
@@ -137,12 +137,18 @@ class Heroes:
             "Mauga": "#DC847D",
         }
 
+
     def predict_hero_name(self, image: Image, model_directory: Path) -> str:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         NNModel = importlib.import_module(f"models.{model_directory.name}").FrozenNeuralNetworkModel
         transformer = importlib.import_module(f"models.{model_directory.name}").transformer
 
-        st_dict = torch.load(model_directory / "model.pth")
+
+        if model_directory.name not in model_cache.keys():
+            model_cache[model_directory.name] = torch.load(model_directory / "model.pth")
+        st_dict = model_cache[model_directory.name]
+
+
         model = NNModel(num_classes=40)
         model.to(device)
         model.load_state_dict(st_dict)
