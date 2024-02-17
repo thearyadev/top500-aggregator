@@ -2,7 +2,7 @@
 
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HeroColors } from "@/app/components/charts/heroColors";
 import type { TrendLine } from "@/app/utils/serverSideProps";
 import classNames from "classnames";
@@ -16,7 +16,7 @@ interface LineChartProps extends HighchartsReact.Props {
 
 const LineChart = (props: LineChartProps) => {
     const { data, seasons, title } = props;
-    const options: Highcharts.Options = {
+    const [options, setOptions] = useState<Highcharts.Options>({
         title: {
             // @ts-ignore
             text: null,
@@ -56,13 +56,26 @@ const LineChart = (props: LineChartProps) => {
                 },
             },
         },
-    };
+    })
+
+
+
     const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
     const [loading, setLoading] = useState(true);
+    const hideLines = () => {
+        setOptions((prevState) => {
+            return {
+                ...prevState,
+                series: options.series?.map((series) => ({ ...series, visible: false }))
+
+            }
+        })
+
+    }
+
     return (
         <div className={props.className}>
             <h5 className="text-center pb-2">{title}</h5>
-
             <div className={loading ? "hidden" : ""}>
                 <HighchartsReact
                     id="gnomegnome"
@@ -71,6 +84,9 @@ const LineChart = (props: LineChartProps) => {
                     ref={chartComponentRef}
                     {...props}
                 />
+                <div className="flex justify-center pb-3">
+                    <button onClick={hideLines} className="bg-black text-white p-3 rounded">Hide All Lines</button>
+                </div>
             </div>
 
             <div
