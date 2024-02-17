@@ -1,70 +1,133 @@
-import sys
-
-sys.path.append(".")
-
-import os
-import time
-import uuid
-
-import pyautogui
 import pyautogui as pg
+import time
+from rich import print
 
-import leaderboards
+def click_focus():
+    pg.click(122, 418)
 
-pg.PAUSE = 2  # delay for each pg action
-SETTINGS = {
-    "role": None,
-    "region": None,
-    "page": 1,
-}  # settings for the leaderboard page
+def click_next_page():
+    pg.moveTo(1010,908)
+    time.sleep(0.1)
+    pg.click(1010, 908)
+
+def click_region_dropdown():
+    pg.moveTo(1475, 256)
+    time.sleep(1)
+    pg.click(1475, 256)
+    time.sleep(1)
+
+def click_region_dropdown_americas():
+        pg.moveTo(1476, 301)
+        time.sleep(1.5)
+        pg.mouseDown()
+        pg.mouseUp()
 
 
-def next_page():
-    pyautogui.click(1004, 884)  # click next page button
+def click_region_dropdown_europe():
+        pg.moveTo(1476, 340)
+        time.sleep(1.5)
+        pg.mouseDown()
+        pg.mouseUp()
+
+def click_region_dropdown_asia():
+        pg.moveTo(1476, 373)
+        time.sleep(1.5)
+        pg.mouseDown()
+        pg.mouseUp()
+
+def click_role_dropdown():
+    pg.moveTo(1010, 261)
+    time.sleep(1)
+    pg.click(1010, 261)
+    time.sleep(1)
 
 
-def generate_name() -> str:  # gens a name
-    return f"{SETTINGS.get('role')}-{SETTINGS.get('region')}-{SETTINGS.get('page')}.png"
+def click_role_dropdown_tank():
+        pg.moveTo(1007, 338)
+        time.sleep(1.5)
+        pg.mouseDown()
+        pg.mouseUp()
+
+def click_role_dropdown_damage():
+        pg.moveTo(1007, 373)
+        time.sleep(1.5)
+        pg.mouseDown()
+        pg.mouseUp()
+    
+def click_role_dropdown_support():
+        pg.moveTo(1007, 412)
+        time.sleep(1.5)
+        pg.mouseDown()
+        pg.mouseUp()
 
 
-def main():
-    ROLES = [
-        r.name for r in list(leaderboards.Role) if r not in (leaderboards.Role.ALL,)
-    ]
-    REGIONS = [
-        r.name for r in list(leaderboards.Region) if r != leaderboards.Region.ALL
-    ]
-    for role in ROLES:
-        for region in REGIONS:  # loop through all roles and regions
-            SETTINGS["role"] = role
-            SETTINGS["region"] = region  # update settings
-            print(f"SET TO: {SETTINGS}")  # prompt
-            pages = int(input("How many pages? "))
-            time.sleep(5)  # wait for user to get to the page
+def collect_screens(role, region):
+      for i in range(50):
+            print(f"Role: {role} Region: {region} Page: {i + 1}           ", end="\r")
+            click_focus()
+            pg.screenshot().save(f"./tmp/{role}-{region}-{i + 1}.png")
+            time.sleep(1.5)
+            click_next_page()
 
-            for i in range(pages):  # 50 pages
-                SETTINGS["page"] = i + 1  # set page
-                print(f"screenshotting page: {i+1}")  # prompt
-                pg.screenshot(
-                    f"./assets/leaderboard_images/{generate_name()}",
-                    region=(  # full screenshot
-                        0,
-                        0,
-                        1920,
-                        1080,
-                    ),
-                )
-                next_page()  # go next page
+pg.PAUSE = 1
+
+# click_next_page()
+
+
+
+def main() -> int:
+    click_focus()
+
+    click_role_dropdown()
+    click_role_dropdown_tank()
+
+    click_region_dropdown()
+    click_region_dropdown_americas()
+    collect_screens(role="TANK", region="AMERICAS")
+
+    click_region_dropdown()
+    click_region_dropdown_europe()
+    collect_screens(role="TANK", region="EUROPE")
+
+    click_region_dropdown()
+    click_region_dropdown_asia()
+    collect_screens(role="TANK", region="ASIA")
+
+    click_role_dropdown()
+    click_role_dropdown_damage()
+    click_region_dropdown()
+    click_region_dropdown_americas()
+    collect_screens(role="DAMAGE", region="AMERICAS")
+
+
+    click_region_dropdown()
+    click_region_dropdown_europe()
+    collect_screens(role="DAMAGE", region="EUROPE")
+
+
+    click_region_dropdown()
+    click_region_dropdown_asia()
+    collect_screens(role="DAMAGE", region="ASIA")
+
+
+    click_role_dropdown()
+    click_role_dropdown_support()
+
+    click_region_dropdown()
+    click_region_dropdown_americas()
+    collect_screens(role="SUPPORT", region="AMERICAS")
+
+
+    click_region_dropdown()
+    click_region_dropdown_europe()
+    collect_screens(role="SUPPORT", region="EUROPE")
+
+    click_region_dropdown()
+    click_region_dropdown_asia()
+    collect_screens(role="SUPPORT", region="ASIA")
+
+    return 0
 
 
 if __name__ == "__main__":
-    # main()
-    pg.screenshot(
-        f"./assets/leaderboard_images/DAMAGE-EUROPE-50.png",
-        region=(
-            0,
-            0,
-            1920,
-            1080,
-        ),
-    )
+      raise SystemExit(main())
