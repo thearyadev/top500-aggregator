@@ -21,19 +21,16 @@ def test_convert_dict_to_hero_count_array():
             [
                 LeaderboardEntry(
                     heroes=["Kiriko", "Ana", "Lucio"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Brigitte", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
@@ -47,19 +44,16 @@ def test_convert_dict_to_hero_count_array():
             [
                 LeaderboardEntry(
                     heroes=["Kiriko", "Ana", "Lucio"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Brigitte", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Sojourn", "Widowmaker", "Tracer"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.DAMAGE,
                 ),
@@ -73,19 +67,16 @@ def test_convert_dict_to_hero_count_array():
             [
                 LeaderboardEntry(
                     heroes=["Kiriko", "Ana", "Lucio"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Brigitte", "Zenyatta"],
-                    games=0,
                     region=Region.EUROPE,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
@@ -99,19 +90,16 @@ def test_convert_dict_to_hero_count_array():
             [
                 LeaderboardEntry(
                     heroes=["Kiriko", "Ana", "Lucio"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Brigitte", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
@@ -162,31 +150,26 @@ def test_convert_count_dict_to_array(test, expected):
             [
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Moira", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Illari"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
@@ -198,31 +181,26 @@ def test_convert_count_dict_to_array(test, expected):
             [
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Moira", "Lucio", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Illari"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
@@ -234,31 +212,26 @@ def test_convert_count_dict_to_array(test, expected):
             [
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Moira", "Lucio", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Illari"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
@@ -270,31 +243,26 @@ def test_convert_count_dict_to_array(test, expected):
             [
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Moira", "Lucio", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Zenyatta"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),
                 LeaderboardEntry(
                     heroes=["Ana", "Moira", "Illari"],
-                    games=0,
                     region=Region.AMERICAS,
                     role=Role.SUPPORT,
                 ),

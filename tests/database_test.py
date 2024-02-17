@@ -2,7 +2,6 @@ from .db_fixture import database
 from database import DatabaseAccess
 import pytest
 from leaderboards import LeaderboardEntry, Region, Role
-from heroes import Hero
 import random
 
 
@@ -28,7 +27,6 @@ def test_create_season(test: str, database: DatabaseAccess):
     [
         LeaderboardEntry(
             heroes=["Kiriko", "Widowmaker", "Hanzo"],
-            games=0,
             region=random.sample([Region.ASIA, Region.AMERICAS, Region.EUROPE], k=1)[0],
             role=random.sample([Role.DAMAGE, Role.TANK, Role.SUPPORT], k=1)[0],
         )
@@ -49,7 +47,6 @@ def test_get_all_records(database: DatabaseAccess):
             season_num,
             LeaderboardEntry(
                 heroes=["Kiriko", "Widowmaker", "Hanzo"],
-                games=0,
                 region=random.sample(
                     [Region.ASIA, Region.AMERICAS, Region.EUROPE], k=1
                 )[0],
