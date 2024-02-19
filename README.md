@@ -19,8 +19,6 @@ and does not include any information that would involve a single users profile.
 Multiple scripts are used to collect and pre-process the data. This data is information collected from the Top 500 leaderboards in-game. Most of this data collection occurs in `./collector.py`
 
 ### Identifying Heroes
-A neural network ([Previously Contributed by Autopoietico](https://github.com/thearyadev/top500-aggregator/pull/1)) is being used for image classification. The dataset used to train this model is located in `./assets/top_500_mnist_images`, and the model and params files are located in `./neural_network/`. This model will need to be re-trained for each hero release, or top 500 hero image change. The tools for training are located in `./train.py`
-
 A neural network is used to conduct image classification on the leaderboard images. In the early stages of this project, ([a contribution by Autopoietico](https://github.com/thearyadev/top500-aggregator/pull/1)) included this neural network. As of season 9 in Overwatch 2, aafter the changes in the appearance of the top 500 leaderboards, I've recreated the neural network using PyTorch. More details can be found [Here](https://github.com/thearyadev/top500-aggregator/pull/147).
 
 
