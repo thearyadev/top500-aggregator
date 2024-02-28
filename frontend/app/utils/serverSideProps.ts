@@ -60,3 +60,9 @@ export async function fetchSeasonalStdDevTrendByRole(): Promise<TrendLine[]> {
     const response = await fetch(`${backendUrl}/d/all_seasons_std_by_role`);
     return await response.json();
 }
+
+export async function fetchSeasonDisclaimer(seasonNumber: number): Promise<string> {
+    const response = await fetch(`${backendUrl}/d/season_disclaimer/${seasonNumber}`)
+    return await response.json()
+
+}

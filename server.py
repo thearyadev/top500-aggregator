@@ -503,6 +503,10 @@ async def chart_data(season: str):
 async def trend_chart_data():
     return Response(content=json.dumps(trends_data()), media_type="application/json")
 
+@app.get("/d/season_disclaimer/{season}")
+async def single_season_disclaimer(season: str): 
+    return db.get_season_disclaimer(season)
+
 
 @app.on_event("startup")
 async def startup():
