@@ -3,6 +3,8 @@ import time
 from rich import print
 
 def click_focus():
+    pg.moveTo(122, 418)
+    time.sleep(0.2)
     pg.click(122, 418)
 
 def click_next_page():
@@ -65,7 +67,7 @@ def collect_screens(role, region):
       for i in range(50):
             print(f"Role: {role} Region: {region} Page: {i + 1}           ", end="\r")
             click_focus()
-            pg.screenshot().save(f"./tmp/{role}-{region}-{i + 1}.png")
+            pg.screenshot().save(f"./assets/leaderboard_images/{role}-{region}-{i + 1}.png")
             time.sleep(1.5)
             click_next_page()
 
