@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "@/app/components";
 import {
+    fetchSeasonDisclaimer,
     fetchSeasonList,
     fetchSingleSeasonPageChartData,
     fetchSingleSeasonStdDevs,
@@ -30,10 +31,10 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
         +params.seasonNumber,
     );
     const seasonStdDevs = await fetchSingleSeasonStdDevs(+params.seasonNumber);
-
+    const disclaimer = await fetchSeasonDisclaimer(+params.seasonNumber) ?? undefined
     return (
         <main>
-            <TopMatter seasonNumber={params.seasonNumber} />
+            <TopMatter seasonNumber={params.seasonNumber} disclaimer={disclaimer} />
             <Card
                 title="Role Standard Deviation: All Slots, All Regions"
                 subtitle={
