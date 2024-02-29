@@ -145,7 +145,7 @@ class Heroes:
 
 
         if model_directory.name not in model_cache.keys():
-            model_cache[model_directory.name] = torch.load(model_directory / "model.pth")
+            model_cache[model_directory.name] = torch.load(model_directory / "model.pth", map_location=device)
         st_dict = model_cache[model_directory.name]
 
 
