@@ -53,5 +53,5 @@ def main():
 
 
 if __name__ == "__main__":
-    dba.add_info_entry("season_9", "This season is a test of the new top 500 hero classifier model. There may be issues with this page. This dataset was recorded on Febuary 29, 2AM EDT.", None )
-    # main()
+    # dba.add_info_entry("season_9", "This season is a test of the new top 500 hero classifier model. There may be issues with this page. This dataset was recorded on Febuary 29, 2AM EDT.", None )
+    main()
