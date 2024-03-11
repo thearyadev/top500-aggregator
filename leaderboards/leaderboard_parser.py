@@ -109,7 +109,7 @@ def parse_leaderboard_to_leaderboard_entries(leaderboard_image: ImageType, regio
     for row in split_column_entries: # each record (10)
 
         results.append(LeaderboardEntry(
-            heroes=[hero_comp.predict_hero_name(hero_image, Path(f"./models/{model_name}")) for hero_image in row], 
+            heroes=[hero_comp.predict_hero_name_dhash_comparison(hero_image, Path(f"./models/{model_name}")) for hero_image in row], 
             role=role,
             region=region
 
