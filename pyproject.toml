@@ -7,7 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-imagehash = "^4.3.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -18,20 +17,16 @@ mypy = "^1.5.1"
 matplotlib-stubs = "^0.1.0"
 types-pillow = "^10.0.0.3"
 pytest-cov = "^4.0.0"
-uvicorn = "^0.23.2"
 numpy = "^1.24.3"
 python-dotenv = "^1.0.0"
 mysql-connector-python = "^8.1.0"
 matplotlib = "^3.6.3"
-opencv-python = "4.5.5.64"
 rich = "^13.3.1"
-pytesseract = "^0.3.10"
 pyautogui = "^0.9.53"
 pillow = "^9.4.0"
 fastapi = "0.101.1"
 httpx = "^0.25.0"
-torch = {version = "^2.2.0", source="torch"}
-torchvision = {version = "^0.17.0", source="torch"}
+imagehash = "^4.3.1"
 
 [tool.poetry.group.server.dependencies]
 hypercorn = "0.14.4"
@@ -41,11 +36,6 @@ mysql-connector-python = "^8.1.0"
 jinja2 = "^3.1.2"
 fastapi = "0.101.1"
 rich = "^13.3.1"
-
-[[tool.poetry.source]]
-name = "torch"
-url = "https://download.pytorch.org/whl/cu121"
-secondary = true
 
 [tool.mypy]
 check_untyped_defs = true

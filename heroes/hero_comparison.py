@@ -2,7 +2,6 @@ from __future__ import annotations
 from PIL.Image import Image
 from PIL import Image as ImageOpen, ImageFilter
 from functools import lru_cache
-import torch
 import importlib
 from pathlib import Path
 from typing import Any
