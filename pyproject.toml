@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.10"
 rich = "^13.3.1"
 pyautogui = "^0.9.53"
-pillow = "^9.4.0"
+pillow = "^10.2.0"
 imagehash = "^4.3.1"
 
 
