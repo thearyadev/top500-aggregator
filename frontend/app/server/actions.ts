@@ -1,4 +1,5 @@
 import fs from "fs";
+import { HeroColors } from "../components/charts/heroColors";
 
 export enum Role {
     DAMAGE = "DAMAGE",
@@ -155,6 +156,7 @@ function map_intermediate_data_rep_to_trend_lines(lines: IntermediateDataRep): T
     return Object.entries(lines).map(([hero, points]) => ({ name: hero, data: points }));
 }
 
+
 export async function get_occurrence_trend_lines(): Promise<TrendLine[]> {
     const seasonsData = await Promise.all((await get_season_list()).map(async season => await get_occurrences(null, null, null, season)));
     const lines: IntermediateDataRep = {};
@@ -162,9 +164,23 @@ export async function get_occurrence_trend_lines(): Promise<TrendLine[]> {
         for (const [hero, count] of Object.entries(seasonData)) {
             lines[hero] = lines[hero] ? [...lines[hero], count] : [count];
         }
+        // ensure that all heroes exist
+        for (const hero of Object.keys(HeroColors)){
+            if (!(hero in lines)){
+                lines[hero] = [0, ]
+            }
+        }
+        // ensure that all lines have the same length, if not, append a zero
+        const longestLength = Math.max(...Object.values(lines).map(arr => arr.length));
+        for (const [_, points] of Object.entries(lines)){
+            if (points.length != longestLength){
+               points.push(0) 
+            } 
+        }
     }
     return map_intermediate_data_rep_to_trend_lines(lines)
 }
+
 
 export async function get_std_deviation_trend_lines(): Promise<TrendLine[]> {
     const lines: IntermediateDataRep = {};
