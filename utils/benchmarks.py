@@ -44,7 +44,7 @@ def show_result(
 def load_answers(tests_path: str) -> dict[str, list[list[str]]]:
     """Loads answers from a file
 
-    Args:
+    Arg
         tests_path (str): Path to the file
 
     Returns:
@@ -74,7 +74,7 @@ def filter_blanks(hero_array: list[str]) -> list[str]:
     return hero_array
 
 
-def main():
+def main() -> None:
     total_tests: int = 0
     passed_tests: int = 0
     failed_tests: int = 0
@@ -82,13 +82,12 @@ def main():
     answers = load_answers("./assets/benchmark")
     heroes_present: set[str] = set()
     for image, heroes in answers.items():  # iter answer key-value pairs
-        result: list[
-            leaderboards.LeaderboardEntry
-        ] = leaderboards.parse_leaderboard_to_leaderboard_entries(  # parse leaderboard
-            leaderboard_image=Image.open(f"./assets/benchmark/{image}/LB-IMG.png"),
-            region=leaderboards.Region.AMERICAS,  # doesnt matter
-            role=leaderboards.Role.DAMAGE,  # doesnt matter
-            model_name="thearyadev-initial-15-02-2024",
+        result: list[leaderboards.LeaderboardEntry] = (
+            leaderboards.parse_leaderboard_to_leaderboard_entries(  # parse leaderboard
+                leaderboard_image=Image.open(f"./assets/benchmark/{image}/LB-IMG.png"),
+                region=leaderboards.Region.AMERICAS,  # doesnt matter
+                role=leaderboards.Role.DAMAGE,  # doesnt matter
+            )
         )
 
         for entry, answer in zip(result, heroes):  # validate results
@@ -120,9 +119,6 @@ def main():
     print(f"Passed tests: {passed_tests}")
     print(f"Failed tests: {failed_tests}")
     print(f"[yellow bold]Success rate: {round(passed_tests / total_tests * 100, 2)}%")
-    print(
-            f"Heroes not present in answer set: {heroes_present.symmetric_difference(set(HeroComparisonClass.Heroes().hero_labels.values()))}"
-        )
 
 
 if __name__ == "__main__":
