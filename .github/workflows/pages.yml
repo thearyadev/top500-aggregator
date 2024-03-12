@@ -33,42 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Run MySQL Server
-        run: docker run -d -p 3800:3306 --name mysql -e MYSQL_ROOT_PASSWORD=dbtestpassword -e MYSQL_DATABASE=ghworkflow_testdb mysql@sha256:566007208a3f1cc8f9df6b767665b5c9b800fc4fb5f863d17aa1df362880ed04
-      
-      - name: Install MySQL Client
-        run: sudo apt-get install -y mysql-client
-
-      - name: Wait for MySQL Server to Start
-        run: sleep 10
-
-      - name: Add Testing Database
-        run: mysql -h 127.0.0.1 -u root -pdbtestpassword -P 3800 -e "CREATE DATABASE testing_ghworkflow_testdb;"
-
-      - name: Copy data into database
-        run: mysql -h 127.0.0.1 -u root -pdbtestpassword -P 3800 ghworkflow_testdb < ./archive/latest.sql
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-      - name: Install Dependencies
-        run: poetry install --no-root --no-interaction
-      - name: Run Server
-        run: |
-          poetry run hypercorn server:app --bind 0.0.0.0:7771 &
-        env:
-          MYSQLDATABASE: 'ghworkflow_testdb'
-          MYSQLUSER: 'root'
-          MYSQLPASSWORD: 'dbtestpassword'
-          MYSQLHOST: 'localhost'
-          MYSQLPORT: '3800'
-
-          TESTING_MYSQLDATABASE: 'testing_ghworkflow_testdb'
-          TESTING_MYSQLUSER: 'root'
-          TESTING_MYSQLPASSWORD: 'dbtestpassword'
-          TESTING_MYSQLHOST: 'localhost'
-          TESTING_MYSQLPORT: '3800'
-
-      
+           
       - name: Detect package manager
         id: detect-package-manager
         run: |
