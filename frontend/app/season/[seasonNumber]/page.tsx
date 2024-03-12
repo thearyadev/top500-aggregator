@@ -1,17 +1,21 @@
 import React from "react";
 import { Card } from "@/app/components";
-import {
-    fetchSeasonDisclaimer,
-    fetchSeasonList,
-    fetchSingleSeasonPageChartData,
-    fetchSingleSeasonStdDevs,
-} from "@/app/utils/serverSideProps";
 import { BarChart } from "@/app/components";
 import TopMatter from "@/app/components/topmatter/topmatter";
+import {
+    Region,
+    Role,
+    Slot,
+    calculateStandardDeviation,
+    get_disclaimer,
+    get_occurrences,
+    get_season_list,
+    map_generic_kv_to_bar_chart_data,
+} from "@/app/server/actions";
 
 export async function generateStaticParams() {
-    return (await fetchSeasonList()).map(season => ({
-        seasonNumber: season
+    return (await get_season_list()).map((season) => ({
+        seasonNumber: season.toString(),
     }));
 }
 
@@ -26,87 +30,219 @@ const HeroStdDev = ({ value, role }: { value: number; role: string }) => {
     );
 };
 
-const SeasonPage = async ({ params }: { params: { seasonNumber: string } }) => {
-    const seasonChartData = await fetchSingleSeasonPageChartData(
-        +params.seasonNumber,
-    );
-    const seasonStdDevs = await fetchSingleSeasonStdDevs(+params.seasonNumber);
-    const disclaimer = await fetchSeasonDisclaimer(+params.seasonNumber) ?? undefined
+const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
+    const regions = [Region.AMERICAS, Region.EUROPE, Region.ASIA];
+    const roles = [Role.SUPPORT, Role.DAMAGE, Role.TANK];
     return (
         <main>
-            <TopMatter seasonNumber={params.seasonNumber} disclaimer={disclaimer} />
+            <TopMatter
+                seasonNumber={params.seasonNumber.toString()}
+                disclaimer={await get_disclaimer(params.seasonNumber)}
+            />
             <Card
                 title="Role Standard Deviation: All Slots, All Regions"
                 subtitle={
                     "Note: The standard deviation is calculated with the 10th percentile excluded. T500 aggregator by nature skews the accuracy of the low outliers in a data set. For this reason, the bottom 10% of entries for any given set (support, damage or tank) is excluded from the calculation."
                 }
             >
-                <HeroStdDev value={seasonStdDevs.SUPPORT} role={"SUPPORT"} />
-                <HeroStdDev value={seasonStdDevs.DAMAGE} role={"DAMAGE"} />
-                <HeroStdDev value={seasonStdDevs.TANK} role={"TANK"} />
-            </Card>
+                <HeroStdDev
+                    role="SUPPORT"
+                    value={calculateStandardDeviation(
+                        Object.values(
+                            await get_occurrences(
+                                Role.SUPPORT,
+                                null,
+                                null,
+                                params.seasonNumber,
+                            ),
+                        ),
+                    )}
+                />
+                <HeroStdDev
+                    role="DAMAGE"
+                    value={calculateStandardDeviation(
+                        Object.values(
+                            await get_occurrences(
+                                Role.DAMAGE,
+                                null,
+                                null,
+                                params.seasonNumber,
+                            ),
+                        ),
+                    )}
+                />
+                <HeroStdDev
+                    role="TANK"
+                    value={calculateStandardDeviation(
+                        Object.values(
+                            await get_occurrences(
+                                Role.TANK,
+                                null,
+                                null,
+                                params.seasonNumber,
+                            ),
+                        ),
+                    )}
+                />
 
+
+            </Card>
             <Card title="Hero Occurrences: All Slots" nowrap>
-                {Object.keys(seasonChartData).map((key) => {
-                    if (key.includes("O_ALL")) {
-                        const [_, role, region] = key.split("_");
-                        return (
-                            <BarChart
-                                title={`${region}`}
-                                graph={(seasonChartData as any)[key].graph}
-                                maxY={region === "ALL" ? 1250 : 500}
-                                className="min-h-[27rem]"
-                            />
-                        );
-                    }
-                })}
+                <BarChart
+                    title="Americas"
+                    graph={map_generic_kv_to_bar_chart_data(
+                        await get_occurrences(
+                            null,
+                            Region.AMERICAS,
+                            null,
+                            params.seasonNumber,
+                        ),
+                    )}
+                    maxY={500}
+                />
+                <BarChart
+                    title="Americas"
+                    graph={map_generic_kv_to_bar_chart_data(
+                        await get_occurrences(
+                            null,
+                            Region.EUROPE,
+                            null,
+                            params.seasonNumber,
+                        ),
+                    )}
+                    maxY={500}
+                />
+                <BarChart
+                    title="Americas"
+                    graph={map_generic_kv_to_bar_chart_data(
+                        await get_occurrences(
+                            null,
+                            Region.ASIA,
+                            null,
+                            params.seasonNumber,
+                        ),
+                    )}
+                    maxY={500}
+                />
+                <BarChart
+                    title="Americas"
+                    graph={map_generic_kv_to_bar_chart_data(
+                        await get_occurrences(
+                            null,
+                            null,
+                            null,
+                            params.seasonNumber,
+                        ),
+                    )}
+                    maxY={1200}
+                />
             </Card>
-
             <Card title="Hero Occurrences: First Most Played">
-                {Object.keys(seasonChartData).map((key) => {
-                    if (key.includes("OFMP")) {
-                        const [_, role, region] = key.split("_");
+                {roles.map((role) => {
+                    return regions.map(async (region) => {
                         return (
                             <BarChart
                                 title={`${role}: ${region}`}
-                                graph={(seasonChartData as any)[key].graph}
-                                maxY={region === "ALL" ? 500 : 300}
-                                className="min-h-[27rem]"
+                                graph={map_generic_kv_to_bar_chart_data(
+                                    await get_occurrences(
+                                        role,
+                                        region,
+                                        Slot.firstMostPlayed,
+                                        params.seasonNumber,
+                                    ),
+                                )}
+                                maxY={300}
                             />
                         );
-                    }
+                    });
+                })}
+                {roles.map(async (role) => {
+                    return (
+                        <BarChart
+                            title={`${role}: All`}
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    role,
+                                    null,
+                                    Slot.firstMostPlayed,
+                                    params.seasonNumber,
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                    );
                 })}
             </Card>
-
             <Card title="Hero Occurrences: Second Most Played">
-                {Object.keys(seasonChartData).map((key) => {
-                    if (key.includes("OSMP")) {
-                        const [_, role, region] = key.split("_");
+                {roles.map((role) => {
+                    return regions.map(async (region) => {
                         return (
                             <BarChart
                                 title={`${role}: ${region}`}
-                                graph={(seasonChartData as any)[key].graph}
-                                maxY={region === "ALL" ? 500 : 300}
-                                className="min-h-[27rem]"
+                                graph={map_generic_kv_to_bar_chart_data(
+                                    await get_occurrences(
+                                        role,
+                                        region,
+                                        Slot.secondMostPlayed,
+                                        params.seasonNumber,
+                                    ),
+                                )}
+                                maxY={300}
                             />
                         );
-                    }
+                    });
+                })}
+                {roles.map(async (role) => {
+                    return (
+                        <BarChart
+                            title={`${role}: All`}
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    role,
+                                    null,
+                                    Slot.secondMostPlayed,
+                                    params.seasonNumber,
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                    );
                 })}
             </Card>
-
             <Card title="Hero Occurrences: Third Most Played">
-                {Object.keys(seasonChartData).map((key) => {
-                    if (key.includes("OTMP")) {
-                        const [_, role, region] = key.split("_");
+                {roles.map((role) => {
+                    return regions.map(async (region) => {
                         return (
                             <BarChart
                                 title={`${role}: ${region}`}
-                                graph={(seasonChartData as any)[key].graph}
-                                maxY={region === "ALL" ? 500 : 300}
-                                className="min-h-[27rem]"
+                                graph={map_generic_kv_to_bar_chart_data(
+                                    await get_occurrences(
+                                        role,
+                                        region,
+                                        Slot.thirdMostPlayed,
+                                        params.seasonNumber,
+                                    ),
+                                )}
+                                maxY={300}
                             />
                         );
-                    }
+                    });
+                })}
+                {roles.map(async (role) => {
+                    return (
+                        <BarChart
+                            title={`${role}: All`}
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    role,
+                                    null,
+                                    Slot.thirdMostPlayed,
+                                    params.seasonNumber,
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                    );
                 })}
             </Card>
         </main>

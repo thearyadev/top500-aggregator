@@ -4,13 +4,14 @@ import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { useEffect, useRef, useState } from "react";
 import { HeroColors } from "@/app/components/charts/heroColors";
-import type { TrendLine } from "@/app/utils/serverSideProps";
 import classNames from "classnames";
+import { TrendLine } from "@/app/server/actions";
+
 
 interface LineChartProps extends HighchartsReact.Props {
     title: string;
     data: TrendLine[];
-    seasons: string[];
+    seasons: number[];
     className: string;
 }
 
@@ -23,7 +24,7 @@ const LineChart = (props: LineChartProps) => {
             margin: 0,
         },
         xAxis: {
-            categories: seasons,
+            categories: seasons.map(s => s.toString()),
             min: 0,
             max: seasons.length - 1,
         },
@@ -56,9 +57,7 @@ const LineChart = (props: LineChartProps) => {
                 },
             },
         },
-    })
-
-
+    });
 
     const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
     const [loading, setLoading] = useState(true);
@@ -66,12 +65,13 @@ const LineChart = (props: LineChartProps) => {
         setOptions((prevState) => {
             return {
                 ...prevState,
-                series: options.series?.map((series) => ({ ...series, visible: false }))
-
-            }
-        })
-
-    }
+                series: options.series?.map((series) => ({
+                    ...series,
+                    visible: false,
+                })),
+            };
+        });
+    };
 
     return (
         <div className={props.className}>
@@ -85,7 +85,12 @@ const LineChart = (props: LineChartProps) => {
                     {...props}
                 />
                 <div className="flex justify-center pb-3">
-                    <button onClick={hideLines} className="bg-black text-white p-3 rounded">Hide All Lines</button>
+                    <button
+                        onClick={hideLines}
+                        className="bg-black text-white p-3 rounded"
+                    >
+                        Hide All Lines
+                    </button>
                 </div>
             </div>
 
