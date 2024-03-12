@@ -1,1 +1,0 @@
-docker run -it --rm -e MYSQL_ROOT_PASSWORD=testingdb -e MYSQL_DATABASE=testingdb -e MYSQL_USER=t5aggr -e MYSQL_PASSWORD=testingdb -p 9999:3306  mysql@sha256:566007208a3f1cc8f9df6b767665b5c9b800fc4fb5f863d17aa1df362880ed04

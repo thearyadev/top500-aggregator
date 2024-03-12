@@ -1,4 +1,10 @@
-const TopMatter = ({ seasonNumber, disclaimer }: { seasonNumber: string, disclaimer?: string }) => {
+const TopMatter = ({
+    seasonNumber,
+    disclaimer,
+}: {
+    seasonNumber: string;
+    disclaimer?: string;
+}) => {
     let indicator = "";
     if (seasonNumber == "trends") {
         indicator = "Trends";
@@ -10,9 +16,12 @@ const TopMatter = ({ seasonNumber, disclaimer }: { seasonNumber: string, disclai
         <div className="mt-5 lg:ml-3 lg:mr-3 sm:ml-1 sm:mr-1">
             <h1 className="text-3xl pb-4">{indicator}</h1>
 
-            {disclaimer ? 
-                (<p className="text-red-500"><span className="font-bold">DISCLAIMER: </span>{disclaimer}</p>) : undefined
-            }
+            {disclaimer ? (
+                <p className="text-red-500">
+                    <span className="font-bold">DISCLAIMER: </span>
+                    {disclaimer}
+                </p>
+            ) : undefined}
             <p className="pb-2">
                 <strong>Welcome to Overwatch 2 Top 500 Aggregator</strong>
             </p>

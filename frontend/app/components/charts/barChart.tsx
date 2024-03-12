@@ -6,15 +6,11 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./barChart.module.scss";
 import { HeroColors } from "@/app/components/charts/heroColors";
 import classNames from "classnames";
-
-interface GraphData {
-    labels: string[];
-    values: number[];
-}
+import { BarChartData } from "@/app/server/actions";
 
 interface BarChartProps extends HighchartsReact.Props {
     title: string;
-    graph: GraphData;
+    graph: BarChartData;
     maxY: number;
     className?: string | string[];
 }

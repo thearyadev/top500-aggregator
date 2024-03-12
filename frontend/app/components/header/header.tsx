@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./header.module.scss";
-import { fetchSeasonList } from "@/app/utils/serverSideProps";
+import { get_season_list } from "@/app/server/actions";
 
 type NavLinks = {
     label: string;
@@ -8,7 +8,7 @@ type NavLinks = {
 };
 
 const Header = async () => {
-    const seasons = await fetchSeasonList();
+    const seasons = await get_season_list();
     const navLinks: NavLinks[] = seasons.reverse().map((seasonNum) => {
         return { label: `Season ${seasonNum}`, path: `/season/${seasonNum}` };
     });

@@ -1,11 +1,9 @@
 import SeasonPage from "./season/[seasonNumber]/page";
-import { fetchSeasonList } from "./utils/serverSideProps";
+import { get_season_list } from "./server/actions";
 
 const IndexPage = async () => {
-    const latestSeason = (await fetchSeasonList()).reverse()[0];
-    return (
-        <SeasonPage params={{ seasonNumber: latestSeason }} />
-    );
+    const latestSeason = (await get_season_list()).reverse()[0];
+    return <SeasonPage params={{ seasonNumber: latestSeason }} />;
 };
 
 export default IndexPage;
