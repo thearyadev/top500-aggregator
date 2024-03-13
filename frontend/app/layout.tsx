@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
+
 import '@mantine/core/styles.css';
+
+import { ColorSchemeScript, createTheme, MantineProvider } from "@mantine/core";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
-import { Footer, Header } from "@/app/components";
+
+import { Footer, Header, ScrollToTop } from "@/app/components";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -12,7 +17,9 @@ export const metadata: Metadata = {
     description: "T500 Aggregator",
 };
 
-// export const dynamic = "force-dynamic";
+const theme = createTheme({})
+
+
 export default function RootLayout({
     children,
 }: {
@@ -20,12 +27,18 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
+            <Head>
+                <ColorSchemeScript />
+            </Head>
             <body>
-                <Analytics /> 
+                <Analytics />
                 <SpeedInsights />
-                <Header />
-                {children}
-                <Footer />
+                <MantineProvider theme={theme}>
+                    <Header />
+                    {children}
+                    <Footer />
+                    <ScrollToTop />
+                </MantineProvider>
             </body>
         </html>
     );
