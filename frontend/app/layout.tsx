@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import '@mantine/core/styles.css';
 import { Inter } from "next/font/google";
 import "./globals.scss";
 import { Footer, Header } from "@/app/components";
