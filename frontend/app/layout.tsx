@@ -12,8 +12,8 @@ import Head from "next/head";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "T500 Aggregator",
-    description: "T500 Aggregator",
+    title: "Overwatch 2: Top 500 Aggregator",
+    description: "A data aggregation for the Overwatch 2 Top 500 Leaderboards.",
 };
 
 const theme = createTheme({})
@@ -27,10 +27,6 @@ export default function RootLayout({
     return (
         <html lang="en">
             <Head>
-                <meta property="twitter:title" content="Overwatch 2: Top 500 Data" />
-                <meta property="twitter:description" content="Data collected from the Overwatch 2 Top 500 Leaderboards" />
-                <meta property="og:title" content="Overwatch 2: Top 500 Data" />
-                <meta property="og:description" content="Data collected from the Overwatch 2 Top 500 Leaderboards" />
                 <ColorSchemeScript />
             </Head>
             <body>
