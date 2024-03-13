@@ -29,6 +29,7 @@ export default function RootLayout({
             <Head>
                 <meta property="twitter:title" content="Overwatch 2: Top 500 Data" />
                 <meta property="twitter:description" content="Data collected from the Overwatch 2 Top 500 Leaderboards" />
+                <meta property="og:description" content="Data collected from the Overwatch 2 Top 500 Leaderboards" />
                 <ColorSchemeScript />
             </Head>
             <body>
