@@ -3,17 +3,17 @@ from __future__ import annotations
 from enum import Enum
 from heroes import predict_hero_name_dhash_comparison
 from PIL.Image import Image as ImageType
-from typing import Final
+from typing import Final, TypeVar
 
 ROW_HEIGHT_PX: Final[int] = 46
 ROW_SKIP_PX: Final[int] = 13
 COLUMN_WIDTH_PX: Final[int] = 100
 COLUMN_SKIP_PX: Final[int] = 2
 
-
+T = TypeVar('T', bound="ByNameEnum")
 class ByNameEnum(Enum):
     @classmethod
-    def by_name(cls, name: str) -> ByNameEnum | None:
+    def by_name(cls: type[T], name: str) -> T | None:
         for enum_member, _ in cls.__members__.items():
             if enum_member == name:
                 return cls[enum_member]
