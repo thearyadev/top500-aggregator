@@ -43,8 +43,8 @@ def main() -> int:
         )
         for r in result:
             entries.append({
-                "role": str(role),
-                "region": str(region),
+                "role": str(role.name),
+                "region": str(region.name),
                 "firstMostPlayed": r.heroes[0],
                 "secondMostPlayed": r.heroes[1],
                 "thirdMostPlayed": r.heroes[2],
@@ -57,7 +57,7 @@ def main() -> int:
         },
         "entries": entries
     }
-    with open(f"./data/{season_id}.json") as json_file:
+    with open(f"./data/{season_id}.json", "w+") as json_file:
         json.dump(data, json_file)
     return 0
 
