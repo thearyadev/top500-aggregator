@@ -9,7 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@mantine/core": "^7.6.2",
+        "@mantine/core": "^7.7.0",
         "@mantine/hooks": "^7.6.2",
         "@tabler/icons-react": "^3.1.0",
         "@vercel/analytics": "^1.2.2",
