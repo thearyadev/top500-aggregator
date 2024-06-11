@@ -18,9 +18,9 @@
         "highcharts": "^11.4.1",
         "highcharts-react-official": "^3.2.1",
         "next": "14.2.2",
+        "sass": "^1.77.2",
         "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "sass": "^1.75.0"
+        "react-dom": "^18.3.1"
     },
     "devDependencies": {
         "@types/node": "^20",
