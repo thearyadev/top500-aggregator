@@ -1,0 +1,13 @@
+{"answers": [
+   ["Echo", "Pharah", "Sombra"],
+   ["Torbjorn", "Blank", "Blank"],
+   ["Tracer", "Sojourn", "Cassidy"],
+   ["Tracer", "Cassidy", "Sojourn"],
+   ["Widowmaker", "Cassidy", "Sojourn"],
+   ["Cassidy", "Tracer", "Widowmaker"],
+   ["Sojourn", "Tracer", "Widowmaker"],
+   ["Tracer", "Echo", "Cassidy"],
+   ["Cassidy", "Sojourn", "Tracer"],
+   ["Cassidy", "Sojourn", "Tracer"]
+]
+}
