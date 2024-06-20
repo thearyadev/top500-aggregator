@@ -51,7 +51,6 @@ const TopMatter = ({
                     of what heroes are popular or unpopular and is by no means an
                     accurate representation of hero pick rates.
                 </p>
-                <Image src="images/leaderboard-diagram.png" alt="Leaderboard breakdown diagram" width="5000" height="5000" />
                 <p className="pb-2">
                     <strong>When is the data updated?</strong>
                 </p>
