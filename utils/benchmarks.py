@@ -127,3 +127,14 @@ if __name__ == "__main__":
     start = time.perf_counter()
     main()
     print(f"Time taken: {time.perf_counter() - start} seconds")
+    # R = leaderboards.parse_leaderboard_to_leaderboard_entries(  # parse leaderboard
+    #             leaderboard_image=Image.open(f"./assets/benchmark/DAMAGE_S10_P36_EUROPE/LB-IMG.png"),
+    #             region=leaderboards.Region.AMERICAS,  # doesnt matter
+    #             role=leaderboards.Role.DAMAGE,  # doesnt matter
+    #         )
+    # import json
+    # x = {"answers": []}
+    # for i in R:
+    #     x["answers"].append(i.heroes)
+    # print(x)
+    # print(json.dumps(x))

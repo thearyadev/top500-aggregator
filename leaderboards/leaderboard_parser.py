@@ -101,10 +101,7 @@ def crop_split_column(pil_image: ImageType) -> list[ImageType]:
         current_offset_pos += COLUMN_WIDTH_PX + COLUMN_SKIP_PX
         if current_offset_pos >= o_width:
             break
-    return list(
-        reversed(result)
-    )  # Hero placement has been reversed in Season 9 (blizzard moment.)
-
+    return result
 
 def parse_leaderboard_to_leaderboard_entries(
     leaderboard_image: ImageType, region: Region, role: Role
@@ -114,14 +111,17 @@ def parse_leaderboard_to_leaderboard_entries(
     split_column_entries = [crop_split_column(row) for row in row_entries]
     results: list[LeaderboardEntry] = list()
     for row in split_column_entries:  # each record (10)
-
-        results.append(
-            LeaderboardEntry(
+        computed_result = LeaderboardEntry(
                 heroes=[
                     predict_hero_name_dhash_comparison(hero_image) for hero_image in row
                 ],
                 role=role,
                 region=region,
             )
-        )
+        blank_filtered_result = [hero for hero in computed_result.heroes if hero != "Blank"]
+        while len(blank_filtered_result) != 3:
+            blank_filtered_result.append("Blank")
+        computed_result.heroes = blank_filtered_result
+
+        results.append(computed_result)
     return results

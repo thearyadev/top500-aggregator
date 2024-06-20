@@ -101,7 +101,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                     maxY={500}
                 />
                 <BarChart
-                    title="Americas"
+                    title="Europe"
                     graph={map_generic_kv_to_bar_chart_data(
                         await get_occurrences(
                             null,
@@ -113,7 +113,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                     maxY={500}
                 />
                 <BarChart
-                    title="Americas"
+                    title="Asia"
                     graph={map_generic_kv_to_bar_chart_data(
                         await get_occurrences(
                             null,
@@ -125,7 +125,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                     maxY={500}
                 />
                 <BarChart
-                    title="Americas"
+                    title="All Regions"
                     graph={map_generic_kv_to_bar_chart_data(
                         await get_occurrences(
                             null,
