@@ -1,0 +1,14 @@
+{
+	"answers": [
+		["Sigma", "D.Va", "Junker Queen"],
+		["D.Va", "Winston", "Sigma"],
+		["Sigma", "Reinhardt", "Mauga"],
+		["D.Va", "Reinhardt", "Winston"],
+		["D.Va", "Sigma", "Mauga"],
+		["Wrecking Ball", "Sigma", "Doomfist"],
+		["Doomfist", "Blank", "Blank"],
+		["Wrecking Ball", "Winston", "Mauga"],
+		["Junker Queen", "Doomfist", "Mauga"],
+		["Doomfist", "Blank", "Blank"]
+	]
+}
