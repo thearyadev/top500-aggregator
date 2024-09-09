@@ -22,7 +22,7 @@ const TrendsPage = async () => {
                 <LineChart
                     data={seasonalStdDevTrend}
                     seasons={seasonList}
-                    title={"Standard Devation: By Role All Regions"}
+                    title={"Standard Deviation: By Role All Regions"}
                     className=""
                 />
 
