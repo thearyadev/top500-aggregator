@@ -6,8 +6,8 @@ const nextConfig = {
     compress: true,
     output: "export",
     images: {
-        unoptimized: true
-    }
+        unoptimized: true,
+    },
 };
 
 module.exports = nextConfig;

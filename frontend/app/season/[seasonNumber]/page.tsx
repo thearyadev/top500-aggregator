@@ -84,8 +84,6 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                         ),
                     )}
                 />
-
-
             </Card>
             <Card title="Hero Occurrences: All Slots" nowrap>
                 <BarChart
