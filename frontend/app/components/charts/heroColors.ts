@@ -42,4 +42,5 @@ export const HeroColors: HeroColor = {
     Zenyatta: "#F5EC91",
     LifeWeaver: "#E0B6C5",
     Mauga: "#DC847D",
-};
+    Juno: "#987DB9"
+}
