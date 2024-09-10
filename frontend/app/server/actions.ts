@@ -85,10 +85,9 @@ function data_loader_memo(): (seasonNumber: number) => RawSeasonDataFile {
 export async function get_season_list(): Promise<number[]> {
     const season_list = fs
         .readdirSync("../data")
+        .filter((f) => !f.startsWith("_"))
         .map((f) => Number(f.replace(".json", "").replace("season_", "")))
         .sort((a, b) => a - b);
-    const legacySeasons = season_list.splice(-3);
-    season_list.unshift(...legacySeasons);
     return season_list;
 }
 
