@@ -7,7 +7,6 @@ import { HeroColors } from "@/app/components/charts/heroColors";
 import classNames from "classnames";
 import { TrendLine } from "@/app/server/actions";
 
-
 interface LineChartProps extends HighchartsReact.Props {
     title: string;
     data: TrendLine[];
@@ -24,7 +23,7 @@ const LineChart = (props: LineChartProps) => {
             margin: 0,
         },
         xAxis: {
-            categories: seasons.map(s => s.toString()),
+            categories: seasons.map((s) => s.toString()),
             min: 0,
             max: seasons.length - 1,
         },

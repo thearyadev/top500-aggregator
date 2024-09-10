@@ -25,8 +25,8 @@ export interface BarChartData {
 }
 
 export interface TrendLine {
-    name: string,
-    data: number[]
+    name: string;
+    data: number[];
 }
 
 type RawSeasonDataFile = {
@@ -52,9 +52,14 @@ export function calculateStandardDeviation(numbers: number[]): number {
     const sortedNumbers = numbers.slice().sort((a, b) => a - b);
     const percentileIndex = Math.floor(sortedNumbers.length * 0.1);
     const numbersExcludingPercentile = sortedNumbers.slice(percentileIndex);
-    const mean = numbersExcludingPercentile.reduce((sum, num) => sum + num, 0) / numbersExcludingPercentile.length;
-    const squaredDifferences = numbersExcludingPercentile.map((num) => Math.pow(num - mean, 2));
-    const meanOfSquaredDifferences = squaredDifferences.reduce((sum, squaredDiff) => sum + squaredDiff, 0) /
+    const mean =
+        numbersExcludingPercentile.reduce((sum, num) => sum + num, 0) /
+        numbersExcludingPercentile.length;
+    const squaredDifferences = numbersExcludingPercentile.map((num) =>
+        Math.pow(num - mean, 2),
+    );
+    const meanOfSquaredDifferences =
+        squaredDifferences.reduce((sum, squaredDiff) => sum + squaredDiff, 0) /
         numbersExcludingPercentile.length;
     const standardDeviation = Math.sqrt(meanOfSquaredDifferences);
     return standardDeviation;
@@ -62,7 +67,7 @@ export function calculateStandardDeviation(numbers: number[]): number {
 
 function data_loader_memo(): (seasonNumber: number) => RawSeasonDataFile {
     const cache: Cache = {};
-    return function(seasonNumber: number) {
+    return function (seasonNumber: number) {
         if (seasonNumber in cache) {
             return cache[seasonNumber];
         }
@@ -151,36 +156,44 @@ interface IntermediateDataRep {
     [key: string]: number[];
 }
 
-
-function map_intermediate_data_rep_to_trend_lines(lines: IntermediateDataRep): TrendLine[] {
-    return Object.entries(lines).map(([hero, points]) => ({ name: hero, data: points }));
+function map_intermediate_data_rep_to_trend_lines(
+    lines: IntermediateDataRep,
+): TrendLine[] {
+    return Object.entries(lines).map(([hero, points]) => ({
+        name: hero,
+        data: points,
+    }));
 }
 
-
 export async function get_occurrence_trend_lines(): Promise<TrendLine[]> {
-    const seasonsData = await Promise.all((await get_season_list()).map(async season => await get_occurrences(null, null, null, season)));
+    const seasonsData = await Promise.all(
+        (await get_season_list()).map(
+            async (season) => await get_occurrences(null, null, null, season),
+        ),
+    );
     const lines: IntermediateDataRep = {};
     for (const seasonData of seasonsData) {
         for (const [hero, count] of Object.entries(seasonData)) {
             lines[hero] = lines[hero] ? [...lines[hero], count] : [count];
         }
         // ensure that all heroes exist
-        for (const hero of Object.keys(HeroColors)){
-            if (!(hero in lines)){
-                lines[hero] = [0, ]
+        for (const hero of Object.keys(HeroColors)) {
+            if (!(hero in lines)) {
+                lines[hero] = [0];
             }
         }
         // ensure that all lines have the same length, if not, append a zero
-        const longestLength = Math.max(...Object.values(lines).map(arr => arr.length));
-        for (const [_, points] of Object.entries(lines)){
-            if (points.length != longestLength){
-               points.push(0) 
-            } 
+        const longestLength = Math.max(
+            ...Object.values(lines).map((arr) => arr.length),
+        );
+        for (const [_, points] of Object.entries(lines)) {
+            if (points.length != longestLength) {
+                points.push(0);
+            }
         }
     }
-    return map_intermediate_data_rep_to_trend_lines(lines)
+    return map_intermediate_data_rep_to_trend_lines(lines);
 }
-
 
 export async function get_std_deviation_trend_lines(): Promise<TrendLine[]> {
     const lines: IntermediateDataRep = {};
@@ -194,6 +207,5 @@ export async function get_std_deviation_trend_lines(): Promise<TrendLine[]> {
             lines[role].push(calculateStandardDeviation(Object.values(data)));
         }
     }
-    return map_intermediate_data_rep_to_trend_lines(lines)
+    return map_intermediate_data_rep_to_trend_lines(lines);
 }
-
