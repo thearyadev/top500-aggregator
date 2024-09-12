@@ -63,7 +63,7 @@ Each model contains a few files:
 The model needs to be imported using `importlib`. The module imported will have two members, `FrozenNNModel` and `transformer`. The transformer is the transformer used during training. Use the transformer to prepare the input image, then run the model. See `./heroes/hero_comparison.py` for an example of how to use the model. 
 
 ## License
-[Apache-2.0](/LICENSE)
+[WTFPL](/LICENSE)
 
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator?ref=badge_large)
