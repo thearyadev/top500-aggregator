@@ -68,6 +68,7 @@ def collect_screens(role, region):
       for i in range(50):
             print(f"Role: {role} Region: {region} Page: {i + 1}           ", end="\r")
             click_focus()
+            time.sleep(1.5)
             pg.screenshot().save(f"./assets/leaderboard_images/{role}-{region}-{i + 1}.png")
             time.sleep(1.5)
             click_next_page()
@@ -86,30 +87,37 @@ def main() -> int:
 
     click_region_dropdown()
     click_region_dropdown_americas()
+    time.sleep(15)
     collect_screens(role="TANK", region="AMERICAS")
 
     click_region_dropdown()
     click_region_dropdown_europe()
+    time.sleep(15)
+
     collect_screens(role="TANK", region="EUROPE")
 
     click_region_dropdown()
     click_region_dropdown_asia()
+    time.sleep(15)
     collect_screens(role="TANK", region="ASIA")
 
     click_role_dropdown()
     click_role_dropdown_damage()
     click_region_dropdown()
     click_region_dropdown_americas()
+    time.sleep(15)
     collect_screens(role="DAMAGE", region="AMERICAS")
 
 
     click_region_dropdown()
     click_region_dropdown_europe()
+    time.sleep(15)
     collect_screens(role="DAMAGE", region="EUROPE")
 
 
     click_region_dropdown()
     click_region_dropdown_asia()
+    time.sleep(15)
     collect_screens(role="DAMAGE", region="ASIA")
 
 
@@ -118,15 +126,18 @@ def main() -> int:
 
     click_region_dropdown()
     click_region_dropdown_americas()
+    time.sleep(15)
     collect_screens(role="SUPPORT", region="AMERICAS")
 
 
     click_region_dropdown()
     click_region_dropdown_europe()
+    time.sleep(15)
     collect_screens(role="SUPPORT", region="EUROPE")
 
     click_region_dropdown()
     click_region_dropdown_asia()
+    time.sleep(15)
     collect_screens(role="SUPPORT", region="ASIA")
 
     return 0
