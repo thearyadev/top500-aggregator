@@ -1,5 +1,5 @@
 # NOTE: As of March 12, 2024 this `README.md` is outdated. Many large changes have been made to the codebase (see latest PR's). The README will be updated in the coming days (months). 
-
+Changes: https://github.com/thearyadev/top500-aggregator/pull/169
 # Overwatch 2: Top 500 Aggregator
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator?ref=badge_shield)
 
