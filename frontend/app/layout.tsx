@@ -5,9 +5,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
 import { Footer, Header, ScrollToTop } from "@/app/components";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import Head from "next/head";
+import { IconChartBar } from "@tabler/icons-react";
+import { CSPostHogProvider } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,16 +27,16 @@ export default function RootLayout({
             <Head>
                 <ColorSchemeScript />
             </Head>
-            <body>
-                <Analytics />
-                <SpeedInsights />
-                <MantineProvider theme={theme}>
-                    <Header />
-                    {children}
-                    <Footer />
-                    <ScrollToTop />
-                </MantineProvider>
-            </body>
+            <CSPostHogProvider>
+                <body>
+                    <MantineProvider theme={theme}>
+                        <Header />
+                        {children}
+                        <Footer />
+                        <ScrollToTop />
+                    </MantineProvider>
+                </body>
+            </CSPostHogProvider>
         </html>
     );
 }
