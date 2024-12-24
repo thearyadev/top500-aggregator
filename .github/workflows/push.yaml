@@ -1,5 +1,4 @@
 name: docker build and push
-
 on:
   push:
     branches:
@@ -17,14 +16,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Extract and manipulate tag name
         id: extract_tag
         run: |
-          CLEAN_TAG_NAME=${date +%Y%m%d}
-          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+          CLEAN_TAG_NAME=$(date '+%Y%m%d')
           echo "CLEAN_TAG_NAME=${CLEAN_TAG_NAME}" >> $GITHUB_ENV
-
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
