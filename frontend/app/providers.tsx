@@ -4,7 +4,7 @@ import { PostHogProvider } from 'posthog-js/react'
 
 if (typeof window !== 'undefined') {
     posthog.init("phc_OfKo0jrYcH80kqAbXxq5fM0WbTIoOOFWdP8Mv4WKDyQ", {
-        api_host: "https://us.i.posthog.com",
+        api_host: "https://flotation.aryankothari.dev",
         person_profiles: 'always',
     })
 }
