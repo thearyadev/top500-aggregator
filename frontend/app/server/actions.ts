@@ -201,7 +201,7 @@ export async function get_std_deviation_trend_lines(): Promise<TrendLine[]> {
 
     for (const role of roles) {
         for (const season of season_list) {
-            const data = await get_occurrences(role, null, null, season);
+            const data = await get_occurrences(role, null, Slot.firstMostPlayed, season);
             lines[role] = lines[role] || [];
             lines[role].push(calculateStandardDeviation(Object.values(data)));
         }
