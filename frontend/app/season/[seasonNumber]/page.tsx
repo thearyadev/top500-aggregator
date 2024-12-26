@@ -52,7 +52,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                             await get_occurrences(
                                 Role.SUPPORT,
                                 null,
-                                null,
+                                Slot.firstMostPlayed,
                                 params.seasonNumber,
                             ),
                         ),
@@ -65,7 +65,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                             await get_occurrences(
                                 Role.DAMAGE,
                                 null,
-                                null,
+                                Slot.firstMostPlayed,
                                 params.seasonNumber,
                             ),
                         ),
@@ -78,7 +78,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                             await get_occurrences(
                                 Role.TANK,
                                 null,
-                                null,
+                                Slot.firstMostPlayed,
                                 params.seasonNumber,
                             ),
                         ),

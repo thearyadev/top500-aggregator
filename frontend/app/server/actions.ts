@@ -167,7 +167,7 @@ function map_intermediate_data_rep_to_trend_lines(
 export async function get_occurrence_trend_lines(): Promise<TrendLine[]> {
     const seasonsData = await Promise.all(
         (await get_season_list()).map(
-            async (season) => await get_occurrences(null, null, null, season),
+            async (season) => await get_occurrences(null, null, Slot.firstMostPlayed, season),
         ),
     );
     const lines: IntermediateDataRep = {};
