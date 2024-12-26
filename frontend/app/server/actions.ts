@@ -167,7 +167,7 @@ function map_intermediate_data_rep_to_trend_lines(
 export async function get_occurrence_trend_lines(): Promise<TrendLine[]> {
     const seasonsData = await Promise.all(
         (await get_season_list()).map(
-            async (season) => await get_occurrences(null, null, Slot.firstMostPlayed, season),
+            async (season) => await get_occurrences(null, null, null, season),
         ),
     );
     const lines: IntermediateDataRep = {};
@@ -201,7 +201,7 @@ export async function get_std_deviation_trend_lines(): Promise<TrendLine[]> {
 
     for (const role of roles) {
         for (const season of season_list) {
-            const data = await get_occurrences(role, null, null, season);
+            const data = await get_occurrences(role, null, Slot.firstMostPlayed, season);
             lines[role] = lines[role] || [];
             lines[role].push(calculateStandardDeviation(Object.values(data)));
         }

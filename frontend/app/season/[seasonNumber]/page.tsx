@@ -40,7 +40,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                 disclaimer={await get_disclaimer(params.seasonNumber)}
             />
             <Card
-                title="Role Standard Deviation: All Slots, All Regions"
+                title="Role Standard Deviation: First Most Played, All Regions"
                 subtitle={
                     "Note: The standard deviation is calculated with the 10th percentile excluded. T500 aggregator by nature skews the accuracy of the low outliers in a data set. For this reason, the bottom 10% of entries for any given set (support, damage or tank) is excluded from the calculation."
                 }

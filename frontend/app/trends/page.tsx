@@ -26,7 +26,7 @@ const TrendsPage = async () => {
                 <LineChart
                     data={seasonalStdDevTrend}
                     seasons={seasonList}
-                    title={"Standard Deviation: By Role All Regions"}
+                    title={"Standard Deviation: By Role All Regions, First Most Played"}
                     className=""
                 />
             </Card>
