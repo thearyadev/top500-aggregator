@@ -6,6 +6,7 @@ import {
     Region,
     Role,
     Slot,
+    calculateGiniCoefficient,
     calculateStandardDeviation,
     get_disclaimer,
     get_occurrences,
@@ -40,14 +41,12 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                 disclaimer={await get_disclaimer(params.seasonNumber)}
             />
             <Card
-                title="Role Standard Deviation: First Most Played, All Regions"
-                subtitle={
-                    "Note: The standard deviation is calculated with the 10th percentile excluded. T500 aggregator by nature skews the accuracy of the low outliers in a data set. For this reason, the bottom 10% of entries for any given set (support, damage or tank) is excluded from the calculation."
-                }
+                title="Role Gini Coeffficient: First Most Played, All Regions"
+                subtitle="The Gini Coefficient is a measure of inequality. A higher value indicates greater inequality. A value approaching 0 indicated perfect quality. For example, [1, 1, 1, 1] = 0. This calculation is made with the 10th percentile excluded. The nature of top 500 means that the lesser picked heroes are disproportionately picked, and therefore heavily skew the data."
             >
                 <HeroStdDev
                     role="SUPPORT"
-                    value={calculateStandardDeviation(
+                    value={calculateGiniCoefficient(
                         Object.values(
                             await get_occurrences(
                                 Role.SUPPORT,
@@ -60,7 +59,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                 />
                 <HeroStdDev
                     role="DAMAGE"
-                    value={calculateStandardDeviation(
+                    value={calculateGiniCoefficient(
                         Object.values(
                             await get_occurrences(
                                 Role.DAMAGE,
@@ -73,7 +72,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                 />
                 <HeroStdDev
                     role="TANK"
-                    value={calculateStandardDeviation(
+                    value={calculateGiniCoefficient(
                         Object.values(
                             await get_occurrences(
                                 Role.TANK,

@@ -9,6 +9,7 @@ import { TrendLine } from "@/app/server/actions";
 
 interface LineChartProps extends HighchartsReact.Props {
     title: string;
+    subtitle?: string;
     data: TrendLine[];
     seasons: number[];
     className: string;
@@ -75,6 +76,9 @@ const LineChart = (props: LineChartProps) => {
     return (
         <div className={props.className}>
             <h5 className="text-center pb-2">{title}</h5>
+            {props.subtitle && (
+                <p className="text-center pb-2">{props.subtitle}</p>
+            )}
             <div className={loading ? "hidden" : ""}>
                 <HighchartsReact
                     id="gnomegnome"
