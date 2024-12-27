@@ -6,7 +6,7 @@ https://t500-aggregator.aryankothari.dev/
 T500 Aggregator is a suite of tools and a web service to collect and display data on the Overwatch 2 Top 500 leaderboards. 
 
 ## Data Collection
-Data is collected from the Overwatch 2 leaderboards directly. This data is then processed by a hashing algorithm called ("dhash")[https://en.wikipedia.org/wiki/Locality-sensitive_hashing]. Each hero present in a single leaderboard image is hashed and compared using a hamming distance comparison algorithm to determine its similarity to a known asset of a hero. 
+Data is collected from the Overwatch 2 leaderboards directly. This data is then processed by a hashing algorithm called ["dhash"](https://en.wikipedia.org/wiki/Locality-sensitive_hashing). Each hero present in a single leaderboard image is hashed and compared using a hamming distance comparison algorithm to determine its similarity to a known asset of a hero. 
 
 The data is stored in the `./data` directory within the reposiroty.
 
@@ -35,7 +35,7 @@ Both the raw and weighted values are available in the frontend.
 
 ### Gini Coefficient -> Eqality Analysis
 
-(The Gini Coefficient)[https://en.wikipedia.org/wiki/Gini_coefficient] is a measure of inequality.
+[The Gini Coefficient](https://en.wikipedia.org/wiki/Gini_coefficient) is a measure of inequality.
 
 In short, this value allows you to determine how evenly a distribution of values is spread. In this case, it represents how equally the heroes are played. 
 
