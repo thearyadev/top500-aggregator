@@ -24,6 +24,7 @@ const TrendsPage = async () => {
                     className=""
                 />
                 <LineChart
+                    subtitle="The Gini Coefficient is a measure of inequality. A higher value indicates greater inequality. A value approaching 0 indicated perfect quality. For example, [1, 1, 1, 1] = 0. This calculation is made with the 10th percentile excluded. The nature of top 500 means that the lesser picked heroes are disproportionately picked, and therefore heavily skew the data."
                     data={seasonalStdDevTrend}
                     seasons={seasonList}
                     title={"Standard Deviation: By Role All Regions, First Most Played"}

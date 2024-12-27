@@ -48,6 +48,7 @@ interface GenericKeyValue {
     [key: string]: number;
 }
 
+
 export function calculateStandardDeviation(numbers: number[]): number {
     const sortedNumbers = numbers.slice().sort((a, b) => a - b);
     const percentileIndex = Math.floor(sortedNumbers.length * 0.1);
@@ -65,9 +66,35 @@ export function calculateStandardDeviation(numbers: number[]): number {
     return standardDeviation;
 }
 
+export function calculateGiniCoefficient(numbers: number[]): number {
+    const x_us = numbers.sort((a, b) => a - b);
+    const n = x_us.length;
+
+    const percentileIndex = Math.floor(n * 0.1);
+    const x = x_us.slice(percentileIndex);
+
+    if (n === 0) return 0;
+
+    let csum: number[] = [];
+    for (let i = 0; i < n; i++) {
+        csum.push(x.slice(0, i + 1).reduce((a, b) => a + b));
+    }
+    const total = csum[n - 1];
+
+    const mean = total / n;
+    let gini = (n + 1) / n;
+    const a = 2 / (n * n * mean);
+    const b = x.map((_, i) => (
+        (n - i) * x[i]
+    )).reduce((a, b) => a + b);
+
+    gini -= a * b;
+    return gini;
+}
+
 function data_loader_memo(): (seasonNumber: number) => RawSeasonDataFile {
     const cache: Cache = {};
-    return function (seasonNumber: number) {
+    return function(seasonNumber: number) {
         if (seasonNumber in cache) {
             return cache[seasonNumber];
         }
@@ -203,7 +230,7 @@ export async function get_std_deviation_trend_lines(): Promise<TrendLine[]> {
         for (const season of season_list) {
             const data = await get_occurrences(role, null, Slot.firstMostPlayed, season);
             lines[role] = lines[role] || [];
-            lines[role].push(calculateStandardDeviation(Object.values(data)));
+            lines[role].push(calculateGiniCoefficient(Object.values(data)));
         }
     }
     return map_intermediate_data_rep_to_trend_lines(lines);
