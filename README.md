@@ -1,5 +1,3 @@
-# NOTE: As of March 12, 2024 this `README.md` is outdated. Many large changes have been made to the codebase (see latest PR's). The README will be updated in the coming days (months). 
-Changes: https://github.com/thearyadev/top500-aggregator/pull/169
 # Overwatch 2: Top 500 Aggregator
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fthearyadev%2Ftop500-aggregator?ref=badge_shield)
 
@@ -7,60 +5,52 @@ https://t500-aggregator.aryankothari.dev/
 
 T500 Aggregator is a suite of tools and a web service to collect and display data on the Overwatch 2 Top 500 leaderboards. 
 
+## Data Collection
+Data is collected from the Overwatch 2 leaderboards directly. This data is then processed by a hashing algorithm called ("dhash")[https://en.wikipedia.org/wiki/Locality-sensitive_hashing]. Each hero present in a single leaderboard image is hashed and compared using a hamming distance comparison algorithm to determine its similarity to a known asset of a hero. 
 
-## Information
-The data for this is expected to be updated at the end of each season.
-This data is collected by taking screenshots and running analysis on them. Detailed below. 
+The data is stored in the `./data` directory within the reposiroty.
 
-This data only consists of the data readily available in the top 500 leaderboards,
-and does not include any information that would involve a single users profile. 
+## Data Integrity
 
-## How Does This Work ?
+The final processed dataset has a 100% accuracy to what is observed. This analysis is done by running the comparison algorithm on benchmarks, which can be found in the `./assets/benchmark/` directory. 
 
-### Data Collection: 
-Multiple scripts are used to collect and pre-process the data. This data is information collected from the Top 500 leaderboards in-game. Most of this data collection occurs in `./collector.py`
+These benchmarks are updated regularly to identify changes in the leaderboard images, as well as to performance test the impact of adding a new hero. 
 
-### Identifying Heroes
-A neural network is used to conduct image classification on the leaderboard images. In the early stages of this project, ([a contribution by Autopoietico](https://github.com/thearyadev/top500-aggregator/pull/1)) included this neural network. As of season 9 in Overwatch 2, aafter the changes in the appearance of the top 500 leaderboards, I've recreated the neural network using PyTorch. More details can be found [Here](https://github.com/thearyadev/top500-aggregator/pull/147).
+It is possible that the data is not 100% accurate, as I'm unable to fully verify each hero scanned to its actual counterpart. 
+
+## Data Value
+
+The leaderboards provide a snapshot of the heroes that are being played in the game. More specifically, it shows you the top 3 heroes for any given player. This prevents you from truely understanding the pickrates of a hero. 
+
+However, the actual data can be approximated. 
+
+### Approximating Pickrates -> Weighted Values
+For example, given a player with 3 top hero playtime, you can approximate the second and third most played heroes as a percentage of the most played hero. These values can be found in `./frontend/app/server/actions.ts`. The weights are determined by scraping the public top 500 profiles and determining an estimation of the actual ratios. A sample size of 280, spanning all regions and seasons up to season 14 is used for this calculation. 
+
+In a normal scenario, the top 3 would each recieve a full point. So in a chart, a player with Juno as their most played, would account for 1 entry, and another player with Kiriko as their second most played, would also acccount for 1 entry. 
+
+Weihgting the values will transform that into Juno=1 and Kiriko=0.5 (sample value, see `actions.ts` for real weight)
+
+Both the raw and weighted values are available in the frontend.
+
+### Gini Coefficient -> Eqality Analysis
+
+(The Gini Coefficient)[https://en.wikipedia.org/wiki/Gini_coefficient] is a measure of inequality.
+
+In short, this value allows you to determine how evenly a distribution of values is spread. In this case, it represents how equally the heroes are played. 
+
+A value of 0 means that the distribution is perfectly even, for example, each hero is picked the same number of times, while a value of 1 indicated there is a very large spread.
+
+In top 500, the occurrence of lower picked heroes is disproportionately low as they simply do not appear in the top 3 very often. For this reason, when calculating the Gini Coefficient, the 10th percentile is excluded from the calculation.
 
 
-### Development 
+## Issues
 
-Note: Some of the mentioned scripts have been moved to `./utils/`
-Install all dependencies using poetry. There are some dev dependencies for code formatting. 
+The top 500 leaderboards presents some challenges in terms of data collection and validity.
 
-`./assets` contains hero images, neural network dataset, and some t500 images used during testing. Do not modify these files. Create the directory `./assets/leaderboard_images` as a supply for `generator.py`
+- The top 500 leaderboards get pruned of banned players once the season ends. This means the data must be collected hours before the season ends to get a full 4500 sample.
+- Due to a bug with connected accounts, some players appear twice in the leaderboards. This is not accounted for in this project as it impacts approximately 1% of cases, and would skew the data either way.
 
-`./data` contains the sqlite3 database.
-
-`./leaderboards` contains all the tools required for loading, parsing, and converting leaderboard images into lists of LeaderboardEntry objects. 
-
-`./classifier` contains the neural network related
-
-`./benchmarks.py` is used for performance testing the selected hero identification method. This uses pre-defined files with an answer key to validate performance. 
-
-`deblank2ify.py` is used to filter the database. This converts all 'Blank2' entries to 'Blank'
-
-`server.py` is a FastAPI server which loads the data from the database, conducts calculations and filtering on the data, and stores it in memory. It then serves the webpage(s) displaying this data.
-
-`train.py` is used to train the model. See inline documentation for more details. 
-
-#### Neural Network
-The neural network uses a dataset which lives in `./assets/heroes`. This dataset includes a single image for each hero, at specific markers, which is two white pixels at each corner of the image. When beginning training, this dataset is preprocessed by PyTorch into grayscale, then duplicated 250 times per class. Note: This duplication is done in memory, and will start many disk write operations. 
-
-The generated dataset is created in `./assets/dataset/`. This directory should not be added to the repository. 
-
-The resulting models will be placed in the `./models` directory automatically, the generated models are tracked by git. 
-
-Each model contains a few files: 
-- `classes`: a linebreak delimited ordered list of classnames derived from the initial dataset. It is indexed at prediction time.
-- `detail`: information about the trained model.
-- `frozen_model.py`: a copy of `./classifier/model.py` ('versioned' models).
-- `model.pth`: the state dict as generated by PyTorch.
-- `__init__.py`: allows the model directory to be imported as a package. Can't be imported directly, use `importlib`. 
-
-##### Using the models 
-The model needs to be imported using `importlib`. The module imported will have two members, `FrozenNNModel` and `transformer`. The transformer is the transformer used during training. Use the transformer to prepare the input image, then run the model. See `./heroes/hero_comparison.py` for an example of how to use the model. 
 
 ## License
 [WTFPL](/LICENSE)
