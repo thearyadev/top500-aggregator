@@ -93,6 +93,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                             Region.AMERICAS,
                             null,
                             params.seasonNumber,
+                            true
                         ),
                     )}
                     maxY={500}
