@@ -56,6 +56,9 @@ const LineChart = (props: LineChartProps) => {
                     setLoading(false);
                 },
             },
+            zooming: {
+                type: "x"
+            }
         },
     });
 
