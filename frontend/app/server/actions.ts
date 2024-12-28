@@ -48,6 +48,7 @@ interface GenericKeyValue {
     [key: string]: number;
 }
 
+type WeightedPair = [string, number];
 
 export function calculateStandardDeviation(numbers: number[]): number {
     const sortedNumbers = numbers.slice().sort((a, b) => a - b);
@@ -137,15 +138,21 @@ export function map_generic_kv_to_bar_chart_data(
 export async function get_disclaimer(seasonNumber: number): Promise<string> {
     return load(seasonNumber).metadata.disclaimer;
 }
+enum Weights {
+    firstMostPlayed = 1,
+    secondMostPlayed = 0.6268,
+    thirdMostPlayed = 0.4555,
+}
 
 export async function get_occurrences(
     role: Role | null,
     region: Region | null,
     slot: Slot | null,
     seasonNumber: number,
+    weighted: boolean = false,
 ): Promise<GenericKeyValue> {
     let data = load(seasonNumber).entries;
-    let slotted_unpacked: string[];
+    let slotted_unpacked: WeightedPair[];
     if (role) {
         data = data.filter((e) => e.role === role.toString());
     }
@@ -155,24 +162,24 @@ export async function get_occurrences(
     }
 
     if (slot) {
-        slotted_unpacked = data.map((e) => e[slot]);
+        slotted_unpacked = data.map((e) => [e[slot], Weights.firstMostPlayed]);
     } else {
         slotted_unpacked = data.flatMap(
             ({ firstMostPlayed, secondMostPlayed, thirdMostPlayed }) => [
-                firstMostPlayed,
-                secondMostPlayed,
-                thirdMostPlayed,
+                [firstMostPlayed, (weighted ? Weights.firstMostPlayed: 1)],
+                [secondMostPlayed, (weighted ? Weights.secondMostPlayed: 1)],
+                [thirdMostPlayed, (weighted ? Weights.thirdMostPlayed: 1)]
             ],
         );
     }
 
     return slotted_unpacked
-        .filter((hero) => hero !== "Blank")
-        .reduce((accumulator, hero) => {
-            if (hero in accumulator) {
-                accumulator[hero]++;
+        .filter((pair) => pair[0] !== "Blank")
+        .reduce((accumulator, pair) => {
+            if (pair[0] in accumulator) {
+                accumulator[pair[0]] += pair[1];
             } else {
-                accumulator[hero] = 1;
+                accumulator[pair[0]] = pair[1];
             }
             return accumulator;
         }, {} as GenericKeyValue);
@@ -191,10 +198,10 @@ function map_intermediate_data_rep_to_trend_lines(
     }));
 }
 
-export async function get_occurrence_trend_lines(): Promise<TrendLine[]> {
+export async function get_occurrence_trend_lines(weighted: boolean = false): Promise<TrendLine[]> {
     const seasonsData = await Promise.all(
         (await get_season_list()).map(
-            async (season) => await get_occurrences(null, null, null, season),
+            async (season) => await get_occurrences(null, null, null, season, weighted),
         ),
     );
     const lines: IntermediateDataRep = {};

@@ -10,6 +10,7 @@ import {
 
 const TrendsPage = async () => {
     const seasonalOccurrencesTrend = await get_occurrence_trend_lines();
+    const seasonalOccurrencesTrendWeighted = await get_occurrence_trend_lines(true);
     const seasonalStdDevTrend = await get_std_deviation_trend_lines();
     const seasonList = await get_season_list();
 
@@ -18,9 +19,15 @@ const TrendsPage = async () => {
             <TopMatter seasonNumber="trends" />
             <Card title={"Seasonal Trends"} nowrap>
                 <LineChart
+                    data={seasonalOccurrencesTrendWeighted}
+                    seasons={seasonList}
+                    title={"Occurrences: All Roles All Regions (Weighted)"}
+                    className=""
+                />
+                <LineChart
                     data={seasonalOccurrencesTrend}
                     seasons={seasonList}
-                    title={"Occurrences: All Roles All Regions"}
+                    title={"Occurrences: All Roles All Regions (Raw)"}
                     className=""
                 />
                 <LineChart
