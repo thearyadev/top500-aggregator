@@ -25,9 +25,8 @@ jobs:
       - name: Extract and manipulate tag name
         id: extract_tag
         run: |
-          DATE=$(date '+%Y%m%d')
           SHORT_SHA=$(git rev-parse --short HEAD)
-          CLEAN_TAG_NAME="${DATE}-${SHORT_SHA}"
+          CLEAN_TAG_NAME="${SHORT_SHA}"
           echo "CLEAN_TAG_NAME=${CLEAN_TAG_NAME}" >> $GITHUB_ENV
           
       - name: Build and push
