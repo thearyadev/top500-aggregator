@@ -140,8 +140,8 @@ export async function get_disclaimer(seasonNumber: number): Promise<string> {
 }
 enum Weights {
     firstMostPlayed = 1,
-    secondMostPlayed = 0.5,
-    thirdMostPlayed = 0.25,
+    secondMostPlayed = 0.6268,
+    thirdMostPlayed = 0.4555,
 }
 
 export async function get_occurrences(

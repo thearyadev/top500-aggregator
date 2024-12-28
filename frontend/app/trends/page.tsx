@@ -19,15 +19,15 @@ const TrendsPage = async () => {
             <TopMatter seasonNumber="trends" />
             <Card title={"Seasonal Trends"} nowrap>
                 <LineChart
-                    data={seasonalOccurrencesTrend}
-                    seasons={seasonList}
-                    title={"Occurrences: All Roles All Regions (Raw)"}
-                    className=""
-                />
-                <LineChart
                     data={seasonalOccurrencesTrendWeighted}
                     seasons={seasonList}
                     title={"Occurrences: All Roles All Regions (Weighted)"}
+                    className=""
+                />
+                <LineChart
+                    data={seasonalOccurrencesTrend}
+                    seasons={seasonList}
+                    title={"Occurrences: All Roles All Regions (Raw)"}
                     className=""
                 />
                 <LineChart

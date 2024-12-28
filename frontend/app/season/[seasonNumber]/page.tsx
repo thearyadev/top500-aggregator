@@ -6,13 +6,12 @@ import {
     Region,
     Role,
     Slot,
-    calculateGiniCoefficient,
-    calculateStandardDeviation,
     get_disclaimer,
     get_occurrences,
     get_season_list,
     map_generic_kv_to_bar_chart_data,
 } from "@/app/server/actions";
+import { Tabs, TabsList, TabsTab, TabsPanel } from "@mantine/core";
 
 export async function generateStaticParams() {
     return (await get_season_list()).map((season) => ({
@@ -40,100 +39,131 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                 seasonNumber={params.seasonNumber.toString()}
                 disclaimer={await get_disclaimer(params.seasonNumber)}
             />
-            <Card
-                title="Role Gini Coeffficient: First Most Played, All Regions"
-                subtitle="The Gini Coefficient is a measure of inequality. A higher value indicates greater inequality. A value approaching 0 indicated perfect quality. For example, [1, 1, 1, 1] = 0. This calculation is made with the 10th percentile excluded. The nature of top 500 means that the lesser picked heroes are disproportionately picked, and therefore heavily skew the data."
-            >
-                <HeroStdDev
-                    role="SUPPORT"
-                    value={calculateGiniCoefficient(
-                        Object.values(
-                            await get_occurrences(
-                                Role.SUPPORT,
-                                null,
-                                Slot.firstMostPlayed,
-                                params.seasonNumber,
-                            ),
-                        ),
-                    )}
-                />
-                <HeroStdDev
-                    role="DAMAGE"
-                    value={calculateGiniCoefficient(
-                        Object.values(
-                            await get_occurrences(
-                                Role.DAMAGE,
-                                null,
-                                Slot.firstMostPlayed,
-                                params.seasonNumber,
-                            ),
-                        ),
-                    )}
-                />
-                <HeroStdDev
-                    role="TANK"
-                    value={calculateGiniCoefficient(
-                        Object.values(
-                            await get_occurrences(
-                                Role.TANK,
-                                null,
-                                Slot.firstMostPlayed,
-                                params.seasonNumber,
-                            ),
-                        ),
-                    )}
-                />
-            </Card>
             <Card title="Hero Occurrences: All Slots" nowrap>
-                <BarChart
-                    title="Americas"
-                    graph={map_generic_kv_to_bar_chart_data(
-                        await get_occurrences(
-                            null,
-                            Region.AMERICAS,
-                            null,
-                            params.seasonNumber,
-                            true
-                        ),
-                    )}
-                    maxY={500}
-                />
-                <BarChart
-                    title="Europe"
-                    graph={map_generic_kv_to_bar_chart_data(
-                        await get_occurrences(
-                            null,
-                            Region.EUROPE,
-                            null,
-                            params.seasonNumber,
-                        ),
-                    )}
-                    maxY={500}
-                />
-                <BarChart
-                    title="Asia"
-                    graph={map_generic_kv_to_bar_chart_data(
-                        await get_occurrences(
-                            null,
-                            Region.ASIA,
-                            null,
-                            params.seasonNumber,
-                        ),
-                    )}
-                    maxY={500}
-                />
-                <BarChart
-                    title="All Regions"
-                    graph={map_generic_kv_to_bar_chart_data(
-                        await get_occurrences(
-                            null,
-                            null,
-                            null,
-                            params.seasonNumber,
-                        ),
-                    )}
-                    maxY={1200}
-                />
+                <p className="">The data is calculated by applying weights to the second most played and third most played slots. This provides a more accurate analysis of popular picks by estimating the playtime ratio to the first most played. These weights can be found <a className="text-blue-500 underline" href="https://github.com/thearyadev/top500-aggregator/blob/main/frontend/app/server/actions.ts">here</a></p>
+                <Tabs defaultValue="Weighted">
+                    <TabsList>
+                        <TabsTab value="Weighted">
+                            Weighted
+
+                        </TabsTab>
+                        <TabsTab value="Raw" >
+                            Raw
+                        </TabsTab>
+                    </TabsList>
+                    <TabsPanel value="Weighted">
+                        <div className="pt-10" />
+                        <BarChart
+                            title="Americas"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    Region.AMERICAS,
+                                    null,
+                                    params.seasonNumber,
+                                    true
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                        <BarChart
+                            title="Europe"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    Region.EUROPE,
+                                    null,
+                                    params.seasonNumber,
+                                    true
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                        <BarChart
+                            title="Asia"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    Region.ASIA,
+                                    null,
+                                    params.seasonNumber,
+                                    true
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                        <BarChart
+                            title="All Regions"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    null,
+                                    null,
+                                    params.seasonNumber,
+                                    true
+                                ),
+                            )}
+                            maxY={1200}
+                        />
+                    </TabsPanel>
+
+                    <TabsPanel value="Raw">
+                        <div className="pt-10" />
+                        <BarChart
+                            title="Americas"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    Region.AMERICAS,
+                                    null,
+                                    params.seasonNumber,
+                                    false
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                        <BarChart
+                            title="Europe"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    Region.EUROPE,
+                                    null,
+                                    params.seasonNumber,
+                                    false
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                        <BarChart
+                            title="Asia"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    Region.ASIA,
+                                    null,
+                                    params.seasonNumber,
+                                    false
+                                ),
+                            )}
+                            maxY={500}
+                        />
+                        <BarChart
+                            title="All Regions"
+                            graph={map_generic_kv_to_bar_chart_data(
+                                await get_occurrences(
+                                    null,
+                                    null,
+                                    null,
+                                    params.seasonNumber,
+                                    false
+                                ),
+                            )}
+                            maxY={1200}
+                        />
+                    </TabsPanel>
+                </Tabs>
+
             </Card>
             <Card title="Hero Occurrences: First Most Played">
                 {roles.map((role) => {
