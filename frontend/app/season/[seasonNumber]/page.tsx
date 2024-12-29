@@ -10,6 +10,7 @@ import {
     get_occurrences,
     get_season_list,
     map_generic_kv_to_bar_chart_data,
+    calculateGiniCoefficient
 } from "@/app/server/actions";
 import { Tabs, TabsList, TabsTab, TabsPanel } from "@mantine/core";
 
@@ -64,6 +65,14 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     true
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                Region.AMERICAS,
+                                null,
+                                params.seasonNumber,
+                                true
+                            ),
+                            ))}
                             maxY={500}
                         />
                         <BarChart
@@ -77,6 +86,13 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     true
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                Region.EUROPE,
+                                null,
+                                params.seasonNumber,
+                                true
+                            ),))}
                             maxY={500}
                         />
                         <BarChart
@@ -90,6 +106,13 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     true
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                Region.ASIA,
+                                null,
+                                params.seasonNumber,
+                                true
+                            )))}
                             maxY={500}
                         />
                         <BarChart
@@ -103,6 +126,13 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     true
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                null,
+                                null,
+                                params.seasonNumber,
+                                true
+                            )))}
                             maxY={1200}
                         />
                     </TabsPanel>
@@ -120,6 +150,13 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     false
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                Region.AMERICAS,
+                                null,
+                                params.seasonNumber,
+                                false
+                            )))}
                             maxY={500}
                         />
                         <BarChart
@@ -133,6 +170,13 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     false
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                Region.EUROPE,
+                                null,
+                                params.seasonNumber,
+                                false
+                            )))}
                             maxY={500}
                         />
                         <BarChart
@@ -146,6 +190,13 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     false
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                Region.ASIA,
+                                null,
+                                params.seasonNumber,
+                                false
+                            )))}
                             maxY={500}
                         />
                         <BarChart
@@ -159,6 +210,13 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     false
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                null,
+                                null,
+                                null,
+                                params.seasonNumber,
+                                false
+                            )))}
                             maxY={1200}
                         />
                     </TabsPanel>
@@ -179,6 +237,12 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                         params.seasonNumber,
                                     ),
                                 )}
+                                giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                    role,
+                                    region,
+                                    Slot.firstMostPlayed,
+                                    params.seasonNumber,
+                                )))}
                                 maxY={300}
                             />
                         );
@@ -196,6 +260,12 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     params.seasonNumber,
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                role,
+                                null,
+                                Slot.firstMostPlayed,
+                                params.seasonNumber,
+                            )))}
                             maxY={500}
                         />
                     );
@@ -215,6 +285,12 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                         params.seasonNumber,
                                     ),
                                 )}
+                                giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                    role,
+                                    region,
+                                    Slot.secondMostPlayed,
+                                    params.seasonNumber,
+                                )))}
                                 maxY={300}
                             />
                         );
@@ -232,6 +308,12 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     params.seasonNumber,
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                role,
+                                null,
+                                Slot.secondMostPlayed,
+                                params.seasonNumber,
+                            )))}
                             maxY={500}
                         />
                     );
@@ -251,6 +333,12 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                         params.seasonNumber,
                                     ),
                                 )}
+                                giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                    role,
+                                    region,
+                                    Slot.thirdMostPlayed,
+                                    params.seasonNumber,
+                                ),))}
                                 maxY={300}
                             />
                         );
@@ -268,6 +356,12 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     params.seasonNumber,
                                 ),
                             )}
+                            giniCoefficient={calculateGiniCoefficient(Object.values(await get_occurrences(
+                                role,
+                                null,
+                                Slot.thirdMostPlayed,
+                                params.seasonNumber,
+                            )))}
                             maxY={500}
                         />
                     );
