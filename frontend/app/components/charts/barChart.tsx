@@ -9,7 +9,10 @@ import classNames from "classnames";
 import { BarChartData } from "@/app/server/actions";
 import pareto from 'highcharts/modules/pareto';
 import { IconPercentage30 } from "@tabler/icons-react";
-pareto(Highcharts)
+
+if (typeof Highcharts === 'object') {
+    pareto(Highcharts)
+}
 
 interface BarChartProps extends HighchartsReact.Props {
     title: string;
