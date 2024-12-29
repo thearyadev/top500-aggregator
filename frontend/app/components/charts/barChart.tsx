@@ -62,14 +62,20 @@ const BarChart = (props: BarChartProps) => {
         series: [
             {
                 type: 'pareto',
-                baseSeries: 1 // index of column series
+                baseSeries: 1,
+                zIndex: 11
             },
             {
                 type: "column",
                 name: "Occurrences",
                 data: graph.values.map((item, index) => {
-                    return { y: item, color: HeroColors[graph.labels[index]] }; // do lookup
+                    return { y: Math.round(item), color: HeroColors[graph.labels[index]] }; // do lookup
                 }),
+                dataLabels: {
+                    enabled: true,
+                    align: 'center',
+                    zIndex: 0
+                }
             },
         ],
         credits: {
@@ -90,7 +96,6 @@ const BarChart = (props: BarChartProps) => {
                     label: {
                         text: "Mean",
                         textAlign: "center"
-                        
                     }
                 }
             ]
