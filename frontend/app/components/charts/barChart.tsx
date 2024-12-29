@@ -21,6 +21,21 @@ interface BarChartProps extends HighchartsReact.Props {
     giniCoefficient: number;
     className?: string | string[];
 }
+function findParetoIndex(numbers: number[], percentage: number = 0.8): number {
+    const totalSum = numbers.reduce((sum, num) => sum + num, 0);
+    const targetSum = totalSum * percentage;
+    const numbersWithIndices: [number, number][] = numbers.map((value, index) => [index, value]);
+    numbersWithIndices.sort((a, b) => b[1] - a[1]);
+    let cumulativeSum = 0;
+    for (const [originalIndex, value] of numbersWithIndices) {
+        cumulativeSum += value;
+        if (cumulativeSum >= targetSum) {
+            return originalIndex;
+        }
+    }
+
+    return numbers.length - 1;
+}
 const BarChart = (props: BarChartProps) => {
     const { title, graph, maxY } = props;
     const options: Highcharts.Options = {
@@ -34,6 +49,15 @@ const BarChart = (props: BarChartProps) => {
         },
         xAxis: {
             categories: graph.labels,
+            plotLines: [{
+                color: "red",
+                width: 2,
+                value: findParetoIndex(graph.values) + 0.5,
+                zIndex: 10,
+                label: {
+                    text: "Pareto Index - 80%",
+                }
+            }]
         },
         series: [
             {
@@ -57,6 +81,19 @@ const BarChart = (props: BarChartProps) => {
             title: {
                 text: null,
             },
+            plotLines: [
+                {
+                    color: "red",
+                    width: 2,
+                    zIndex: 10,
+                    value: graph.values.reduce((sum, num) => sum + num, 0) / graph.values.length,
+                    label: {
+                        text: "Mean",
+                        textAlign: "center"
+                        
+                    }
+                }
+            ]
         },
         chart: {
             events: {
