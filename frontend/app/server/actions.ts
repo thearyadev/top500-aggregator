@@ -68,11 +68,15 @@ export function calculateStandardDeviation(numbers: number[]): number {
 }
 
 export function calculateGiniCoefficient(numbers: number[]): number {
-    const x_us = numbers.sort((a, b) => a - b);
-    const n = x_us.length;
+    // removing percentile slice for now.
+    // const x_us = numbers.sort((a, b) => a - b);
+    // const n = x_us.length;
 
-    const percentileIndex = Math.floor(n * 0.1);
-    const x = x_us.slice(percentileIndex);
+    // const percentileIndex = Math.floor(n * 0.1);
+    // const x = x_us.slice(percentileIndex);
+
+    const x = numbers.sort((a, b) => a - b);
+    const n = x.length;
 
     if (n === 0) return 0;
 
