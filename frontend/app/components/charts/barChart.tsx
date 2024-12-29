@@ -125,8 +125,8 @@ const BarChart = (props: BarChartProps) => {
                 <div
                     className={`
         text-center text-sm pb-2 font-mono
-        ${props.giniCoefficient < 0.15 ? 'text-green-500' :
-                            props.giniCoefficient < 0.30 ? 'text-gray-500' :
+        ${props.giniCoefficient < 0.30 ? 'text-green-500' :
+                            props.giniCoefficient < 0.45 ? 'text-gray-500' :
                                 'text-red-500'}
     `}
                 >
