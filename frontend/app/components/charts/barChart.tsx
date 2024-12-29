@@ -7,11 +7,18 @@ import styles from "./barChart.module.scss";
 import { HeroColors } from "@/app/components/charts/heroColors";
 import classNames from "classnames";
 import { BarChartData } from "@/app/server/actions";
+import pareto from 'highcharts/modules/pareto';
+import { IconPercentage30 } from "@tabler/icons-react";
+
+if (typeof Highcharts === 'object') {
+    pareto(Highcharts)
+}
 
 interface BarChartProps extends HighchartsReact.Props {
     title: string;
     graph: BarChartData;
     maxY: number;
+    giniCoefficient: number;
     className?: string | string[];
 }
 const BarChart = (props: BarChartProps) => {
@@ -29,6 +36,10 @@ const BarChart = (props: BarChartProps) => {
             categories: graph.labels,
         },
         series: [
+            {
+                type: 'pareto',
+                baseSeries: 1 // index of column series
+            },
             {
                 type: "column",
                 name: "Occurrences",
@@ -74,6 +85,16 @@ const BarChart = (props: BarChartProps) => {
                     ref={chartComponentRef}
                     {...props}
                 />
+                <div
+                    className={`
+        text-center text-sm pb-2 font-mono
+        ${props.giniCoefficient < 0.15 ? 'text-green-500' :
+                            props.giniCoefficient < 0.30 ? 'text-gray-500' :
+                                'text-red-500'}
+    `}
+                >
+                    Gini Coefficient: {props.giniCoefficient.toFixed(2)}
+                </div>
             </div>
 
             <div
