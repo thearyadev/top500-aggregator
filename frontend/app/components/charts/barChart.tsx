@@ -9,6 +9,7 @@ import classNames from "classnames";
 import { BarChartData } from "@/app/server/actions";
 import pareto from 'highcharts/modules/pareto';
 import { IconPercentage30 } from "@tabler/icons-react";
+import { Loader } from "@mantine/core";
 
 if (typeof Highcharts === 'object') {
     pareto(Highcharts)
@@ -143,7 +144,7 @@ const BarChart = (props: BarChartProps) => {
                 role="status"
                 className={`max-w flex text-center justify-center items-center h-[18rem]  animate-pulse ${loading ? "" : "hidden"}`}
             >
-                <p>Loading...</p>
+                <Loader color="blue" className="text-blue-500"/>
             </div>
         </div>
     );
