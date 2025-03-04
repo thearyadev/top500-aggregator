@@ -41,7 +41,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                 disclaimer={await get_disclaimer(params.seasonNumber)}
             />
             <Card title="Hero Occurrences: All Slots" nowrap>
-                <p className="">The data is calculated by applying weights to the second most played and third most played slots. This provides a more accurate analysis of popular picks by estimating the playtime ratio to the first most played. These weights can be found <a className="text-blue-500 underline" href="https://github.com/thearyadev/top500-aggregator/blob/main/frontend/app/server/actions.ts">here</a></p>
+                <p className="">The data is calculated by applying weights to the second most played and third most played slots. This provides a more accurate analysis of popular picks by estimating the playtime ratio to the first most played. These weights can be found <a className="text-blue-500 underline" href="https://github.com/thearyadev/top500-aggregator/blob/a20fb6b1b8e5beac6e5c35f88cc5de863121ce93/frontend/app/server/actions.ts#L145">here</a></p>
                 <Tabs defaultValue="Weighted">
                     <TabsList>
                         <TabsTab value="Weighted">
