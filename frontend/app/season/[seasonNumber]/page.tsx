@@ -73,7 +73,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 true
                             ),
                             ))}
-                            maxY={500}
+                            maxY={600}
                         />
                         <BarChart
                             title="Europe"
@@ -93,7 +93,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 true
                             ),))}
-                            maxY={500}
+                            maxY={600}
                         />
                         <BarChart
                             title="Asia"
@@ -113,7 +113,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 true
                             )))}
-                            maxY={500}
+                            maxY={600}
                         />
                         <BarChart
                             title="All Regions"
@@ -157,7 +157,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 false
                             )))}
-                            maxY={500}
+                            maxY={600}
                         />
                         <BarChart
                             title="Europe"
@@ -177,7 +177,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 false
                             )))}
-                            maxY={500}
+                            maxY={600}
                         />
                         <BarChart
                             title="Asia"
@@ -197,7 +197,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 false
                             )))}
-                            maxY={500}
+                            maxY={600}
                         />
                         <BarChart
                             title="All Regions"
@@ -243,7 +243,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     Slot.firstMostPlayed,
                                     params.seasonNumber,
                                 )))}
-                                maxY={300}
+                                maxY={400}
                             />
                         );
                     });
@@ -266,7 +266,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 Slot.firstMostPlayed,
                                 params.seasonNumber,
                             )))}
-                            maxY={500}
+                            maxY={600}
                         />
                     );
                 })}
@@ -291,7 +291,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     Slot.secondMostPlayed,
                                     params.seasonNumber,
                                 )))}
-                                maxY={300}
+                                maxY={400}
                             />
                         );
                     });
@@ -314,7 +314,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 Slot.secondMostPlayed,
                                 params.seasonNumber,
                             )))}
-                            maxY={500}
+                            maxY={600}
                         />
                     );
                 })}
@@ -339,7 +339,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                     Slot.thirdMostPlayed,
                                     params.seasonNumber,
                                 ),))}
-                                maxY={300}
+                                maxY={400}
                             />
                         );
                     });
@@ -362,7 +362,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 Slot.thirdMostPlayed,
                                 params.seasonNumber,
                             )))}
-                            maxY={500}
+                            maxY={600}
                         />
                     );
                 })}
