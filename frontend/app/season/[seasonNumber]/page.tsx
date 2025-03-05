@@ -20,7 +20,6 @@ export async function generateStaticParams() {
     }));
 }
 
-
 const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
     const regions = [Region.AMERICAS, Region.EUROPE, Region.ASIA];
     const roles = [Role.SUPPORT, Role.DAMAGE, Role.TANK];
@@ -63,7 +62,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 true
                             ),
                             ))}
-                            maxY={600}
+                            maxY={500}
                         />
                         <BarChart
                             title="Europe"
@@ -83,7 +82,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 true
                             ),))}
-                            maxY={600}
+                            maxY={500}
                         />
                         <BarChart
                             title="Asia"
@@ -103,7 +102,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 true
                             )))}
-                            maxY={600}
+                            maxY={500}
                         />
                         <BarChart
                             title="All Regions"
@@ -147,7 +146,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 false
                             )))}
-                            maxY={600}
+                            maxY={500}
                         />
                         <BarChart
                             title="Europe"
@@ -167,7 +166,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 false
                             )))}
-                            maxY={600}
+                            maxY={500}
                         />
                         <BarChart
                             title="Asia"
@@ -187,7 +186,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 params.seasonNumber,
                                 false
                             )))}
-                            maxY={600}
+                            maxY={500}
                         />
                         <BarChart
                             title="All Regions"
@@ -256,7 +255,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 Slot.firstMostPlayed,
                                 params.seasonNumber,
                             )))}
-                            maxY={600}
+                            maxY={700}
                         />
                     );
                 })}
@@ -304,7 +303,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 Slot.secondMostPlayed,
                                 params.seasonNumber,
                             )))}
-                            maxY={600}
+                            maxY={650}
                         />
                     );
                 })}
@@ -352,7 +351,7 @@ const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
                                 Slot.thirdMostPlayed,
                                 params.seasonNumber,
                             )))}
-                            maxY={600}
+                            maxY={700}
                         />
                     );
                 })}
