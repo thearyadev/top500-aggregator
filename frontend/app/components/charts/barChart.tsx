@@ -39,6 +39,8 @@ function findParetoIndex(numbers: number[], percentage: number = 0.8): number {
 }
 const BarChart = (props: BarChartProps) => {
     const { title, graph, maxY } = props;
+    const mean = graph.values.reduce((sum, num) => sum + num, 0) / graph.values.length
+
     const options: Highcharts.Options = {
         title: {
             // @ts-ignore
@@ -93,7 +95,7 @@ const BarChart = (props: BarChartProps) => {
                     color: "red",
                     width: 2,
                     zIndex: 10,
-                    value: graph.values.reduce((sum, num) => sum + num, 0) / graph.values.length,
+                    value: mean,
                     label: {
                         text: "Mean",
                         textAlign: "center"
@@ -113,7 +115,7 @@ const BarChart = (props: BarChartProps) => {
     const chartContainerStyle = classNames(
         styles.chartContainer,
         props.className,
-    ); // meow
+    );
     const [loading, setLoading] = useState(true);
     return (
         <div className={chartContainerStyle}>
@@ -128,23 +130,51 @@ const BarChart = (props: BarChartProps) => {
                     ref={chartComponentRef}
                     {...props}
                 />
-                <div
-                    className={`
-        text-center text-sm pb-2 font-mono
-        ${props.giniCoefficient < 0.30 ? 'text-green-500' :
-                            props.giniCoefficient < 0.45 ? 'text-gray-500' :
-                                'text-red-500'}
-    `}
-                >
-                    Gini Coefficient: {props.giniCoefficient.toFixed(2)}
+                {/* Statistics Panel */}
+                <div className="mt-3 p-3 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                    <div className="grid grid-cols-3 gap-3 text-center">
+                        <div className="stat-item">
+                            <div className="text-xs text-gray-500 font-medium">Gini Coefficient</div>
+                            <div className={`
+                        text-lg font-semibold
+                        ${props.giniCoefficient < 0.30 ? 'text-green-500' :
+                                    props.giniCoefficient < 0.45 ? 'text-amber-500' :
+                                        'text-red-500'}
+                    `}>
+                                {props.giniCoefficient.toFixed(2)}
+                            </div>
+                        </div>
+                        <div className="stat-item">
+                            <div className="text-xs text-gray-500 font-medium">Mean</div>
+                            <div className="text-lg font-semibold">
+                                {mean.toFixed(2)}
+                            </div>
+                        </div>
+                        <div className="stat-item group relative">
+                            <div className="text-xs text-gray-500 font-medium flex items-center justify-center">
+                                Data Points
+                                <span className="ml-1 cursor-help">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div className="text-lg font-semibold">
+                                {props.graph.values.reduce((a, v) => a + v, 0).toFixed(0)}
+                            </div>
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-10">
+                                This count has "Blanks" removed, so it may not reflect the expected value for this chart.
+                                <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div
                 role="status"
-                className={`max-w flex text-center justify-center items-center h-[18rem]  animate-pulse ${loading ? "" : "hidden"}`}
+                className={`max-w flex text-center justify-center items-center h-[18rem] animate-pulse ${loading ? "" : "hidden"}`}
             >
-                <Loader color="blue" className="text-blue-500"/>
+                <Loader color="blue" className="text-blue-500" />
             </div>
         </div>
     );
