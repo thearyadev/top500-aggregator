@@ -232,7 +232,7 @@ export async function get_occurrence_trend_lines(weighted: boolean = false): Pro
     return map_intermediate_data_rep_to_trend_lines(lines);
 }
 
-export async function get_std_deviation_trend_lines(): Promise<TrendLine[]> {
+export async function get_gini_coefficient_trend_lines(): Promise<TrendLine[]> {
     const lines: IntermediateDataRep = {};
     const roles = [Role.SUPPORT, Role.TANK, Role.DAMAGE];
     const season_list = await get_season_list();
