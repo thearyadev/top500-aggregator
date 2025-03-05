@@ -20,16 +20,6 @@ export async function generateStaticParams() {
     }));
 }
 
-const HeroStdDev = ({ value, role }: { value: number; role: string }) => {
-    return (
-        <div className="text-center pt-5 pb-5">
-            <h5>{role}</h5>
-            <h6 className="text-lg text-center">
-                {Math.round((value + Number.EPSILON) * 100) / 100}
-            </h6>
-        </div>
-    );
-};
 
 const SeasonPage = async ({ params }: { params: { seasonNumber: number } }) => {
     const regions = [Region.AMERICAS, Region.EUROPE, Region.ASIA];
