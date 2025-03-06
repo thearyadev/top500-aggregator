@@ -14,7 +14,7 @@ const Header = async () => {
     });
     navLinks.unshift({ label: "Trends", path: "/trends" });
     return (
-        <header>
+        <header className="overflow-x-hidden">
             <div className={styles.top_header_container}>
                 <Link href="/">
                     <h1>Top 500 Aggregator</h1>
