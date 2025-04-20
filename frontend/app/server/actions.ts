@@ -37,7 +37,6 @@ type RawSeasonDataFile = {
         firstMostPlayed: string;
         secondMostPlayed: string;
         thirdMostPlayed: string;
-        openqueue: boolean;
     }[];
 };
 
@@ -90,7 +89,9 @@ export function calculateGiniCoefficient(numbers: number[]): number {
     const mean = total / n;
     let gini = (n + 1) / n;
     const a = 2 / (n * n * mean);
-    const b = x.map((_, i) => (n - i) * x[i]).reduce((a, b) => a + b);
+    const b = x.map((_, i) => (
+        (n - i) * x[i]
+    )).reduce((a, b) => a + b);
 
     gini -= a * b;
     return gini;
@@ -98,7 +99,7 @@ export function calculateGiniCoefficient(numbers: number[]): number {
 
 function data_loader_memo(): (seasonNumber: number) => RawSeasonDataFile {
     const cache: Cache = {};
-    return function (seasonNumber: number) {
+    return function(seasonNumber: number) {
         if (seasonNumber in cache) {
             return cache[seasonNumber];
         }
@@ -122,7 +123,7 @@ export async function get_season_list(): Promise<number[]> {
     return season_list;
 }
 
-export const load = data_loader_memo();
+const load = data_loader_memo();
 
 export function map_generic_kv_to_bar_chart_data(
     data: GenericKeyValue,
@@ -153,10 +154,8 @@ export async function get_occurrences(
     slot: Slot | null,
     seasonNumber: number,
     weighted: boolean = false,
-    openQueue: boolean,
 ): Promise<GenericKeyValue> {
     let data = load(seasonNumber).entries;
-    data = data.filter((e) => e.openqueue === openQueue);
     let slotted_unpacked: WeightedPair[];
     if (role) {
         data = data.filter((e) => e.role === role.toString());
@@ -171,9 +170,9 @@ export async function get_occurrences(
     } else {
         slotted_unpacked = data.flatMap(
             ({ firstMostPlayed, secondMostPlayed, thirdMostPlayed }) => [
-                [firstMostPlayed, weighted ? Weights.firstMostPlayed : 1],
-                [secondMostPlayed, weighted ? Weights.secondMostPlayed : 1],
-                [thirdMostPlayed, weighted ? Weights.thirdMostPlayed : 1],
+                [firstMostPlayed, (weighted ? Weights.firstMostPlayed: 1)],
+                [secondMostPlayed, (weighted ? Weights.secondMostPlayed: 1)],
+                [thirdMostPlayed, (weighted ? Weights.thirdMostPlayed: 1)]
             ],
         );
     }
@@ -203,20 +202,10 @@ function map_intermediate_data_rep_to_trend_lines(
     }));
 }
 
-export async function get_occurrence_trend_lines(
-    weighted: boolean = false,
-): Promise<TrendLine[]> {
+export async function get_occurrence_trend_lines(weighted: boolean = false): Promise<TrendLine[]> {
     const seasonsData = await Promise.all(
         (await get_season_list()).map(
-            async (season) =>
-                await get_occurrences(
-                    null,
-                    null,
-                    null,
-                    season,
-                    weighted,
-                    false,
-                ),
+            async (season) => await get_occurrences(null, null, null, season, weighted),
         ),
     );
     const lines: IntermediateDataRep = {};
@@ -250,14 +239,7 @@ export async function get_gini_coefficient_trend_lines(): Promise<TrendLine[]> {
 
     for (const role of roles) {
         for (const season of season_list) {
-            const data = await get_occurrences(
-                role,
-                null,
-                Slot.firstMostPlayed,
-                season,
-                false,
-                false,
-            );
+            const data = await get_occurrences(role, null, Slot.firstMostPlayed, season);
             lines[role] = lines[role] || [];
             lines[role].push(calculateGiniCoefficient(Object.values(data)));
         }
