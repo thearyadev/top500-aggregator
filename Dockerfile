@@ -7,13 +7,13 @@ COPY data ./data
 COPY frontend ./frontend
 RUN cd frontend && npm run build
 
-FROM nginx:stable-alpine
+FROM bitnami/nginx:1.28.0
 COPY --from=builder /build/frontend/out /usr/share/nginx/html
 
 # Create custom Nginx configuration
 RUN echo ' \
 server { \
-    listen 80; \
+    listen 8080; \
     server_name _; \
     root /usr/share/nginx/html; \
     index index.html; \
@@ -29,5 +29,5 @@ server { \
 } \
 ' > /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
