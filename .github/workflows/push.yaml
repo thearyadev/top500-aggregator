@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    runs-on: k3s-runner-t500-aggr
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
