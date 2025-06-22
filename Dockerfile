@@ -7,7 +7,7 @@ COPY data ./data
 COPY frontend ./frontend
 RUN cd frontend && npm run build
 
-FROM nginx:stable-alpine
+FROM nginxinc/nginx-unprivileged:stable-alpine
 COPY --from=builder /build/frontend/out /usr/share/nginx/html
 
 # Create custom Nginx configuration
