@@ -2,77 +2,98 @@
 set -e
 
 # ---------- GLOBAL SETTINGS ----------
-# Delay used for all sleep calls (except the hard‑coded 0.1 s in tab_reset)
 delay=0.1
-
 window_selector="title:^(Overwatch)$"
 target_width="1920"
 target_height="1080"
 
 assets_path=$1
-mouse_device_name=$2
 
 # -------------------------------------------------
 # ------------------- FUNCTIONS -------------------
 # -------------------------------------------------
 
+log_info() { echo -e "[INFO] $*"; }
+log_warn() { echo -e "\e[33m[WARN]\e[0m $*"; }
+log_error() { echo -e "\e[31m[ERROR]\e[0m $*" >&2; }
+
+usage() {
+	echo "Usage: $0 <assets_path>"
+	echo
+	echo "Automates Overwatch screenshot collection in Hyprland."
+	echo "Requires: jq, hyprctl, grim"
+	exit 1
+}
+
 get_window_info() {
-	local window_info=$(hyprctl clients -j | jq '.[] | select(.title == "Overwatch")')
+	local window_info
+	window_info=$(hyprctl clients -j | jq '.[] | select(.title == "Overwatch")')
 	if [ -z "$window_info" ]; then
-		echo "Error: Couldn't get Overwatch window details" >&2
+		log_error "Couldn't get Overwatch window details."
 		return 1
-	else
-		echo "$window_info"
 	fi
+	echo "$window_info"
 }
 
 enforce_window() {
-	local window_info=$(get_window_info)
-	echo "Found overwatch window"
+	log_info "Ensuring Overwatch window state..."
+	get_window_info >/dev/null || return 1
 
 	hyprctl --quiet dispatch movecursor 10 10
 	hyprctl --quiet dispatch movecursor 200 200
 	hyprctl --quiet dispatch movecursor 300 300
-	echo "Setting window to floating"
+
+	log_info "Setting window to floating..."
 	hyprctl --quiet dispatch setfloating "$window_selector"
-	echo "Resizing window to $target_width $target_height"
+
+	log_info "Resizing window to ${target_width}x${target_height}..."
 	hyprctl --quiet dispatch resizewindowpixel exact "$target_width" "$target_height", "$window_selector"
-	echo "Moving to ensure on screen..."
+
+	log_info "Moving window to (0,0)..."
 	hyprctl --quiet dispatch movewindowpixel exact 0 0, "$window_selector"
 
-	local window_info=$(get_window_info)
+	local window_info
+	window_info=$(get_window_info)
 
-	local window_size=$(echo "$window_info" | jq '.size')
-	local window_width=$(echo "$window_size" | jq '.[0]')
-	local window_height=$(echo "$window_size" | jq '.[1]')
-	local positionX=$(echo "$window_info" | jq '.at[0]')
-	local positionY=$(echo "$window_info" | jq '.at[1]')
-	local floating=$(echo "$window_info" | jq '.floating')
+	local window_width window_height positionX positionY floating
+	window_width=$(echo "$window_info" | jq '.size[0]')
+	window_height=$(echo "$window_info" | jq '.size[1]')
+	positionX=$(echo "$window_info" | jq '.at[0]')
+	positionY=$(echo "$window_info" | jq '.at[1]')
+	floating=$(echo "$window_info" | jq '.floating')
 
 	if [ "$floating" != "true" ]; then
-		echo "Error: Window is not floating" >&2
+		log_error "Window is not floating."
 		return 1
 	fi
-
 	if [ "$window_width" != "$target_width" ] || [ "$window_height" != "$target_height" ]; then
-		echo "Error: Window size is incorrect: $window_width x $window_height" >&2
+		log_error "Window size incorrect: ${window_width}x${window_height}"
 		return 1
 	fi
-
 	if [ "$positionX" != "0" ] || [ "$positionY" != "0" ]; then
-		echo "Error: Window position is incorrect: $positionX, $positionY" >&2
+		log_error "Window position incorrect: ${positionX}, ${positionY}"
 		return 1
 	fi
 
-	echo "Game window position verified."
-	return 0
+	log_info "Game window geometry verified."
 }
 
 verify_dependency() {
-	command -v "$1" >/dev/null 2>&1
+	if ! command -v "$1" >/dev/null 2>&1; then
+		log_error "Missing required command: $1"
+		return 1
+	fi
+}
+
+require_hyprland_session() {
+	if [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ] && [ "$XDG_CURRENT_DESKTOP" != "Hyprland" ]; then
+		log_error "This script must be run inside a Hyprland session."
+		exit 1
+	fi
 }
 
 screenshot() {
+	local role region page
 	role=$(echo "${1#switch_to_}" | tr '[:lower:]' '[:upper:]')
 	region=$(echo "${2#switch_to_}" | tr '[:lower:]' '[:upper:]')
 	page=$(echo "${3#switch_to_}" | tr '[:lower:]' '[:upper:]')
@@ -80,7 +101,7 @@ screenshot() {
 }
 
 # -------------------------------------------------
-# Keyboard actions (all use the global $delay)
+# Keyboard simulation helpers
 # -------------------------------------------------
 
 kb_fwd() {
@@ -111,9 +132,8 @@ kb_space() {
 # -------------------------------------------------
 # Role / region navigation
 # -------------------------------------------------
-
 switch_to_tank() {
-	echo "switching to tank"
+	log_info "Switching to role: TANK"
 	tab_reset
 	sleep $delay
 	kb_space
@@ -124,7 +144,7 @@ switch_to_tank() {
 }
 
 switch_to_damage() {
-	echo "switching to damage"
+	log_info "Switching to role: DAMAGE"
 	reset_role
 	sleep $delay
 	kb_space
@@ -137,7 +157,7 @@ switch_to_damage() {
 }
 
 switch_to_support() {
-	echo "switching to support"
+	log_info "Switching to role: SUPPORT"
 	reset_role
 	sleep $delay
 	kb_space
@@ -149,13 +169,9 @@ switch_to_support() {
 	kb_space
 }
 
-switch_to_americas() {
-	echo "switching to americas"
-	# should already be on americas, after reset from anywhere else.
-}
-
+switch_to_americas() { log_info "Switching to region: AMERICAS"; }
 switch_to_europe() {
-	echo "switching to europe"
+	log_info "Switching to region: EUROPE"
 	tab_reset
 	kb_fwd
 	kb_fwd
@@ -163,9 +179,8 @@ switch_to_europe() {
 	kb_down
 	kb_space
 }
-
 switch_to_asia() {
-	echo "switching to asia"
+	log_info "Switching to region: ASIA"
 	tab_reset
 	kb_fwd
 	kb_fwd
@@ -194,33 +209,22 @@ reset_region() {
 	tab_reset
 }
 
-# -------------------------------------------------
-# Tab‑reset (hard‑coded 0.1 s delay)
-# -------------------------------------------------
 tab_reset() {
-	# Override the global $delay with a local, hard‑coded value
 	local delay=0.1
 	sleep 1
-	for i in $(seq 1 20); do
-		kb_fwd
-	done
-	for i in $(seq 1 25); do
-		kb_bkwd
-	done
+	for _ in $(seq 1 20); do kb_fwd; done
+	for _ in $(seq 1 25); do kb_bkwd; done
 }
-# -------------------------------------------------
 
 next_page() {
-	for i in $(seq 1 16); do
-		kb_fwd
-	done
-	sleep $delay # previously 1 s
+	for _ in $(seq 1 16); do kb_fwd; done
+	sleep $delay
 	kb_space
 }
 
 toggle_friends_list() {
 	tab_reset
-	for skips in $(seq 1 3); do
+	for _ in $(seq 1 3); do
 		kb_fwd
 		sleep $delay
 	done
@@ -233,41 +237,35 @@ toggle_friends_list() {
 # Main entry point
 # -------------------------------------------------
 main() {
-	stat "$assets_path" >/dev/null
-	echo "Asset path exists"
-
-	# setup_ydotool
-	echo "ydotoold is running with pid: $ydo_pid"
-
-	if [ -n "$(ls -A "$assets_path")" ]; then
-		echo "Error: assets path contains files. Avoiding destroying existing data." >&2
-		return 1
+	if [ $# -lt 1 ]; then
+		usage
 	fi
 
-	# check deps
-	REQUIRED_COMMANDS=("jq" "hyprctl" "grim" "ydotoold" "ydotool")
+	require_hyprland_session
+
+	if [ ! -d "$assets_path" ]; then
+		log_error "Assets path '$assets_path' does not exist."
+		exit 1
+	fi
+	log_info "Assets path exists: $assets_path"
+
+	if [ -n "$(ls -A "$assets_path")" ]; then
+		log_error "Assets path contains files. Avoiding overwrite."
+		exit 1
+	fi
+
+	REQUIRED_COMMANDS=("jq" "hyprctl" "grim")
 	for cmd in "${REQUIRED_COMMANDS[@]}"; do
-		if ! verify_dependency "$cmd"; then
-			echo "Error: Required command '$cmd' not found. Please install it." >&2
-			return 1
-		fi
+		verify_dependency "$cmd" || exit 1
 	done
 
-	echo "starting in 5 seconds..."
+	log_info "Starting in 5 seconds..."
+	sleep 5
 
-	# resize and position window
 	enforce_window
 
-	roles=(
-		"switch_to_tank"
-		"switch_to_damage"
-		"switch_to_support"
-	)
-	regions=(
-		"switch_to_americas"
-		"switch_to_europe"
-		"switch_to_asia"
-	)
+	roles=("switch_to_tank" "switch_to_damage" "switch_to_support")
+	regions=("switch_to_americas" "switch_to_europe" "switch_to_asia")
 
 	for role in "${roles[@]}"; do
 		sleep $delay
@@ -280,7 +278,7 @@ main() {
 			sleep 1
 			tab_reset
 			for page in $(seq 1 50); do
-				echo "page: $page"
+				echo -e "\e[34mProcessing:\e[0m ROLE=${role#switch_to_} REGION=${region#switch_to_} PAGE=$page"
 				sleep 1
 				screenshot $role $region $page
 				next_page
@@ -290,4 +288,4 @@ main() {
 	done
 }
 
-main
+main "$@"
