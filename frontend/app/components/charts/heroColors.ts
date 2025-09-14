@@ -44,5 +44,6 @@ export const HeroColors: HeroColor = {
     Mauga: "#DC847D",
     Juno: "#987DB9",
     Hazard: "#b093cd",
-    Venture: "#61483a"
+    Venture: "#61483a",
+    Wuyang: "#426FD0"
 }
