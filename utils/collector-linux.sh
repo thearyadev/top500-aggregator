@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set -e
+set -e
 
 # ---------- GLOBAL SETTINGS ----------
 delay=0.1
@@ -290,4 +290,4 @@ main() {
 	done
 }
 
-# main "$@"
+main "$@"
