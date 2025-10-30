@@ -214,8 +214,6 @@ tab_reset() {
 	sleep 1
 	for _ in $(seq 1 20); do kb_fwd; done
 	for _ in $(seq 1 25); do kb_bkwd; done
-	kb_fwd
-	kb_fwd
 }
 
 next_page() {
